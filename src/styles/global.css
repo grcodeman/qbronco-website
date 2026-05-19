@@ -1,0 +1,129 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme {
+  --color-bg: #0a0a0b;
+  --color-bg-elevated: #131316;
+  --color-text: #f5f1e8;
+  --color-text-muted: #8c8780;
+  --color-text-dim: #4a4640;
+  --color-accent: #b5a167;
+  --color-accent-glow: #d4bc7a;
+  --color-line: rgba(245, 241, 232, 0.08);
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+}
+
+@layer base {
+  html {
+    background-color: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+  }
+
+  h1 {
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+
+  h2 {
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-weight: 400;
+  }
+
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: lowercase;
+  }
+
+  .container-wide {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-wide {
+      padding-inline: 3rem;
+    }
+  }
+
+  .container {
+    max-width: var(--max-section);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding-inline: 3rem;
+    }
+  }
+
+  .section {
+    padding-block: var(--section-py-mobile);
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-block: var(--section-py-desktop);
+    }
+  }
+
+  .hairline {
+    border-color: var(--line);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 24px rgba(212, 188, 122, 0.35);
+  }
+
+  .glow-border {
+    box-shadow: 0 0 0 1px var(--line), 0 0 24px rgba(181, 161, 103, 0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,17 @@
+:root {
+  --bg: #0a0a0b;
+  --bg-elevated: #131316;
+  --text: #f5f1e8;
+  --text-muted: #8c8780;
+  --text-dim: #4a4640;
+  --accent: #b5a167;
+  --accent-glow: #d4bc7a;
+  --line: rgba(245, 241, 232, 0.08);
+
+  --max-content: 1440px;
+  --max-section: 1200px;
+  --max-prose: 60ch;
+
+  --section-py-desktop: 12rem;
+  --section-py-mobile: 6rem;
+}

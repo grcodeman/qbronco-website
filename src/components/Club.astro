@@ -1,0 +1,32 @@
+---
+import { site } from "../content/site";
+---
+
+<section id="club" class="section relative">
+  <div class="container flex flex-col gap-12 md:gap-20">
+    <header class="flex flex-col gap-6">
+      <p class="kicker">{site.club.kicker}</p>
+      <h2
+        class="font-display font-medium text-text text-[clamp(2rem,5vw,3.5rem)] leading-[1] tracking-[-0.02em] lowercase"
+      >
+        {site.club.title}
+      </h2>
+    </header>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+      {
+        site.club.cards.map((card) => (
+          <article class="group relative flex flex-col gap-6 border border-[var(--line)] bg-bg-elevated p-8 transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(181,161,103,0.12)]">
+            <span class="mono text-2xs text-accent transition-transform duration-300 group-hover:scale-110 origin-left">
+              {card.number}
+            </span>
+            <h3 class="font-display text-xl font-medium text-text lowercase tracking-[-0.02em]">
+              {card.title}
+            </h3>
+            <p class="text-base text-text-muted leading-[1.6]">{card.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

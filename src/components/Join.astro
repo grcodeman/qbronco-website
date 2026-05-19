@@ -1,0 +1,56 @@
+---
+import { site } from "../content/site";
+---
+
+<section id="join" class="section relative">
+  <div class="container flex flex-col gap-12 md:gap-20">
+    <header class="flex flex-col gap-6">
+      <p class="kicker">{site.join.kicker}</p>
+      <h2
+        class="font-display font-medium text-text text-[clamp(2rem,5vw,3.5rem)] leading-[1] tracking-[-0.02em] lowercase"
+      >
+        {site.join.title}
+      </h2>
+    </header>
+
+    <div class="flex flex-col gap-6">
+      {
+        site.join.cards.map((card) => (
+          <article class="group relative flex flex-col gap-6 border border-[var(--line)] bg-bg-elevated p-8 transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(181,161,103,0.12)] md:flex-row md:items-center md:justify-between md:p-12">
+            <div class="flex flex-col gap-2">
+              <h3 class="font-display text-xl font-medium text-text lowercase tracking-[-0.02em] md:text-2xl">
+                {card.platform}
+              </h3>
+              <p class="text-base text-text-muted leading-[1.6]">{card.body}</p>
+            </div>
+
+            {card.kind === "email" ? (
+              <form class="flex w-full max-w-md gap-0 border border-[var(--line)] focus-within:border-accent transition-colors">
+                <input
+                  type="email"
+                  required
+                  placeholder="you@wmich.edu"
+                  class="mono flex-1 bg-transparent px-4 py-3 text-2xs text-text placeholder:text-text-dim outline-none"
+                />
+                <button
+                  type="submit"
+                  class="mono text-2xs uppercase tracking-[0.18em] text-accent border-l border-[var(--line)] px-6 transition-all duration-200 hover:bg-accent hover:text-bg"
+                >
+                  {card.ctaLabel}
+                </button>
+              </form>
+            ) : (
+              <a
+                href={card.href}
+                class="mono inline-flex items-center gap-2 text-2xs uppercase tracking-[0.18em] text-accent transition-transform duration-200 group-hover:translate-x-1"
+              >
+                {card.ctaLabel}
+                <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

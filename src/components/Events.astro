@@ -1,0 +1,39 @@
+---
+import { site } from "../content/site";
+const { featured } = site.events;
+---
+
+<section id="events" class="section relative">
+  <div class="container flex flex-col items-center gap-12 text-center md:gap-16">
+    <p class="kicker">{site.events.kicker}</p>
+
+    <article
+      class="group relative w-full max-w-[860px] border border-[var(--line)] bg-bg-elevated p-8 text-left transition-all duration-300 hover:border-accent hover:shadow-[0_0_48px_rgba(181,161,103,0.12)] md:p-16"
+    >
+      <div class="flex flex-col gap-6">
+        <p class="mono text-2xs text-accent uppercase tracking-[0.18em]">
+          {featured.date}
+        </p>
+        <h3
+          class="font-display font-medium text-text text-[clamp(2.25rem,5vw,4rem)] leading-[1] tracking-[-0.02em]"
+        >
+          {featured.title}
+        </h3>
+        <p class="max-w-[60ch] text-base text-text-muted leading-[1.6] md:text-lg">
+          {featured.body}
+        </p>
+
+        <div class="pt-2">
+          <button
+            type="button"
+            class="mono text-2xs uppercase tracking-[0.18em] text-accent border border-accent px-6 py-3 transition-all duration-200 hover:bg-accent hover:text-bg"
+          >
+            {featured.cta} →
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <p class="mono text-2xs text-text-dim">{site.events.more}</p>
+  </div>
+</section>

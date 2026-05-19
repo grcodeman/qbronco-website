@@ -1,0 +1,29 @@
+---
+import { site } from "../content/site";
+---
+
+<nav
+  class="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-5 md:px-12 md:py-6 mix-blend-normal"
+  aria-label="Primary"
+>
+  <a href="/" class="mono text-xs tracking-wider text-text">
+    <span>{site.brand}</span>
+    <span class="text-text-dim"> · </span>
+    <span class="text-text-muted">{site.affiliation}</span>
+  </a>
+
+  <ul class="mono text-xs flex items-center gap-6 text-text-muted">
+    {
+      site.nav.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            class="transition-colors duration-200 hover:text-accent"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
