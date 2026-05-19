@@ -4,7 +4,7 @@ import { site } from "../content/site";
 
 <section id="club" class="section relative">
   <div class="container flex flex-col gap-12 md:gap-20">
-    <header class="flex flex-col gap-6">
+    <header class="flex flex-col gap-6" data-reveal>
       <p class="kicker">{site.club.kicker}</p>
       <h2
         class="font-display font-medium text-text text-[clamp(2rem,5vw,3.5rem)] leading-[1] tracking-[-0.02em] lowercase"
@@ -13,7 +13,7 @@ import { site } from "../content/site";
       </h2>
     </header>
 
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8" data-reveal-stagger>
       {
         site.club.cards.map((card) => (
           <article class="group relative flex flex-col gap-6 border border-[var(--line)] bg-bg-elevated p-8 transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(181,161,103,0.12)]">

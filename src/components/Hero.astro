@@ -1,5 +1,6 @@
 ---
 import { site } from "../content/site";
+import Qubit from "./qubit/Qubit";
 ---
 
 <section
@@ -22,34 +23,12 @@ import { site } from "../content/site";
       </p>
     </div>
 
-    <!-- Qubit column placeholder; replaced with R3F Canvas in Phase 3 -->
+    <!-- Qubit island -->
     <div
       class="md:col-span-5 lg:col-span-6 relative flex aspect-square w-full items-center justify-center"
-      aria-hidden="true"
     >
       <div id="qubit-mount" class="relative h-full w-full">
-        <!-- Static fallback / scaffold while qubit Canvas is not yet mounted -->
-        <div
-          class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 aspect-square w-[min(80%,520px)] rounded-full border border-[var(--line)]"
-        >
-        </div>
-        <div
-          class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 aspect-square w-[min(60%,400px)] rotate-[-18deg] rounded-full border border-[var(--line)]"
-        >
-        </div>
-        <div
-          class="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent"
-          style="box-shadow: 0 0 24px var(--accent-glow), 0 0 48px var(--accent-glow);"
-        >
-        </div>
-        <span
-          class="mono absolute left-1/2 top-[8%] -translate-x-1/2 text-xs text-text-muted"
-          >|0⟩</span
-        >
-        <span
-          class="mono absolute left-1/2 bottom-[8%] -translate-x-1/2 text-xs text-text-muted"
-          >|1⟩</span
-        >
+        <Qubit client:load />
       </div>
     </div>
   </div>

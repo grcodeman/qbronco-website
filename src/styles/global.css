@@ -115,6 +115,28 @@
   .glow-border {
     box-shadow: 0 0 0 1px var(--line), 0 0 24px rgba(181, 161, 103, 0.08);
   }
+
+  .qubit-root {
+    contain: layout paint;
+  }
+
+  .qubit-readout {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0;
+  }
+
+  .qubit-readout__line:first-child {
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

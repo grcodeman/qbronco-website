@@ -43,5 +43,13 @@ const {
   </head>
   <body class="bg-bg text-text font-sans antialiased">
     <slot />
+
+    <script>
+      import { initLenis } from "../scripts/lenis";
+      import { initReveals } from "../scripts/reveal";
+
+      initLenis();
+      initReveals();
+    </script>
   </body>
 </html>

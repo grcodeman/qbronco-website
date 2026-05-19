@@ -5,10 +5,11 @@ const { featured } = site.events;
 
 <section id="events" class="section relative">
   <div class="container flex flex-col items-center gap-12 text-center md:gap-16">
-    <p class="kicker">{site.events.kicker}</p>
+    <p class="kicker" data-reveal>{site.events.kicker}</p>
 
     <article
       class="group relative w-full max-w-[860px] border border-[var(--line)] bg-bg-elevated p-8 text-left transition-all duration-300 hover:border-accent hover:shadow-[0_0_48px_rgba(181,161,103,0.12)] md:p-16"
+      data-reveal
     >
       <div class="flex flex-col gap-6">
         <p class="mono text-2xs text-accent uppercase tracking-[0.18em]">
@@ -34,6 +35,6 @@ const { featured } = site.events;
       </div>
     </article>
 
-    <p class="mono text-2xs text-text-dim">{site.events.more}</p>
+    <p class="mono text-2xs text-text-dim" data-reveal>{site.events.more}</p>
   </div>
 </section>
