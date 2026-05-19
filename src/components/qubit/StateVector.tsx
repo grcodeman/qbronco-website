@@ -11,10 +11,17 @@ interface Props {
 
 export function StateVector({ position }: Props) {
   const tipRef = useRef<THREE.Group>(null);
-  const lineRef = useRef<THREE.BufferGeometry>(null);
   const haloRef = useRef<THREE.Mesh>(null);
 
-  // Smoothed target for visually nicer transitions when state jumps.
+  const lineGeometry = useMemo(() => {
+    const g = new THREE.BufferGeometry();
+    const positions = new Float32Array([0, 0, 0, ...position]);
+    const attr = new THREE.BufferAttribute(positions, 3);
+    attr.setUsage(THREE.DynamicDrawUsage);
+    g.setAttribute("position", attr);
+    return g;
+  }, []);
+
   const target = useMemo(() => new THREE.Vector3(...position), []);
   const current = useMemo(() => new THREE.Vector3(...position), []);
 
@@ -25,14 +32,13 @@ export function StateVector({ position }: Props) {
     if (tipRef.current) {
       tipRef.current.position.copy(current);
     }
-    if (lineRef.current) {
-      const positions = lineRef.current.attributes.position
-        .array as Float32Array;
-      positions[3] = current.x;
-      positions[4] = current.y;
-      positions[5] = current.z;
-      lineRef.current.attributes.position.needsUpdate = true;
-    }
+
+    const positions = lineGeometry.attributes.position.array as Float32Array;
+    positions[3] = current.x;
+    positions[4] = current.y;
+    positions[5] = current.z;
+    lineGeometry.attributes.position.needsUpdate = true;
+
     if (haloRef.current) {
       const t = performance.now() * 0.002;
       const pulse = 1 + Math.sin(t) * 0.08;
@@ -40,16 +46,9 @@ export function StateVector({ position }: Props) {
     }
   });
 
-  const lineGeometry = useMemo(() => {
-    const g = new THREE.BufferGeometry();
-    const positions = new Float32Array([0, 0, 0, ...position]);
-    g.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return g;
-  }, []);
-
   return (
     <group>
-      <line ref={lineRef as never} geometry={lineGeometry}>
+      <line geometry={lineGeometry}>
         <lineBasicMaterial
           color={ACCENT_GLOW}
           transparent
@@ -59,12 +58,10 @@ export function StateVector({ position }: Props) {
       </line>
 
       <group ref={tipRef}>
-        {/* Inner solid dot */}
         <mesh>
           <sphereGeometry args={[0.045, 24, 24]} />
           <meshBasicMaterial color={ACCENT_GLOW} />
         </mesh>
-        {/* Halo */}
         <mesh ref={haloRef}>
           <sphereGeometry args={[0.085, 24, 24]} />
           <meshBasicMaterial

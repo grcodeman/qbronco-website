@@ -116,26 +116,28 @@
     box-shadow: 0 0 0 1px var(--line), 0 0 24px rgba(181, 161, 103, 0.08);
   }
 
-  .qubit-root {
+  .qubit-canvas {
     contain: layout paint;
   }
 
   .qubit-readout {
-    position: absolute;
-    left: 0;
-    bottom: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.2rem;
+    padding-top: 0.25rem;
+    padding-left: 0.125rem;
     font-family: var(--font-mono);
     font-size: 0.75rem;
+    line-height: 1.4;
     color: var(--text-muted);
     letter-spacing: 0;
+    border-top: 1px solid var(--line);
   }
 
   .qubit-readout__line:first-child {
     color: var(--text);
     margin-bottom: 0.25rem;
+    padding-top: 0.5rem;
   }
 }
 

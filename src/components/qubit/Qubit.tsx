@@ -140,30 +140,36 @@ export default function Qubit() {
   if (!ready) return null;
 
   return (
-    <div className="qubit-root relative h-full w-full">
-      <Canvas
-        camera={{ position: [2.4, 1.6, 2.4], fov: 38 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        style={{ background: "transparent" }}
-      >
-        <ambientLight intensity={0.4} />
-        <Scene
-          interactive={interactive}
-          reducedMotion={reducedMotion}
-          onDerived={setDerived}
-        />
-        {!reducedMotion && (
-          <EffectComposer>
-            <Bloom
-              intensity={0.4}
-              luminanceThreshold={0.2}
-              luminanceSmoothing={0.9}
-              mipmapBlur
-            />
-          </EffectComposer>
-        )}
-      </Canvas>
+    <div className="qubit-root flex w-full flex-col gap-4">
+      <div className="qubit-canvas relative aspect-square w-full">
+        <Canvas
+          camera={{ position: [2.4, 1.6, 2.4], fov: 38 }}
+          dpr={[1, 2]}
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance",
+          }}
+          style={{ background: "transparent" }}
+        >
+          <ambientLight intensity={0.4} />
+          <Scene
+            interactive={interactive}
+            reducedMotion={reducedMotion}
+            onDerived={setDerived}
+          />
+          {!reducedMotion && (
+            <EffectComposer>
+              <Bloom
+                intensity={0.4}
+                luminanceThreshold={0.2}
+                luminanceSmoothing={0.9}
+                mipmapBlur
+              />
+            </EffectComposer>
+          )}
+        </Canvas>
+      </div>
 
       <Readout derived={derived} />
     </div>
