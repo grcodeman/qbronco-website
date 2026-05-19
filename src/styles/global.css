@@ -139,6 +139,143 @@
     margin-bottom: 0.25rem;
     padding-top: 0.5rem;
   }
+
+  .superposition__line {
+    position: relative;
+    display: inline-block;
+  }
+
+  .superposition__lines {
+    align-items: center;
+  }
+
+  .superposition__sharp {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+  }
+
+  .superposition__ghost {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: inline-block;
+    color: var(--text);
+    opacity: 0.35;
+    filter: blur(6px);
+    pointer-events: none;
+    user-select: none;
+    will-change: transform, opacity, filter;
+    mix-blend-mode: screen;
+  }
+
+  .section-indicator {
+    position: fixed;
+    top: 50%;
+    right: 1.25rem;
+    z-index: 30;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .section-indicator__rule {
+    width: 1.5rem;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .section-indicator__numbers {
+    position: relative;
+    width: 1.75rem;
+    height: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.1rem;
+    text-align: right;
+    color: var(--text-muted);
+  }
+
+  .section-indicator__number,
+  .section-indicator__ghost {
+    position: absolute;
+    inset: 0;
+    text-align: right;
+  }
+
+  .section-indicator__ghost {
+    opacity: 0;
+    color: var(--accent);
+    transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+  }
+
+  .section-indicator--glitch .section-indicator__ghost--a {
+    opacity: 0.55;
+    transform: translate(-2px, -1px);
+    color: var(--accent-glow);
+  }
+
+  .section-indicator--glitch .section-indicator__ghost--b {
+    opacity: 0.55;
+    transform: translate(2px, 1px);
+    color: var(--text);
+    mix-blend-mode: screen;
+  }
+
+  @media (min-width: 768px) {
+    .section-indicator {
+      right: 2rem;
+      gap: 1rem;
+    }
+  }
+
+  .circuit-bg {
+    opacity: 0.06;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 12%,
+      black 88%,
+      transparent 100%
+    );
+  }
+
+  .circuit-bg__track {
+    width: 200%;
+    height: 240px;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    animation: circuit-drift 38s linear infinite;
+  }
+
+  @keyframes circuit-drift {
+    from {
+      transform: translate3d(0, -50%, 0);
+    }
+    to {
+      transform: translate3d(-50%, -50%, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .circuit-bg__track {
+      animation: none;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

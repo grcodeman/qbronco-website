@@ -1,10 +1,13 @@
 ---
 import { site } from "../content/site";
+import CircuitBackground from "./CircuitBackground.astro";
 const { featured } = site.events;
 ---
 
-<section id="events" class="section relative">
-  <div class="container flex flex-col items-center gap-12 text-center md:gap-16">
+<section id="events" class="section relative overflow-hidden">
+  <CircuitBackground />
+
+  <div class="container relative z-10 flex flex-col items-center gap-12 text-center md:gap-16">
     <p class="kicker" data-reveal>{site.events.kicker}</p>
 
     <article

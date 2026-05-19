@@ -13,7 +13,26 @@ import { site } from "../content/site";
       </h2>
     </header>
 
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8" data-reveal-stagger>
+    <div class="relative grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8" data-reveal-stagger>
+      <svg
+        class="pointer-events-none absolute left-0 right-0 top-[2rem] z-0 hidden md:block"
+        height="2"
+        viewBox="0 0 600 2"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        style="width: 100%;"
+      >
+        <path
+          d="M 0 1 L 600 1"
+          stroke="var(--accent)"
+          stroke-width="1"
+          stroke-opacity="0.35"
+          stroke-dasharray="600"
+          stroke-dashoffset="600"
+          fill="none"
+          data-entanglement-path
+        ></path>
+      </svg>
       {
         site.club.cards.map((card) => (
           <article class="group relative flex flex-col gap-6 border border-[var(--line)] bg-bg-elevated p-8 transition-all duration-300 hover:border-accent hover:-translate-y-1 hover:shadow-[0_0_32px_rgba(181,161,103,0.12)]">
