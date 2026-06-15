@@ -1,290 +1,431 @@
 @import "tailwindcss";
-@import "./tokens.css";
+
+/* ============================================================
+   QUANTUM BRONCOS — notebook page theme
+   One sheet of college-ruled paper, written in pencil.
+
+   The golden rule of this file: every vertical measurement
+   (line-height, margins, padding) is a multiple of --rule-gap
+   so the handwriting always lands ON the blue rules. If you
+   tweak spacing, keep it in multiples of 28px (mobile 26px).
+   ============================================================ */
 
 @theme {
-  --color-bg: #0a0a0b;
-  --color-bg-elevated: #131316;
-  --color-text: #f5f1e8;
-  --color-text-muted: #8c8780;
-  --color-text-dim: #4a4640;
-  --color-accent: #b5a167;
-  --color-accent-glow: #d4bc7a;
-  --color-line: rgba(245, 241, 232, 0.08);
+  --color-paper:          #fcfbf4; /* cream page (never pure white) */
+  --color-graphite:       #3a3a42; /* pencil ink (never pure black) */
+  --color-graphite-soft:  #5a5860; /* secondary notes */
+  --color-graphite-faint: #8a8790; /* pressed-lightly: dates, footer */
+  --color-rule-blue:      #bcd2e6; /* faded horizontal rules */
+  --color-margin-red:     #e6a6a0; /* dusty-rose margin line */
+  --color-red-pen:        #c2362f; /* underlines, circles, the arrow */
+  --color-blue-pen:       #2f5fa8; /* the contact links */
+  --color-highlighter:    #fdf08a; /* used exactly once */
 
-  --font-display: "Space Grotesk", system-ui, sans-serif;
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-
-  --text-2xs: 0.6875rem;
-  --text-2xs--line-height: 1rem;
+  --font-title: "Caveat", "Comic Sans MS", cursive;
+  --font-body:  "Patrick Hand", "Comic Sans MS", cursive;
 }
 
-@layer base {
-  html {
-    background-color: var(--bg);
-    color: var(--text);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-  }
-
-  body {
-    font-family: var(--font-sans);
-    font-weight: 400;
-    line-height: 1.6;
-    letter-spacing: 0;
-  }
-
-  ::selection {
-    background: var(--accent);
-    color: var(--bg);
-  }
-
-  h1,
-  h2,
-  h3 {
-    font-family: var(--font-display);
-    font-weight: 500;
-  }
-
-  h1 {
-    letter-spacing: -0.04em;
-    line-height: 0.95;
-  }
-
-  h2 {
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
-
-  .mono {
-    font-family: var(--font-mono);
-    font-weight: 400;
-  }
-
-  .kicker {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    text-transform: lowercase;
-  }
-
-  .container-wide {
-    max-width: var(--max-content);
-    margin-inline: auto;
-    padding-inline: 1.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .container-wide {
-      padding-inline: 3rem;
-    }
-  }
-
-  .container {
-    max-width: var(--max-section);
-    margin-inline: auto;
-    padding-inline: 1.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .container {
-      padding-inline: 3rem;
-    }
-  }
-
-  .section {
-    padding-block: var(--section-py-mobile);
-  }
-
-  @media (min-width: 768px) {
-    .section {
-      padding-block: var(--section-py-desktop);
-    }
-  }
-
-  .hairline {
-    border-color: var(--line);
-  }
-
-  .glow-text {
-    text-shadow: 0 0 24px rgba(212, 188, 122, 0.35);
-  }
-
-  .glow-border {
-    box-shadow: 0 0 0 1px var(--line), 0 0 24px rgba(181, 161, 103, 0.08);
-  }
-
-  .qubit-canvas {
-    contain: layout paint;
-  }
-
-  .qubit-readout {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    padding-top: 0.25rem;
-    padding-left: 0.125rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    line-height: 1.4;
-    color: var(--text-muted);
-    letter-spacing: 0;
-    border-top: 1px solid var(--line);
-  }
-
-  .qubit-readout__line:first-child {
-    color: var(--text);
-    margin-bottom: 0.25rem;
-    padding-top: 0.5rem;
-  }
-
-  .superposition__line {
-    position: relative;
-    display: inline-block;
-  }
-
-  .superposition__lines {
-    align-items: center;
-  }
-
-  .superposition__sharp {
-    position: relative;
-    z-index: 2;
-    display: inline-block;
-  }
-
-  .superposition__ghost {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    display: inline-block;
-    color: var(--text);
-    opacity: 0.35;
-    filter: blur(6px);
-    pointer-events: none;
-    user-select: none;
-    will-change: transform, opacity, filter;
-    mix-blend-mode: screen;
-  }
-
-  .section-indicator {
-    position: fixed;
-    top: 50%;
-    right: 1.25rem;
-    z-index: 30;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .section-indicator__rule {
-    width: 1.5rem;
-    height: 1px;
-    background: var(--line);
-  }
-
-  .section-indicator__numbers {
-    position: relative;
-    width: 1.75rem;
-    height: 1.1rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    line-height: 1.1rem;
-    text-align: right;
-    color: var(--text-muted);
-  }
-
-  .section-indicator__number,
-  .section-indicator__ghost {
-    position: absolute;
-    inset: 0;
-    text-align: right;
-  }
-
-  .section-indicator__ghost {
-    opacity: 0;
-    color: var(--accent);
-    transition: opacity 0.18s ease-out, transform 0.18s ease-out;
-  }
-
-  .section-indicator--glitch .section-indicator__ghost--a {
-    opacity: 0.55;
-    transform: translate(-2px, -1px);
-    color: var(--accent-glow);
-  }
-
-  .section-indicator--glitch .section-indicator__ghost--b {
-    opacity: 0.55;
-    transform: translate(2px, 1px);
-    color: var(--text);
-    mix-blend-mode: screen;
-  }
-
-  @media (min-width: 768px) {
-    .section-indicator {
-      right: 2rem;
-      gap: 1rem;
-    }
-  }
-
-  .circuit-bg {
-    opacity: 0.06;
-    mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 12%,
-      black 88%,
-      transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 12%,
-      black 88%,
-      transparent 100%
-    );
-  }
-
-  .circuit-bg__track {
-    width: 200%;
-    height: 240px;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    animation: circuit-drift 38s linear infinite;
-  }
-
-  @keyframes circuit-drift {
-    from {
-      transform: translate3d(0, -50%, 0);
-    }
-    to {
-      transform: translate3d(-50%, -50%, 0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .circuit-bg__track {
-      animation: none;
-    }
-  }
+/* single source of truth: line-height is tied to the rule gap */
+:root {
+  --rule-gap: 28px;
+  --margin-x: 64px;
+  --paper:      var(--color-paper);
+  --rule-blue:  var(--color-rule-blue);
+  --margin-red: var(--color-margin-red);
+  --graphite:   var(--color-graphite);
 }
 
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  /* warm desk the sheet sits on */
+  background: #ece8dc;
+  overflow-x: hidden; /* let doodles overhang without a scrollbar */
+}
+
+body {
+  color: var(--graphite);
+  font-family: var(--font-body);
+  font-size: 19px;
+  line-height: var(--rule-gap); /* text lands on the rules */
+  letter-spacing: 0.2px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--color-highlighter); color: var(--graphite); }
+
+/* ---------- the sheet of paper ---------- */
+.page {
+  position: relative;
+  max-width: 760px;
+  margin: 40px auto;
+  /* writing starts just right of the red margin line */
+  padding: var(--rule-gap) 44px calc(var(--rule-gap) * 3)
+           calc(var(--margin-x) + 20px);
+  background-color: var(--paper);
+  background-image:
+    /* 1. blue horizontal rules — a 1px hairline at the foot of each band */
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(var(--rule-gap) - 1px),
+      var(--rule-blue) calc(var(--rule-gap) - 1px),
+      var(--rule-blue) var(--rule-gap)
+    ),
+    /* 2. the single red vertical margin line */
+    linear-gradient(
+      to right,
+      transparent calc(var(--margin-x) - 1px),
+      var(--margin-red) calc(var(--margin-x) - 1px),
+      var(--margin-red) calc(var(--margin-x) + 0.5px),
+      transparent calc(var(--margin-x) + 0.5px)
+    ),
+    /* 3. barely-there warm vignette so the sheet feels lit, not flat */
+    radial-gradient(125% 110% at 50% 0%, transparent 62%, rgba(120, 110, 80, 0.05) 100%);
+  background-repeat: repeat, no-repeat, no-repeat;
+  background-position: 0 0, 0 0, 0 0;
+  background-size: 100% var(--rule-gap), 100% 100%, 100% 100%;
+  /* asymmetric page-lift shadow (never a uniform card glow) */
+  box-shadow: 0 1px 2px rgba(60, 50, 30, 0.08), 0 18px 40px -16px rgba(60, 50, 30, 0.22);
+}
+
+/* paper grain — one near-invisible layer behind the writing */
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+}
+
+/* writing sits above the grain */
+.page > * { position: relative; z-index: 1; }
+
+/* three faint binder-hole ghosts down the margin (desktop only) */
+.holes {
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+  z-index: 1;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-image:
+    radial-gradient(circle 7px at 8px 16%, rgba(60, 50, 40, 0.10) 60%, transparent 64%),
+    radial-gradient(circle 7px at 8px 50%, rgba(60, 50, 40, 0.10) 60%, transparent 64%),
+    radial-gradient(circle 7px at 8px 84%, rgba(60, 50, 40, 0.10) 60%, transparent 64%);
+}
+
+/* ---------- ink ---------- */
+.pencil { text-shadow: 0 0.4px 0.5px rgba(58, 58, 66, 0.18); }
+.faint  { color: var(--color-graphite-faint); }
+.soft   { color: var(--color-graphite-soft); }
+
+p,
+li {
+  margin: 0 0 var(--rule-gap);
+  max-width: 60ch;
+  text-shadow: 0 0.4px 0.5px rgba(58, 58, 66, 0.18);
+}
+
+a { color: inherit; }
+
+/* ---------- title block ---------- */
+.title-block {
+  position: relative;
+  margin-top: var(--rule-gap);
+}
+
+h1 {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(52px, 11vw, 72px);
+  line-height: calc(var(--rule-gap) * 2); /* snapped to two rules */
+  margin: var(--rule-gap) 0 0;
+  color: var(--graphite);
+  -webkit-text-stroke: 0.4px var(--graphite); /* pressing harder */
+  transform: rotate(-1.1deg);
+}
+
+/* the small atom tucked into the margin beside the title */
+.title-atom {
+  position: absolute;
+  left: -44px;
+  top: 40px;
+  width: 50px;
+  height: auto;
+  transform: rotate(-6deg);
+}
+
+/* red double-underline under the title */
+.title-underline {
+  display: block;
+  width: clamp(220px, 64vw, 340px);
+  height: auto;
+  margin: -4px 0 0 2px;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  color: var(--color-graphite-soft);
+  margin: var(--rule-gap) 0 0;
+}
+
+.subtitle-2 {
+  color: var(--color-graphite-faint);
+  font-size: 16px;
+  margin: 0 0 var(--rule-gap);
+}
+
+.date-scrawl {
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: 20px;
+  color: var(--color-graphite-faint);
+  margin: 0;
+  transform: rotate(-1.4deg);
+}
+
+/* ---------- section headings ---------- */
+h2 {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: clamp(30px, 5vw, 38px);
+  line-height: var(--rule-gap);
+  margin: calc(var(--rule-gap) * 2) 0 0; /* one blank rule above */
+  color: var(--graphite);
+  clear: both; /* drop below any margin doodle from the section above */
+}
+
+section { margin: 0; }
+
+/* ---------- lists written by hand ---------- */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--rule-gap);
+}
+
+.todo li {
+  position: relative;
+  padding-left: 1.6em;
+}
+
+/* hand-drawn arrow bullet */
+.todo li::before {
+  content: "\2192"; /* → */
+  position: absolute;
+  left: 0;
+  color: var(--color-graphite-soft);
+}
+
+.dash li {
+  position: relative;
+  padding-left: 1.4em;
+  margin-bottom: 0; /* tight: each item on its own rule */
+}
+
+.dash li::before {
+  content: "\2013"; /* – */
+  position: absolute;
+  left: 0;
+  color: var(--color-graphite-soft);
+}
+
+.dash { margin-bottom: var(--rule-gap); }
+
+/* ---------- accent pens (used sparingly — count them) ---------- */
+.scrawl {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 1.35em;
+}
+
+.highlight {
+  background: linear-gradient(var(--color-highlighter), var(--color-highlighter)) no-repeat;
+  background-size: 100% 0.82em;
+  background-position: 0 0.82em;
+  mix-blend-mode: multiply; /* sits UNDER the pencil like real marker */
+  padding: 0 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* a word circled in red pen */
+.circled {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.circle-mark {
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  top: -6px;
+  bottom: -6px;
+  width: auto;
+  height: auto;
+  pointer-events: none;
+}
+
+/* contact links written in blue ballpoint, not web-styled */
+.contacts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--rule-gap);
+}
+
+.contacts li {
+  margin: 0; /* consecutive ruled lines */
+  max-width: none;
+}
+
+.pen-blue {
+  color: var(--color-blue-pen);
+  text-decoration: none;
+}
+
+.pen-blue:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.pen-red { color: var(--color-red-pen); }
+
+/* ---------- doodles ---------- */
+.margin-doodle {
+  float: right;
+  width: 124px;
+  height: auto;
+  margin: 4px -10px 6px 18px;
+}
+
+.margin-doodle.superpos { width: 132px; }
+.margin-doodle.circuit  { width: 116px; }
+
+.join-arrow {
+  float: right;
+  width: 158px;
+  height: auto;
+  margin: 0 -6px 4px 18px;
+}
+
+.coffee-ring {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  width: 132px;
+  height: auto;
+  z-index: 0; /* under the writing */
+  pointer-events: none;
+}
+
+/* ---------- the three desk objects ---------- */
+.sticky {
+  position: absolute;
+  top: -12px;
+  right: 28px;
+  z-index: 2;
+  width: 156px;
+  padding: 16px 18px 18px;
+  background: linear-gradient(#fdf08a, #fbe65a);
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.15;
+  color: var(--graphite);
+  text-align: center;
+  transform: rotate(2.6deg);
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.35);
+}
+
+.sticky small {
+  display: block;
+  font-size: 16px;
+  color: var(--color-graphite-soft);
+}
+
+.tape {
+  position: absolute;
+  top: -9px;
+  left: 38%;
+  z-index: 2;
+  width: 118px;
+  height: 30px;
+  background: rgba(150, 196, 184, 0.38);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
+  border-right: 1px solid rgba(120, 150, 140, 0.25);
+  transform: rotate(-4deg);
+  pointer-events: none;
+}
+
+/* hand-placed tilts — assigned by hand in markup, never by formula */
+.tilt-a { transform: rotate(-0.6deg); }
+.tilt-b { transform: rotate(0.8deg); }
+.tilt-c { transform: rotate(-1.1deg); }
+.tilt-d { transform: rotate(0.5deg); }
+
+/* footer */
+.footer-note {
+  clear: both;
+  margin-top: calc(var(--rule-gap) * 2);
+  color: var(--color-graphite-faint);
+  font-size: 16px;
+}
+
+/* ---------- mobile: tighter margin, straighten, full-bleed ---------- */
+@media (max-width: 640px) {
+  :root {
+    --rule-gap: 26px;
+    --margin-x: 30px;
+  }
+
+  body { font-size: 18px; }
+
+  .page {
+    margin: 0;
+    max-width: none;
+    box-shadow: none;
+    padding: var(--rule-gap) 18px calc(var(--rule-gap) * 3)
+             calc(var(--margin-x) + 14px);
+  }
+
+  h1 { transform: rotate(-0.6deg); }
+
+  .holes { display: none; }
+
+  .title-atom {
+    left: -22px;
+    width: 38px;
+  }
+
+  .sticky {
+    width: 132px;
+    font-size: 19px;
+    right: 14px;
+  }
+
+  .tape { display: none; }
+
+  .margin-doodle { width: 96px; }
+  .join-arrow { width: 120px; }
+  .coffee-ring { width: 104px; right: 10px; }
+}
+
+/* paper doesn't animate */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

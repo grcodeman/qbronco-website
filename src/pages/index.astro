@@ -1,22 +1,130 @@
 ---
 import Base from "../layouts/Base.astro";
-import Nav from "../components/Nav.astro";
-import Hero from "../components/Hero.astro";
-import Superposition from "../components/Superposition.astro";
-import Club from "../components/Club.astro";
-import Events from "../components/Events.astro";
-import Join from "../components/Join.astro";
-import Footer from "../components/Footer.astro";
+// One notebook page. Everything below is filler copy — swap in real
+// links / meeting time / event details whenever you like. The whole
+// thing is plain HTML + the styles in src/styles/global.css.
 ---
 
 <Base>
-  <Nav />
-  <main>
-    <Hero />
-    <Superposition />
-    <Club />
-    <Events />
-    <Join />
+  <main class="page">
+    <!-- three "real desk" objects: a sticky note, a strip of tape, hole punches -->
+    <span class="tape" aria-hidden="true"></span>
+    <span class="holes" aria-hidden="true"></span>
+
+    <aside class="sticky">
+      Thursdays
+      <small>6pm — Rood Hall</small>
+    </aside>
+
+    <p class="date-scrawl">~ fall '26</p>
+
+    <!-- ---------- title ---------- -->
+    <header class="title-block">
+      <!-- atom doodle, tucked into the margin -->
+      <svg class="title-atom" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#3a3a42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(34 26 26)"><path d="M26 11.5c8.6.2 16.1 4.4 16.4 11.1.3 6.9-7.7 13.4-16.6 13.2-9-.2-16.3-5.1-16-12.1.3-6.7 7.8-11.5 16.2-12.2z"/></g><g transform="rotate(-38 26 26)"><path d="M25.5 12c8.8-.1 16.4 4.7 16.3 11.6-.1 7-7.9 12.6-16.7 12.4-8.7-.2-15.9-5.4-15.6-12.1.3-6.6 7.6-11.7 16-11.9z"/></g><path d="M25.2 24.6c.5-1 2-1.1 2.7-.2.6.8.2 2.1-.8 2.4-1.1.3-2.3-.6-2.2-1.7 0-.2.1-.4.3-.5z" fill="#3a3a42" stroke="none"/><circle cx="40.5" cy="20" r="2.4" fill="#3a3a42" stroke="none"/></svg>
+
+      <h1>Quantum Broncos</h1>
+
+      <!-- red double-underline -->
+      <svg class="title-underline" viewBox="0 0 320 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9 Q80 3 160 7 Q240 11 314 5"/><path d="M10 18 Q84 13 158 16 Q236 19 308 14"/></svg>
+
+      <p class="subtitle">a quantum computing club @ WMU</p>
+      <p class="subtitle-2">western michigan university · kalamazoo</p>
+    </header>
+
+    <!-- ---------- intro ---------- -->
+    <section>
+      <!-- |0> + |1> scribble in the margin -->
+      <svg class="margin-doodle superpos" viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#3a3a42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14 Q44 10 92 13 Q94 13 93 18 Q95 38 91 50 Q90 53 50 52 Q22 53 8 50 Q5 50 6 44 Q4 28 7 16 Q7 14 7 14Z"/><g stroke-width="2.2"><path d="M19 24 Q18 32 19 42"/><path d="M26 23 Q27 26 31 30 Q33 32 31 35 Q28 38 26 43"/><path d="M40 25 Q39 33 39 42 M37 25 L43 25 M37 42 L43 42"/><path d="M50 26 L50 41 M50 41 Q54 41 56 38"/><path d="M65 24 Q64 32 65 42"/><path d="M72 23 Q73 26 77 30 Q79 32 77 35 Q74 38 72 43"/><path d="M86 25 Q85 33 85 42 M84 25 L89 25 M84 42 L89 42"/></g><g stroke-width="1.6"><path d="M104 36 Q108 33 113 35 Q117 36 116 41 Q116 45 110 45 Q105 45 107 50 Q108 54 114 53"/><path d="M122 31 Q123 39 122 47"/><path d="M127 30 Q132 30 132 34 Q132 37 128 38 Q132 39 133 43 Q133 47 127 46"/><path d="M120 53 Q124 51 128 53"/></g></svg>
+
+      <p>
+        hey. we're a small group of broncos who got curious about quantum
+        computing and decided to just&hellip; figure it out together. you don't
+        need to be a physics major. you don't need to know any of this yet.
+      </p>
+      <p>
+        the whole point is we learn it as a group &mdash;
+        <span class="highlight">no experience needed</span> &mdash; so bring a
+        notebook and a coffee. if "a qubit can be |0&rang; + |1&rang; at once"
+        sounds confusing, good. that's exactly why we meet.
+      </p>
+    </section>
+
+    <!-- ---------- what we do ---------- -->
+    <section>
+      <h2 class="tilt-a">what we actually do</h2>
+
+      <!-- tiny H-gate circuit in the margin -->
+      <svg class="margin-doodle circuit" viewBox="0 0 120 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#5a5860" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 28.5 Q13 27.5 22 28.2"/><path d="M51 28 Q62 28.8 73 28.1"/><path d="M101 28.3 Q108 27.8 117 28.5"/><path d="M23.5 16.5 Q22.8 28 23.8 40.5 Q35.5 41.2 49.5 40 Q50.2 28.5 49 16.8 Q36 15.7 23.5 16.5"/><path d="M30 35 Q30.5 23.5 30 21.5"/><path d="M43 35 Q42.5 24 43 21"/><path d="M30 28.2 Q36.5 28.8 43 28.3"/><path d="M74.5 16 Q73.8 28 74.8 41 Q87 41.5 100 40.3 Q100.8 28.5 99.8 16.3 Q87 15.4 74.5 16"/><path d="M80.5 34.5 Q87 23.5 95 34"/><path d="M87.2 33.5 L93.5 23.5"/><circle cx="87.2" cy="33.8" r="1.3" fill="#5a5860" stroke="none"/></svg>
+
+      <ul class="todo">
+        <li>
+          <strong>study sessions.</strong> every week we pick one thing &mdash;
+          qubits, superposition, some algorithm that shouldn't work but does
+          &mdash; and grind through it on the whiteboard until it clicks. snacks
+          usually involved.
+        </li>
+        <li>
+          <strong>hands-on stuff.</strong> we write real code in Qiskit and run
+          it on actual IBM quantum computers (it's free, and honestly kind of
+          wild that you can from a laptop in Kalamazoo). you'll write your first
+          quantum program sooner than you'd think.
+        </li>
+        <li>
+          <strong>no pressure.</strong> miss a week, come back, nobody keeps
+          score. we're here because it's fun.
+        </li>
+      </ul>
+    </section>
+
+    <!-- ---------- events ---------- -->
+    <section>
+      <h2 class="tilt-d">stuff we get up to</h2>
+      <ul class="dash">
+        <li>weekly study nights (the main thing)</li>
+        <li>an intro-to-Qiskit crash session at the start of each semester</li>
+        <li>a Qiskit hack day we're slowly putting together for the fall</li>
+        <li>the occasional guest talk + watch-along. sometimes pizza.</li>
+      </ul>
+      <p class="soft">
+        (some of this is still half-scribbled. we figure it out as we go.)
+      </p>
+    </section>
+
+    <!-- ---------- join ---------- -->
+    <section>
+      <h2 class="tilt-a">come study with us</h2>
+
+      <!-- "join us!" + red arrow pointing at the links -->
+      <svg class="join-arrow" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g><path d="M11 23 C10 18 12 32 13 28 C14 24 15 18 14 28 C13 35 11 33 17 30 C22 27 18 35 21 30"/><path d="M27 20 C25 30 24 37 22 40 C20 43 17 43 18 38 C19 34 24 33 27 35"/><path d="M27 30 L26 41"/><path d="M26.5 23 L27 24"/><path d="M33 31 C33 40 34 41 38 40 C40 39 41 36 41 31 C40 36 41 41 45 40 C48 39 49 36 49 31"/><path d="M55 27 C53 36 52 40 51 42 C57 38 60 34 58 31 C56 28 53 36 60 33"/></g><g><path d="M71 35 C82 33 92 40 95 51 C97 62 89 72 79 78 C66 86 51 92 50 105 C49 116 60 122 73 122 C90 122 110 116 128 119"/><path d="M128 119 C121 116 114 112 110 105"/><path d="M128 119 C120 121 112 124 105 129"/></g><circle cx="60" cy="46" r="0.9" fill="#c2362f" stroke="none"/></svg>
+
+      <p>
+        first one's the hardest. after that it's just your thursday. the easiest
+        way in is our discord &mdash; that's where everything actually happens.
+      </p>
+
+      <ul class="contacts">
+        <li>discord &mdash; <a class="pen-blue" href="#">discord.gg/qbronco</a></li>
+        <li>instagram &mdash; <a class="pen-blue" href="#">@qbronco</a></li>
+        <li>email &mdash; <a class="pen-blue" href="mailto:hello@qbronco.com">hello@qbronco.com</a></li>
+      </ul>
+
+      <p>
+        or just show up
+        <span class="circled">thursday<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>
+        &mdash; we'll save you a seat.
+      </p>
+    </section>
+
+    <!-- ---------- footer ---------- -->
+    <footer>
+      <!-- the one curated mess: a coffee ring -->
+      <svg class="coffee-ring" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#b89b6e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"><path d="M30 38 Q22 49 24 62 Q27 78 44 86 Q60 92 78 86 Q95 79 99 64 Q101 51 92 41 Q82 31 65 28"/><path d="M58 27 Q47 26 38 31"/><path d="M40 49 Q34 58 37 67"/></svg>
+
+      <p class="footer-note">
+        &mdash; quantum broncos · western michigan university · made by students
+        who should've been studying &mdash;
+      </p>
+    </footer>
   </main>
-  <Footer />
 </Base>

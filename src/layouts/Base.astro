@@ -8,7 +8,8 @@ interface Props {
 
 const {
   title = "Quantum Broncos · WMU",
-  description = "A community for anyone curious about quantum computing. Western Michigan University, est. 2026.",
+  description =
+    "A quantum computing club at Western Michigan University. We learn it together, by hand. Come study with us.",
 } = Astro.props;
 ---
 
@@ -31,59 +32,18 @@ const {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <meta name="theme-color" content="#0a0a0b" />
+    <meta name="theme-color" content="#fcfbf4" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Patrick+Hand&display=swap"
     />
   </head>
-  <body class="bg-bg text-text font-sans antialiased">
-    <canvas
-      id="particle-field"
-      class="pointer-events-none fixed inset-0 z-0"
-      aria-hidden="true"></canvas>
-
-    <aside
-      class="section-indicator"
-      data-section-indicator
-      aria-hidden="true"
-    >
-      <span class="section-indicator__rule"></span>
-      <span class="section-indicator__numbers">
-        <span class="section-indicator__number" data-section-number>00</span>
-        <span
-          class="section-indicator__ghost section-indicator__ghost--a"
-          data-section-ghost-a>00</span>
-        <span
-          class="section-indicator__ghost section-indicator__ghost--b"
-          data-section-ghost-b>00</span>
-      </span>
-    </aside>
-
-    <div class="relative z-10">
-      <slot />
-    </div>
-
-    <script>
-      import { initLenis } from "../scripts/lenis";
-      import { initReveals } from "../scripts/reveal";
-      import { initSuperposition } from "../scripts/superposition";
-      import { initParticles } from "../scripts/particles";
-      import { initSectionIndicator } from "../scripts/section-indicator";
-      import { initEntanglement } from "../scripts/club-entanglement";
-
-      initLenis();
-      initSuperposition();
-      initReveals();
-      initSectionIndicator();
-      initEntanglement();
-      initParticles(
-        document.getElementById("particle-field") as HTMLCanvasElement | null,
-      );
-    </script>
+  <body>
+    <slot />
   </body>
 </html>
