@@ -12,24 +12,34 @@ import Base from "../layouts/Base.astro";
     <span class="holes" aria-hidden="true"></span>
 
     <aside class="sticky">
-      Thursdays
-      <small>6pm — Rood Hall</small>
+      meetings: TBA
+      <small>day + room still cooking, watch our ig</small>
     </aside>
 
     <p class="date-scrawl">~ fall '26</p>
 
     <!-- ---------- title ---------- -->
     <header class="title-block">
-      <!-- atom doodle, tucked into the margin -->
-      <svg class="title-atom" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#3a3a42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(34 26 26)"><path d="M26 11.5c8.6.2 16.1 4.4 16.4 11.1.3 6.9-7.7 13.4-16.6 13.2-9-.2-16.3-5.1-16-12.1.3-6.7 7.8-11.5 16.2-12.2z"/></g><g transform="rotate(-38 26 26)"><path d="M25.5 12c8.8-.1 16.4 4.7 16.3 11.6-.1 7-7.9 12.6-16.7 12.4-8.7-.2-15.9-5.4-15.6-12.1.3-6.6 7.6-11.7 16-11.9z"/></g><path d="M25.2 24.6c.5-1 2-1.1 2.7-.2.6.8.2 2.1-.8 2.4-1.1.3-2.3-.6-2.2-1.7 0-.2.1-.4.3-.5z" fill="#3a3a42" stroke="none"/><circle cx="40.5" cy="20" r="2.4" fill="#3a3a42" stroke="none"/></svg>
+      <div class="title-row">
+        <!-- club badge, pinned to the left of the wordmark -->
+        <img
+          class="title-logo"
+          src="/logo_transparent.png"
+          alt="QBronco, WMU Quantum Computing Club logo"
+          width="96"
+          height="96"
+        />
 
-      <h1>Quantum Broncos</h1>
+        <div class="title-head">
+          <h1>QBronco</h1>
 
-      <!-- red double-underline -->
-      <svg class="title-underline" viewBox="0 0 320 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9 Q80 3 160 7 Q240 11 314 5"/><path d="M10 18 Q84 13 158 16 Q236 19 308 14"/></svg>
+          <!-- red double-underline -->
+          <svg class="title-underline" viewBox="0 0 320 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9 Q80 3 160 7 Q240 11 314 5"/><path d="M10 18 Q84 13 158 16 Q236 19 308 14"/></svg>
+        </div>
+      </div>
 
-      <p class="subtitle">a quantum computing club @ WMU</p>
-      <p class="subtitle-2">western michigan university · kalamazoo</p>
+      <p class="subtitle">wmu's brand-new quantum computing club, taking members + officers</p>
+      <p class="subtitle-2">western michigan university · kalamazoo · est. fall '26</p>
     </header>
 
     <!-- ---------- intro ---------- -->
@@ -43,8 +53,8 @@ import Base from "../layouts/Base.astro";
         need to be a physics major. you don't need to know any of this yet.
       </p>
       <p>
-        the whole point is we learn it as a group &mdash;
-        <span class="highlight">no experience needed</span> &mdash; so bring a
+        the whole point is we learn it as a group,
+        <span class="highlight">no experience needed</span>, so bring a
         notebook and a coffee. if "a qubit can be |0&rang; + |1&rang; at once"
         sounds confusing, good. that's exactly why we meet.
       </p>
@@ -59,35 +69,37 @@ import Base from "../layouts/Base.astro";
 
       <ul class="todo">
         <li>
-          <strong>study sessions.</strong> every week we pick one thing &mdash;
-          qubits, superposition, some algorithm that shouldn't work but does
-          &mdash; and grind through it on the whiteboard until it clicks. snacks
-          usually involved.
+          <strong>weekly study sessions.</strong> we learn quantum computing
+          from the ground up: qubits, superposition, real Qiskit code on
+          actual IBM machines. the slightly absurd north star: building our
+          <strong>own custom QPU</strong> (a quantum processing unit). yeah.
+          we're going to try.
         </li>
         <li>
-          <strong>hands-on stuff.</strong> we write real code in Qiskit and run
-          it on actual IBM quantum computers (it's free, and honestly kind of
-          wild that you can from a laptop in Kalamazoo). you'll write your first
-          quantum program sooner than you'd think.
+          <strong>hackathons &amp; competitions.</strong> we're hosting our very
+          own IBM Qiskit hackathon right here on campus, and we're always
+          hunting for more to travel to or jump into online.
         </li>
         <li>
-          <strong>no pressure.</strong> miss a week, come back, nobody keeps
-          score. we're here because it's fun.
+          <strong>speaker nights &amp; events.</strong> quantum speaker nights
+          with people who actually do this for a living, plus Qiskit Fall Fest,
+          socials, and whatever else we cook up through the year.
         </li>
       </ul>
     </section>
 
     <!-- ---------- events ---------- -->
     <section>
-      <h2 class="tilt-d">stuff we get up to</h2>
+      <h2 class="tilt-d">stuff in the works</h2>
       <ul class="dash">
         <li>weekly study nights (the main thing)</li>
-        <li>an intro-to-Qiskit crash session at the start of each semester</li>
-        <li>a Qiskit hack day we're slowly putting together for the fall</li>
-        <li>the occasional guest talk + watch-along. sometimes pizza.</li>
+        <li>an intro-to-Qiskit crash session to kick off the semester</li>
+        <li>our own IBM Qiskit hackathon, here on campus</li>
+        <li>quantum speaker nights + Qiskit Fall Fest</li>
       </ul>
       <p class="soft">
-        (some of this is still half-scribbled. we figure it out as we go.)
+        (we're brand new, so some of this is still half-scribbled. the ig has
+        the real schedule as we lock it in.)
       </p>
     </section>
 
@@ -99,20 +111,22 @@ import Base from "../layouts/Base.astro";
       <svg class="join-arrow" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><g><path d="M11 23 C10 18 12 32 13 28 C14 24 15 18 14 28 C13 35 11 33 17 30 C22 27 18 35 21 30"/><path d="M27 20 C25 30 24 37 22 40 C20 43 17 43 18 38 C19 34 24 33 27 35"/><path d="M27 30 L26 41"/><path d="M26.5 23 L27 24"/><path d="M33 31 C33 40 34 41 38 40 C40 39 41 36 41 31 C40 36 41 41 45 40 C48 39 49 36 49 31"/><path d="M55 27 C53 36 52 40 51 42 C57 38 60 34 58 31 C56 28 53 36 60 33"/></g><g><path d="M71 35 C82 33 92 40 95 51 C97 62 89 72 79 78 C66 86 51 92 50 105 C49 116 60 122 73 122 C90 122 110 116 128 119"/><path d="M128 119 C121 116 114 112 110 105"/><path d="M128 119 C120 121 112 124 105 129"/></g><circle cx="60" cy="46" r="0.9" fill="#c2362f" stroke="none"/></svg>
 
       <p>
-        first one's the hardest. after that it's just your thursday. the easiest
-        way in is our discord &mdash; that's where everything actually happens.
+        first one's the hardest. after that it's just part of your week. easiest
+        way in, as a member <em>or</em> officer, is the
+        <a class="pen-blue" href="https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform" target="_blank" rel="noopener noreferrer">sign-up form</a>.
+        takes a minute, tells us you're in.
       </p>
 
       <ul class="contacts">
-        <li>discord &mdash; <a class="pen-blue" href="#">discord.gg/qbronco</a></li>
-        <li>instagram &mdash; <a class="pen-blue" href="#">@qbronco</a></li>
-        <li>email &mdash; <a class="pen-blue" href="mailto:hello@qbronco.com">hello@qbronco.com</a></li>
+        <li>instagram: <a class="pen-blue" href="https://www.instagram.com/qbroncowmu/" target="_blank" rel="noopener noreferrer">@qbroncowmu</a></li>
+        <li>experienceWMU: <a class="pen-blue" href="https://experiencewmu.wmich.edu/organization/qbroncos" target="_blank" rel="noopener noreferrer">our org page</a></li>
+        <li>linkedin: <a class="pen-blue" href="https://www.linkedin.com/company/qbronco" target="_blank" rel="noopener noreferrer">linkedin.com/company/qbronco</a></li>
       </ul>
 
       <p>
-        or just show up
-        <span class="circled">thursday<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>
-        &mdash; we'll save you a seat.
+        don't know the first meeting date yet? join anyway. we'll post it
+        <span class="circled">soon<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>
+        on the ig, and we'll save you a seat.
       </p>
     </section>
 
@@ -120,11 +134,18 @@ import Base from "../layouts/Base.astro";
     <footer>
       <!-- the one curated mess: a coffee ring -->
       <svg class="coffee-ring" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#b89b6e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"><path d="M30 38 Q22 49 24 62 Q27 78 44 86 Q60 92 78 86 Q95 79 99 64 Q101 51 92 41 Q82 31 65 28"/><path d="M58 27 Q47 26 38 31"/><path d="M40 49 Q34 58 37 67"/></svg>
-
-      <p class="footer-note">
-        &mdash; quantum broncos · western michigan university · made by students
-        who should've been studying &mdash;
-      </p>
     </footer>
+
+    <!-- officer recruiting note, tucked into the empty bottom-left corner -->
+    <a
+      class="officer-corner"
+      href="https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Officer positions open: apply with our sign-up form"
+    >
+      psst, officer spots open!
+      <small>brand-new club, help us launch it &rarr;</small>
+    </a>
   </main>
 </Base>
