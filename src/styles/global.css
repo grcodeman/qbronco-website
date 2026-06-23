@@ -154,20 +154,35 @@ h1 {
   transform: rotate(-1.1deg);
 }
 
-/* the small atom tucked into the margin beside the title */
-.title-atom {
-  position: absolute;
-  left: -44px;
-  top: 40px;
-  width: 50px;
+/* logo badge + wordmark, side by side at the top of the sheet */
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: var(--rule-gap);
+}
+
+.title-row h1 {
+  margin-top: 0;
+}
+
+.title-head {
+  min-width: 0;
+}
+
+/* the club badge, pinned to the left of the title like a sticker */
+.title-logo {
+  flex: none;
+  width: 96px;
   height: auto;
-  transform: rotate(-6deg);
+  margin-left: -6px;
+  transform: rotate(-3deg);
 }
 
 /* red double-underline under the title */
 .title-underline {
   display: block;
-  width: clamp(220px, 64vw, 340px);
+  width: clamp(150px, 42vw, 232px);
   height: auto;
   margin: -4px 0 0 2px;
 }
@@ -367,18 +382,49 @@ ul {
   pointer-events: none;
 }
 
+/* officer recruiting note — red pen, tucked into the empty bottom-left
+   corner (it sits below the lowest binder hole at 84%, so it clears the
+   .holes column and the red margin line). ink only: no box, no shadow, so it
+   stays handwriting, not a UI widget. line-heights are rule-gap multiples. */
+.officer-corner {
+  position: absolute;
+  left: 36px;
+  bottom: 32px;
+  z-index: 2;
+  width: 190px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: var(--rule-gap);
+  color: var(--color-red-pen);
+  text-decoration: none;
+  transform: rotate(-2.2deg);
+}
+
+.officer-corner small {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: var(--rule-gap);
+  color: var(--color-graphite-soft);
+}
+
+.officer-corner:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
 /* hand-placed tilts — assigned by hand in markup, never by formula */
 .tilt-a { transform: rotate(-0.6deg); }
 .tilt-b { transform: rotate(0.8deg); }
 .tilt-c { transform: rotate(-1.1deg); }
 .tilt-d { transform: rotate(0.5deg); }
 
-/* footer */
-.footer-note {
+/* footer — just the coffee ring now; keep blank ruled space at the foot */
+footer {
   clear: both;
-  margin-top: calc(var(--rule-gap) * 2);
-  color: var(--color-graphite-faint);
-  font-size: 16px;
+  min-height: calc(var(--rule-gap) * 5);
 }
 
 /* ---------- mobile: tighter margin, straighten, full-bleed ---------- */
@@ -402,9 +448,13 @@ ul {
 
   .holes { display: none; }
 
-  .title-atom {
-    left: -22px;
-    width: 38px;
+  .title-row {
+    gap: 12px;
+  }
+
+  .title-logo {
+    width: 68px;
+    margin-left: -2px;
   }
 
   .sticky {
@@ -418,6 +468,16 @@ ul {
   .margin-doodle { width: 96px; }
   .join-arrow { width: 120px; }
   .coffee-ring { width: 104px; right: 10px; }
+
+  /* un-pin from the corner so it can't collide with the footer on phones;
+     it flows in after the footer as a red-pen P.S. instead */
+  .officer-corner {
+    position: static;
+    width: auto;
+    max-width: 32ch;
+    margin: var(--rule-gap) 0 0;
+    transform: rotate(-1.2deg);
+  }
 }
 
 /* paper doesn't animate */
