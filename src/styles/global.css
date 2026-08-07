@@ -160,12 +160,19 @@ h1 {
   align-items: center;
   gap: 16px;
   margin-top: var(--rule-gap);
+  /* four rules tall. the 96px logo is NOT a gap multiple, and letting it set
+     this row's height pushed every block below it 12px off the rules. */
+  height: calc(var(--rule-gap) * 4);
 }
 
 .title-row h1 {
   margin-top: 0;
 }
 
+/* the wordmark is deliberately NOT snapped to a rule: it is optically centred
+   against the badge instead. its line box is two rules tall and it carries its
+   own red underline, so it never needs to sit on a printed rule — and because
+   .title-row now has a fixed rule-multiple height, nothing below it cares. */
 .title-head {
   min-width: 0;
 }
@@ -179,10 +186,12 @@ h1 {
   transform: rotate(-3deg);
 }
 
-/* red double-underline under the title */
+/* red double-underline under the title — the vw term tracks the h1 clamp
+   (wordmark ink runs ~2.9x the font-size) so the pen stroke never shoots
+   past the end of "QBronco" at the in-between widths */
 .title-underline {
   display: block;
-  width: clamp(150px, 42vw, 232px);
+  width: clamp(160px, 33vw, 232px);
   height: auto;
   margin: -4px 0 0 2px;
 }
@@ -214,7 +223,9 @@ h2 {
   font-weight: 600;
   font-size: clamp(30px, 5vw, 38px);
   line-height: var(--rule-gap);
-  margin: calc(var(--rule-gap) * 2) 0 0; /* one blank rule above */
+  /* one blank rule above, one below: big Caveat ink overflows its 28px band
+     top AND bottom, so the following line needs a rule of clearance */
+  margin: calc(var(--rule-gap) * 2) 0 var(--rule-gap);
   color: var(--graphite);
   clear: both; /* drop below any margin doodle from the section above */
 }
@@ -263,10 +274,13 @@ ul {
   font-size: 1.35em;
 }
 
+/* one marker swipe, registered on the letter bodies: the band starts a hair
+   above the ascenders and stops just short of the descenders, so it reads as
+   ink laid over the words rather than a rule drawn under them. */
 .highlight {
   background: linear-gradient(var(--color-highlighter), var(--color-highlighter)) no-repeat;
-  background-size: 100% 0.82em;
-  background-position: 0 0.82em;
+  background-size: 100% 0.95em;
+  background-position: 0 0.34em;
   mix-blend-mode: multiply; /* sits UNDER the pencil like real marker */
   padding: 0 2px;
   -webkit-box-decoration-break: clone;
@@ -280,14 +294,15 @@ ul {
   white-space: nowrap;
 }
 
+/* explicit geometry: an SVG with auto width/height ignores the bottom inset
+   and falls back to its viewBox ratio, which drew the loop as a strikethrough.
+   sized off the word instead, with ~5px of pen-room on every side. */
 .circle-mark {
   position: absolute;
-  left: -10px;
-  right: -10px;
-  top: -6px;
-  bottom: -6px;
-  width: auto;
-  height: auto;
+  left: -6px;
+  top: 3px;
+  width: calc(100% + 12px);
+  height: calc(100% - 1px);
   pointer-events: none;
 }
 
@@ -383,13 +398,14 @@ ul {
 }
 
 /* officer recruiting note — red pen, tucked into the empty bottom-left
-   corner (it sits below the lowest binder hole at 84%, so it clears the
-   .holes column and the red margin line). ink only: no box, no shadow, so it
-   stays handwriting, not a UI widget. line-heights are rule-gap multiples. */
+   corner. it starts just right of the red margin line, like the rest of the
+   writing, and sits below the lowest binder hole at 84% so it clears the
+   .holes column too. ink only: no box, no shadow, so it stays handwriting,
+   not a UI widget. line-heights and offsets are rule-gap multiples. */
 .officer-corner {
   position: absolute;
-  left: 36px;
-  bottom: 32px;
+  left: calc(var(--margin-x) + 8px);
+  bottom: var(--rule-gap);
   z-index: 2;
   width: 190px;
   font-family: var(--font-title);
@@ -450,6 +466,7 @@ footer {
 
   .title-row {
     gap: 12px;
+    height: calc(var(--rule-gap) * 3); /* 78px — clears the 68px logo */
   }
 
   .title-logo {
@@ -457,8 +474,13 @@ footer {
     margin-left: -2px;
   }
 
+  /* the page loses its viewport margin here, so the desktop overhang would be
+     chopped off by the top of the screen — tuck the whole note on-page, and
+     write it a little tighter so its low corner clears the "QBronco" ink */
   .sticky {
+    top: 4px;
     width: 132px;
+    padding: 12px 18px 14px;
     font-size: 19px;
     right: 14px;
   }
