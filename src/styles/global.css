@@ -306,6 +306,36 @@ ul {
   pointer-events: none;
 }
 
+/* the page's one CTA: red pen boxed around the words, not a UI button. it
+   owns two rules so the drawn box has room without shoving the grid, and the
+   56px line box doubles as a comfortable tap target. */
+.boxed-cta {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 var(--rule-gap);
+  padding: 0 26px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 27px;
+  line-height: calc(var(--rule-gap) * 2);
+  color: var(--color-red-pen);
+  text-decoration: none;
+  white-space: nowrap;
+  transform: rotate(-0.7deg);
+}
+
+.box-mark {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 100%;
+  height: calc(100% - 8px);
+  pointer-events: none;
+}
+
+/* hover = the pen pressed harder, one more pass over the same box */
+.boxed-cta:hover .box-mark path { stroke-width: 3.8; }
+
 /* contact links written in blue ballpoint, not web-styled */
 .contacts {
   list-style: none;
@@ -364,8 +394,10 @@ ul {
   top: -12px;
   right: 28px;
   z-index: 2;
-  width: 156px;
+  display: block;
+  width: 178px;
   padding: 16px 18px 18px;
+  text-decoration: none;
   background: linear-gradient(#fdf08a, #fbe65a);
   font-family: var(--font-title);
   font-weight: 600;
@@ -379,8 +411,24 @@ ul {
 
 .sticky small {
   display: block;
-  font-size: 16px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.3;
   color: var(--color-graphite-soft);
+}
+
+/* the call to action, in red pen on the note */
+.sticky-rsvp {
+  display: block;
+  margin-top: 6px;
+  font-size: 19px;
+  color: var(--color-red-pen);
+}
+
+.sticky:hover .sticky-rsvp {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
 }
 
 .tape {
@@ -395,40 +443,6 @@ ul {
   border-right: 1px solid rgba(120, 150, 140, 0.25);
   transform: rotate(-4deg);
   pointer-events: none;
-}
-
-/* officer recruiting note — red pen, tucked into the empty bottom-left
-   corner. it starts just right of the red margin line, like the rest of the
-   writing, and sits below the lowest binder hole at 84% so it clears the
-   .holes column too. ink only: no box, no shadow, so it stays handwriting,
-   not a UI widget. line-heights and offsets are rule-gap multiples. */
-.officer-corner {
-  position: absolute;
-  left: calc(var(--margin-x) + 20px); /* flush with the writing column */
-  bottom: var(--rule-gap);
-  z-index: 2;
-  width: 190px;
-  font-family: var(--font-title);
-  font-weight: 700;
-  font-size: 20px;
-  line-height: var(--rule-gap);
-  color: var(--color-red-pen);
-  text-decoration: none;
-  transform: rotate(-2.2deg);
-}
-
-.officer-corner small {
-  display: block;
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 14px;
-  line-height: var(--rule-gap);
-  color: var(--color-graphite-soft);
-}
-
-.officer-corner:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
 }
 
 /* hand-placed tilts — assigned by hand in markup, never by formula */
@@ -474,15 +488,16 @@ footer {
     margin-left: -2px;
   }
 
-  /* the page loses its viewport margin here, so the desktop overhang would be
-     chopped off by the top of the screen — tuck the whole note on-page, and
-     write it a little tighter so its low corner clears the "QBronco" ink */
+  /* the page loses its viewport margin here, and the note now carries four
+     lines (title, date, room, rsvp), so pinning it would bury the "QBronco"
+     ink no matter how tight the padding. un-pin it instead: it flows at the
+     top of the sheet, still nudged to the right edge like a real stuck note. */
   .sticky {
-    top: 4px;
-    width: 132px;
+    position: static;
+    width: 176px;
     padding: 12px 18px 14px;
-    font-size: 19px;
-    right: 14px;
+    margin: 0 4px var(--rule-gap) auto;
+    font-size: 20px;
   }
 
   .tape { display: none; }
@@ -492,16 +507,6 @@ footer {
      narrows, so it stays clear of the sign-up paragraph. */
   .join-arrow { width: 120px; }
   .coffee-ring { width: 104px; right: 10px; }
-
-  /* un-pin from the corner so it can't collide with the footer on phones;
-     it flows in after the footer as a red-pen P.S. instead */
-  .officer-corner {
-    position: static;
-    width: auto;
-    max-width: 32ch;
-    margin: var(--rule-gap) 0 0;
-    transform: rotate(-1.2deg);
-  }
 }
 
 /* paper doesn't animate */
