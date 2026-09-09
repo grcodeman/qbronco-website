@@ -11,10 +11,17 @@ import Base from "../layouts/Base.astro";
     <span class="tape" aria-hidden="true"></span>
     <span class="holes" aria-hidden="true"></span>
 
-    <aside class="sticky">
-      meetings: TBA
-      <small>day + room still cooking, watch our ig</small>
-    </aside>
+    <a
+      class="sticky"
+      href="https://experiencewmu.wmich.edu/event/12722423"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="RSVP on experienceWMU for Quantum Club Info Night, Wednesday September 16 at 6:30 PM, Parkview D-202"
+    >
+      info night
+      <small>wed sept 16 &middot; 6:30 pm<br />parkview D-202</small>
+      <span class="sticky-rsvp">rsvp &rarr;</span>
+    </a>
 
     <p class="date-scrawl">~ fall '26</p>
 
@@ -61,6 +68,40 @@ import Base from "../layouts/Base.astro";
       </p>
     </section>
 
+    <!-- ---------- join ---------- -->
+    <section>
+      <h2 class="tilt-a">come study with us</h2>
+
+      <!-- "join us!" in red pen, with the arrow sweeping down-LEFT so the head
+           aims across the blank paper at the sign-up link + contacts below -->
+      <svg class="join-arrow" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><text x="104" y="36" text-anchor="middle" transform="rotate(-4 104 36)" font-family="Caveat" font-weight="700" font-size="38" fill="#c2362f" stroke="none">join us!</text><g><path d="M150 60 C152 84 130 98 106 108 C82 118 50 125 24 130"/><path d="M24 130 Q32 123.5 40 116"/><path d="M24 130 Q34 132 44 137"/></g></svg>
+
+      <p>
+        first one's the hardest. after that it's just part of your week. easiest
+        way in, as a member <em>or</em> officer, is the form below. takes a
+        minute, tells us you're in.
+      </p>
+
+      <!-- the one CTA on the page: a link boxed in red pen, the way you'd ring
+           the important thing in your own notes. no button chrome. -->
+      <a class="boxed-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform" target="_blank" rel="noopener noreferrer">
+        sign me up &rarr;
+        <svg class="box-mark" viewBox="0 0 168 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"><path vector-effect="non-scaling-stroke" d="M8 10 Q52 5 106 7 Q140 8 160 11 Q162 27 159 46 Q118 51 66 49 Q32 48 9 50 Q5 30 8 10 Q9 7 14 8"/></svg>
+      </a>
+
+      <ul class="contacts">
+        <li>instagram: <a class="pen-blue" href="https://www.instagram.com/qbroncowmu/" target="_blank" rel="noopener noreferrer">@qbroncowmu</a></li>
+        <li>experienceWMU: <a class="pen-blue" href="https://experiencewmu.wmich.edu/organization/qbroncos" target="_blank" rel="noopener noreferrer">our org page</a></li>
+        <li>linkedin: <a class="pen-blue" href="https://www.linkedin.com/company/qbronco" target="_blank" rel="noopener noreferrer">linkedin.com/company/qbronco</a></li>
+      </ul>
+
+      <p>
+        the first one is our info night on
+        <span class="circled">sept 16<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>.
+        rsvp so we know to save you a seat, then just show up.
+      </p>
+    </section>
+
     <!-- ---------- what we do ---------- -->
     <section>
       <h2 class="tilt-a">what we actually do</h2>
@@ -93,6 +134,10 @@ import Base from "../layouts/Base.astro";
     <section>
       <h2 class="tilt-d">stuff in the works</h2>
       <ul class="dash">
+        <li>
+          <strong>info night, wed sept 16, 6:30 pm, parkview D-202.</strong>
+          <a class="pen-blue" href="https://experiencewmu.wmich.edu/event/12722423" target="_blank" rel="noopener noreferrer">rsvp &rarr;</a>
+        </li>
         <li>weekly study nights (the main thing)</li>
         <li>an intro-to-Qiskit crash session to kick off the semester</li>
         <li>our own IBM Qiskit hackathon, here on campus</li>
@@ -104,50 +149,10 @@ import Base from "../layouts/Base.astro";
       </p>
     </section>
 
-    <!-- ---------- join ---------- -->
-    <section>
-      <h2 class="tilt-a">come study with us</h2>
-
-      <!-- "join us!" in red pen, with the arrow sweeping down-LEFT so the head
-           aims across the blank paper at the sign-up link + contacts below -->
-      <svg class="join-arrow" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><text x="104" y="36" text-anchor="middle" transform="rotate(-4 104 36)" font-family="Caveat" font-weight="700" font-size="38" fill="#c2362f" stroke="none">join us!</text><g><path d="M150 60 C152 84 130 98 106 108 C82 118 50 125 24 130"/><path d="M24 130 Q32 123.5 40 116"/><path d="M24 130 Q34 132 44 137"/></g></svg>
-
-      <p>
-        first one's the hardest. after that it's just part of your week. easiest
-        way in, as a member <em>or</em> officer, is the
-        <a class="pen-blue" href="https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform" target="_blank" rel="noopener noreferrer">sign-up form</a>.
-        takes a minute, tells us you're in.
-      </p>
-
-      <ul class="contacts">
-        <li>instagram: <a class="pen-blue" href="https://www.instagram.com/qbroncowmu/" target="_blank" rel="noopener noreferrer">@qbroncowmu</a></li>
-        <li>experienceWMU: <a class="pen-blue" href="https://experiencewmu.wmich.edu/organization/qbroncos" target="_blank" rel="noopener noreferrer">our org page</a></li>
-        <li>linkedin: <a class="pen-blue" href="https://www.linkedin.com/company/qbronco" target="_blank" rel="noopener noreferrer">linkedin.com/company/qbronco</a></li>
-      </ul>
-
-      <p>
-        don't know the first meeting date yet? join anyway. we'll post it
-        <span class="circled">soon<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>
-        on the ig, and we'll save you a seat.
-      </p>
-    </section>
-
     <!-- ---------- footer ---------- -->
     <footer>
       <!-- the one curated mess: a coffee ring -->
       <svg class="coffee-ring" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#b89b6e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"><path d="M30 38 Q22 49 24 62 Q27 78 44 86 Q60 92 78 86 Q95 79 99 64 Q101 51 92 41 Q82 31 65 28"/><path d="M58 27 Q47 26 38 31"/><path d="M40 49 Q34 58 37 67"/></svg>
     </footer>
-
-    <!-- officer recruiting note, tucked into the empty bottom-left corner -->
-    <a
-      class="officer-corner"
-      href="https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Officer positions open: apply with our sign-up form"
-    >
-      psst, officer spots open!
-      <small>brand-new club, help us launch it &rarr;</small>
-    </a>
   </main>
 </Base>
