@@ -1,0 +1,30 @@
+---
+import type { Dated } from "../data/schedule";
+
+// One Wednesday, one ruled line. The live script in Notebook.astro adds
+// is-over (crossed off), is-next (circled) and is-today for whoever is looking.
+
+interface Props {
+  week: Dated;
+  hidden?: boolean;
+}
+
+const { week, hidden } = Astro.props;
+---
+
+<li class={`wk wk-${week.kind}`} data-week={week.date} hidden={hidden}>
+  <time class="wk-date" datetime={week.date}><span>{week.label}</span></time>
+  <span class="wk-what">
+    {
+      week.kind === "off" ? (
+        <>
+          no meeting <span class="wk-why">({week.title})</span>
+        </>
+      ) : (
+        week.title
+      )
+    }
+    {week.proposed && <span class="wk-why">(proposed)</span>}
+    {week.about && <span class="wk-star" aria-hidden="true">*</span>}
+  </span>
+</li>
