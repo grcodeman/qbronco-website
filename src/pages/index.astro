@@ -1,158 +1,159 @@
 ---
-import Base from "../layouts/Base.astro";
-// One notebook page. Everything below is filler copy — swap in real
-// links / meeting time / event details whenever you like. The whole
-// thing is plain HTML + the styles in src/styles/global.css.
+import Notebook from "../layouts/Notebook.astro";
+import WeekRow from "../components/WeekRow.astro";
+import Reel from "../components/Reel.astro";
+import Officers from "../components/Officers.astro";
+import { MEETING, WEEKS, isOver } from "../data/schedule";
+
+// The front page: what the club is, proof it meets, how to join, when, and
+// who runs it. Dates come from src/data/schedule.ts, people and photos from
+// src/data/people.ts. Styles live in src/styles/global.css.
+
+// "coming up" shows the next four Wednesdays. this is the answer as of the
+// build; the inline script in Notebook.astro redoes it for whoever is looking.
+const COMING_UP = 4;
+const builtAt = Date.now();
+const firstOpen = WEEKS.findIndex((w) => !isOver(w, builtAt));
+const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + COMING_UP));
 ---
 
-<Base>
-  <main class="page">
-    <!-- three "real desk" objects: a sticky note, a strip of tape, hole punches -->
-    <span class="tape" aria-hidden="true"></span>
-    <span class="holes" aria-hidden="true"></span>
+<Notebook page="home" scrawl="~ fall '26" turn={{ label: "the schedule", href: "/schedule" }}>
+  <!-- ---------- title ---------- -->
+  <header class="title-block">
+    <div class="title-row">
+      <!-- club badge, pinned to the left of the wordmark -->
+      <img
+        class="title-logo"
+        src="/logo_transparent.png"
+        alt="QBronco, WMU Quantum Computing Club logo"
+        width="96"
+        height="96"
+      />
 
-    <a
-      class="sticky"
-      href="https://experiencewmu.wmich.edu/event/12722423"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="RSVP on experienceWMU for Quantum Club Info Night, Wednesday September 16 at 6:30 PM, Parkview D-202"
-    >
-      info night
-      <small>wed sept 16 &middot; 6:30 pm<br />parkview D-202</small>
-      <span class="sticky-rsvp">rsvp &rarr;</span>
+      <div class="title-head">
+        <h1>QBronco</h1>
+
+        <!-- red double-underline -->
+        <svg class="title-underline" viewBox="0 0 320 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9 Q80 3 160 7 Q240 11 314 5"/><path d="M10 18 Q84 13 158 16 Q236 19 308 14"/></svg>
+      </div>
+    </div>
+
+    <p class="subtitle">wmu's brand-new quantum computing club, taking members + officers</p>
+    <p class="subtitle-2">western michigan university · kalamazoo · est. fall '26</p>
+  </header>
+
+  <!-- ---------- intro ---------- -->
+  <section>
+    <!-- boxed |0> + |1> = psi scribble in the margin. inside the box, left to
+         right: bar, zero, ket-bracket, plus, bar, one, ket-bracket. -->
+    <svg class="margin-doodle superpos" viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#3a3a42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14 Q44 10 92 13 Q94 13 93 18 Q95 38 91 50 Q90 53 50 52 Q22 53 8 50 Q5 50 6 44 Q4 28 7 16 Q7 14 7 14Z"/><g stroke-width="2.2"><path d="M16 24 Q15 34 16 44"/><path d="M25.5 23.5 Q20.4 24.6 20.6 34 Q20.8 44 25.5 44.3 Q30.5 43.9 30.6 34 Q30.7 24.2 25.5 23.5Z"/><path d="M33 24 Q36.6 29 39 34 Q36.4 39.4 33 44"/><path d="M44 34.3 Q50 33.5 56 34.2"/><path d="M50 28 Q50.6 34 50 40.2"/><path d="M62 24 Q61 34 62 44"/><path d="M66 27.5 Q68.6 25 70.6 23.5 Q70 34 70.6 44"/><path d="M67 44.4 Q70.8 45 74.4 44.2"/><path d="M78 24 Q81.6 29 84 34 Q81.4 39.4 78 44"/></g><g stroke-width="1.7"><path d="M97.6 31.5 Q102 30.9 106.4 31.6"/><path d="M97.4 37.1 Q101.8 36.4 106.2 37.2"/><path d="M116 26 Q114.8 38 116 50"/><path d="M109 32.6 Q108.4 41.4 116 42.2 Q123.6 41.2 123 32.8"/></g></svg>
+
+    <p>
+      hey. we're a small group of broncos who got curious about quantum
+      computing and decided to just&hellip; figure it out together. you don't
+      need to be a physics major. you don't need to know any of this yet.
+    </p>
+    <p>
+      the whole point is we learn it as a group,
+      <span class="highlight">no experience needed</span>, so bring a
+      notebook and a coffee. if "a qubit can be |0&rang; + |1&rang; at once"
+      sounds confusing, good. that's exactly why we meet.
+    </p>
+  </section>
+
+  <!-- ---------- photo reel ---------- -->
+  <section>
+    <Reel />
+  </section>
+
+  <!-- ---------- join ---------- -->
+  <section>
+    <h2 class="tilt-a">come study with us</h2>
+
+    <!-- "join us!" in red pen, with the arrow sweeping down-LEFT so the head
+         aims across the blank paper at the sign-up link + contacts below -->
+    <svg class="join-arrow" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><text x="104" y="36" text-anchor="middle" transform="rotate(-4 104 36)" font-family="Caveat" font-weight="700" font-size="38" fill="#c2362f" stroke="none">join us!</text><g><path d="M150 60 C152 84 130 98 106 108 C82 118 50 125 24 130"/><path d="M24 130 Q32 123.5 40 116"/><path d="M24 130 Q34 132 44 137"/></g></svg>
+
+    <p>
+      first one's the hardest. after that it's just part of your week. easiest
+      way in, as a member <em>or</em> officer, is the form below. takes a
+      minute, tells us you're in.
+    </p>
+
+    <!-- the one CTA on the page: a link boxed in red pen, the way you'd ring
+         the important thing in your own notes. no button chrome. -->
+    <a class="boxed-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform" target="_blank" rel="noopener noreferrer">
+      sign me up &rarr;
+      <svg class="box-mark" viewBox="0 0 168 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"><path vector-effect="non-scaling-stroke" d="M8 10 Q52 5 106 7 Q140 8 160 11 Q162 27 159 46 Q118 51 66 49 Q32 48 9 50 Q5 30 8 10 Q9 7 14 8"/></svg>
     </a>
 
-    <p class="date-scrawl">~ fall '26</p>
+    <ul class="contacts">
+      <li>instagram: <a class="pen-blue" href="https://www.instagram.com/qbroncowmu/" target="_blank" rel="noopener noreferrer">@qbroncowmu</a></li>
+      <li>experienceWMU: <a class="pen-blue" href="https://experiencewmu.wmich.edu/organization/qbroncos" target="_blank" rel="noopener noreferrer">our org page</a></li>
+      <li>linkedin: <a class="pen-blue" href="https://www.linkedin.com/company/qbronco" target="_blank" rel="noopener noreferrer">linkedin.com/company/qbronco</a></li>
+    </ul>
+  </section>
 
-    <!-- ---------- title ---------- -->
-    <header class="title-block">
-      <div class="title-row">
-        <!-- club badge, pinned to the left of the wordmark -->
-        <img
-          class="title-logo"
-          src="/logo_transparent.png"
-          alt="QBronco, WMU Quantum Computing Club logo"
-          width="96"
-          height="96"
-        />
+  <!-- ---------- when ---------- -->
+  <section>
+    <h2 class="tilt-d">when we meet</h2>
+    <p>
+      every <span class="circled">wednesday<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>,
+      {MEETING.time}, in room {MEETING.room} on {MEETING.campus} campus
+      (<a class="pen-blue" href={MEETING.map} target="_blank" rel="noopener noreferrer">map</a>).
+      no meetings over breaks or finals. just show up.
+    </p>
 
-        <div class="title-head">
-          <h1>QBronco</h1>
+    <ul class="weeks" data-window={COMING_UP} aria-label="The next few Wednesdays">
+      {WEEKS.map((week) => <WeekRow week={week} hidden={!shown.has(week)} />)}
+      <li class="wk-empty" hidden={shown.size > 0}>that's the year. next fall's dates go up here.</li>
+    </ul>
 
-          <!-- red double-underline -->
-          <svg class="title-underline" viewBox="0 0 320 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9 Q80 3 160 7 Q240 11 314 5"/><path d="M10 18 Q84 13 158 16 Q236 19 308 14"/></svg>
-        </div>
-      </div>
+    <p>
+      <a class="pen-blue" href="/schedule">the whole year &rarr;</a>
+      <span class="soft">&nbsp;or&nbsp;</span>
+      <a class="pen-blue" href="/schedule#calendar">put it in your calendar</a>
+    </p>
+  </section>
 
-      <p class="subtitle">wmu's brand-new quantum computing club, taking members + officers</p>
-      <p class="subtitle-2">western michigan university · kalamazoo · est. fall '26</p>
-    </header>
+  <!-- ---------- what we do ---------- -->
+  <section>
+    <h2 class="tilt-a">what we actually do</h2>
 
-    <!-- ---------- intro ---------- -->
-    <section>
-      <!-- boxed |0> + |1> = psi scribble in the margin. inside the box, left to
-           right: bar, zero, ket-bracket, plus, bar, one, ket-bracket. -->
-      <svg class="margin-doodle superpos" viewBox="0 0 140 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#3a3a42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14 Q44 10 92 13 Q94 13 93 18 Q95 38 91 50 Q90 53 50 52 Q22 53 8 50 Q5 50 6 44 Q4 28 7 16 Q7 14 7 14Z"/><g stroke-width="2.2"><path d="M16 24 Q15 34 16 44"/><path d="M25.5 23.5 Q20.4 24.6 20.6 34 Q20.8 44 25.5 44.3 Q30.5 43.9 30.6 34 Q30.7 24.2 25.5 23.5Z"/><path d="M33 24 Q36.6 29 39 34 Q36.4 39.4 33 44"/><path d="M44 34.3 Q50 33.5 56 34.2"/><path d="M50 28 Q50.6 34 50 40.2"/><path d="M62 24 Q61 34 62 44"/><path d="M66 27.5 Q68.6 25 70.6 23.5 Q70 34 70.6 44"/><path d="M67 44.4 Q70.8 45 74.4 44.2"/><path d="M78 24 Q81.6 29 84 34 Q81.4 39.4 78 44"/></g><g stroke-width="1.7"><path d="M97.6 31.5 Q102 30.9 106.4 31.6"/><path d="M97.4 37.1 Q101.8 36.4 106.2 37.2"/><path d="M116 26 Q114.8 38 116 50"/><path d="M109 32.6 Q108.4 41.4 116 42.2 Q123.6 41.2 123 32.8"/></g></svg>
+    <!-- tiny H-gate circuit in the margin -->
+    <svg class="margin-doodle circuit" viewBox="0 0 120 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#5a5860" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 28.5 Q13 27.5 22 28.2"/><path d="M51 28 Q62 28.8 73 28.1"/><path d="M101 28.3 Q108 27.8 117 28.5"/><path d="M23.5 16.5 Q22.8 28 23.8 40.5 Q35.5 41.2 49.5 40 Q50.2 28.5 49 16.8 Q36 15.7 23.5 16.5"/><path d="M30 35 Q30.5 23.5 30 21.5"/><path d="M43 35 Q42.5 24 43 21"/><path d="M30 28.2 Q36.5 28.8 43 28.3"/><path d="M74.5 16 Q73.8 28 74.8 41 Q87 41.5 100 40.3 Q100.8 28.5 99.8 16.3 Q87 15.4 74.5 16"/><path d="M80.5 34.5 Q87 23.5 95 34"/><path d="M87.2 33.5 L93.5 23.5"/><circle cx="87.2" cy="33.8" r="1.3" fill="#5a5860" stroke="none"/></svg>
 
-      <p>
-        hey. we're a small group of broncos who got curious about quantum
-        computing and decided to just&hellip; figure it out together. you don't
-        need to be a physics major. you don't need to know any of this yet.
-      </p>
-      <p>
-        the whole point is we learn it as a group,
-        <span class="highlight">no experience needed</span>, so bring a
-        notebook and a coffee. if "a qubit can be |0&rang; + |1&rang; at once"
-        sounds confusing, good. that's exactly why we meet.
-      </p>
-    </section>
+    <ul class="todo">
+      <li>
+        <strong>study sessions.</strong> we learn quantum computing
+        from the ground up: qubits, superposition, real Qiskit code on
+        actual IBM machines. the slightly absurd north star: building our
+        <strong>own custom QPU</strong> (a quantum processing unit). yeah.
+        we're going to try.
+      </li>
+      <li>
+        <strong>labs: this year's build.</strong> you write a quantum circuit
+        in Qiskit, our compiler turns it into simple instructions, and we run
+        them on four targets, from a python version of our machine this fall
+        to an FPGA emulator in spring. three subteams, no experience needed
+        for any of them. <a class="pen-blue" href="/project">the whole plan &rarr;</a>
+      </li>
+      <li>
+        <strong>hackathons &amp; competitions.</strong> we're hosting our very
+        own IBM Qiskit hackathon right here on campus, and we're always
+        hunting for more to travel to or jump into online.
+      </li>
+      <li>
+        <strong>speaker nights &amp; events.</strong> quantum speaker nights
+        with people who actually do this for a living, plus Qiskit Fall Fest,
+        socials, and whatever else we cook up through the year.
+      </li>
+    </ul>
+  </section>
 
-    <!-- ---------- join ---------- -->
-    <section>
-      <h2 class="tilt-a">come study with us</h2>
-
-      <!-- "join us!" in red pen, with the arrow sweeping down-LEFT so the head
-           aims across the blank paper at the sign-up link + contacts below -->
-      <svg class="join-arrow" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><text x="104" y="36" text-anchor="middle" transform="rotate(-4 104 36)" font-family="Caveat" font-weight="700" font-size="38" fill="#c2362f" stroke="none">join us!</text><g><path d="M150 60 C152 84 130 98 106 108 C82 118 50 125 24 130"/><path d="M24 130 Q32 123.5 40 116"/><path d="M24 130 Q34 132 44 137"/></g></svg>
-
-      <p>
-        first one's the hardest. after that it's just part of your week. easiest
-        way in, as a member <em>or</em> officer, is the form below. takes a
-        minute, tells us you're in.
-      </p>
-
-      <!-- the one CTA on the page: a link boxed in red pen, the way you'd ring
-           the important thing in your own notes. no button chrome. -->
-      <a class="boxed-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform" target="_blank" rel="noopener noreferrer">
-        sign me up &rarr;
-        <svg class="box-mark" viewBox="0 0 168 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"><path vector-effect="non-scaling-stroke" d="M8 10 Q52 5 106 7 Q140 8 160 11 Q162 27 159 46 Q118 51 66 49 Q32 48 9 50 Q5 30 8 10 Q9 7 14 8"/></svg>
-      </a>
-
-      <ul class="contacts">
-        <li>instagram: <a class="pen-blue" href="https://www.instagram.com/qbroncowmu/" target="_blank" rel="noopener noreferrer">@qbroncowmu</a></li>
-        <li>experienceWMU: <a class="pen-blue" href="https://experiencewmu.wmich.edu/organization/qbroncos" target="_blank" rel="noopener noreferrer">our org page</a></li>
-        <li>linkedin: <a class="pen-blue" href="https://www.linkedin.com/company/qbronco" target="_blank" rel="noopener noreferrer">linkedin.com/company/qbronco</a></li>
-      </ul>
-
-      <p>
-        the first one is our info night on
-        <span class="circled">sept 16<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>.
-        rsvp so we know to save you a seat, then just show up.
-      </p>
-    </section>
-
-    <!-- ---------- what we do ---------- -->
-    <section>
-      <h2 class="tilt-a">what we actually do</h2>
-
-      <!-- tiny H-gate circuit in the margin -->
-      <svg class="margin-doodle circuit" viewBox="0 0 120 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#5a5860" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 28.5 Q13 27.5 22 28.2"/><path d="M51 28 Q62 28.8 73 28.1"/><path d="M101 28.3 Q108 27.8 117 28.5"/><path d="M23.5 16.5 Q22.8 28 23.8 40.5 Q35.5 41.2 49.5 40 Q50.2 28.5 49 16.8 Q36 15.7 23.5 16.5"/><path d="M30 35 Q30.5 23.5 30 21.5"/><path d="M43 35 Q42.5 24 43 21"/><path d="M30 28.2 Q36.5 28.8 43 28.3"/><path d="M74.5 16 Q73.8 28 74.8 41 Q87 41.5 100 40.3 Q100.8 28.5 99.8 16.3 Q87 15.4 74.5 16"/><path d="M80.5 34.5 Q87 23.5 95 34"/><path d="M87.2 33.5 L93.5 23.5"/><circle cx="87.2" cy="33.8" r="1.3" fill="#5a5860" stroke="none"/></svg>
-
-      <ul class="todo">
-        <li>
-          <strong>weekly study sessions.</strong> we learn quantum computing
-          from the ground up: qubits, superposition, real Qiskit code on
-          actual IBM machines. the slightly absurd north star: building our
-          <strong>own custom QPU</strong> (a quantum processing unit). yeah.
-          we're going to try.
-        </li>
-        <li>
-          <strong>hackathons &amp; competitions.</strong> we're hosting our very
-          own IBM Qiskit hackathon right here on campus, and we're always
-          hunting for more to travel to or jump into online.
-        </li>
-        <li>
-          <strong>speaker nights &amp; events.</strong> quantum speaker nights
-          with people who actually do this for a living, plus Qiskit Fall Fest,
-          socials, and whatever else we cook up through the year.
-        </li>
-      </ul>
-    </section>
-
-    <!-- ---------- events ---------- -->
-    <section>
-      <h2 class="tilt-d">stuff in the works</h2>
-      <ul class="dash">
-        <li>
-          <strong>info night, wed sept 16, 6:30 pm, parkview D-202.</strong>
-          <a class="pen-blue" href="https://experiencewmu.wmich.edu/event/12722423" target="_blank" rel="noopener noreferrer">rsvp &rarr;</a>
-        </li>
-        <li>weekly study nights (the main thing)</li>
-        <li>an intro-to-Qiskit crash session to kick off the semester</li>
-        <li>our own IBM Qiskit hackathon, here on campus</li>
-        <li>quantum speaker nights + Qiskit Fall Fest</li>
-      </ul>
-      <p class="soft">
-        (we're brand new, so some of this is still half-scribbled. the ig has
-        the real schedule as we lock it in.)
-      </p>
-    </section>
-
-    <!-- ---------- footer ---------- -->
-    <footer>
-      <!-- the one curated mess: a coffee ring -->
-      <svg class="coffee-ring" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#b89b6e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"><path d="M30 38 Q22 49 24 62 Q27 78 44 86 Q60 92 78 86 Q95 79 99 64 Q101 51 92 41 Q82 31 65 28"/><path d="M58 27 Q47 26 38 31"/><path d="M40 49 Q34 58 37 67"/></svg>
-    </footer>
-  </main>
-</Base>
+  <!-- ---------- people ---------- -->
+  <section>
+    <h2 class="tilt-c">who's running this</h2>
+    <Officers />
+  </section>
+</Notebook>

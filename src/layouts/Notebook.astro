@@ -1,0 +1,199 @@
+---
+import Base from "./Base.astro";
+import { MEETING, WEEKS } from "../data/schedule";
+
+// One sheet of the notebook: divider tabs on top, the desk objects, the
+// "next meeting" sticky note, and the foot of the page. Every page uses it.
+
+interface Props {
+  title?: string;
+  description?: string;
+  page: "home" | "schedule" | "project" | "none";
+  scrawl?: string; // pencil note on the first rule
+  turn?: { label: string; href: string }; // "turn the page" link at the foot
+}
+
+const { title, description, page, scrawl, turn } = Astro.props;
+
+const tabs = [
+  { id: "home", label: "QBronco", href: "/" },
+  { id: "schedule", label: "schedule", href: "/schedule" },
+  { id: "project", label: "the project", href: "/project" },
+];
+
+// the sticky note starts out true for any week ("every wednesday ...") and the
+// script below swaps in the actual next meeting for whoever is looking.
+const sticky =
+  page === "schedule"
+    ? { href: "#calendar", label: "add to calendar ↓" }
+    : { href: "/schedule", label: "full schedule →" };
+
+const live = {
+  campus: MEETING.campus,
+  time: MEETING.time,
+  from: MEETING.from,
+  until: MEETING.until,
+  weeks: WEEKS.map((w) => ({
+    d: w.date,
+    t: w.title,
+    k: w.kind,
+    s: w.start,
+    e: w.end,
+    l: w.label,
+    r: w.room ?? MEETING.room,
+    p: w.proposed ? 1 : 0,
+    m: w.tentative ? 1 : 0,
+  })),
+};
+---
+
+<Base title={title} description={description}>
+  <main class="page">
+    <!-- divider tabs: the sheet you're on is the one pulled forward -->
+    <nav class="tabs" aria-label="Pages">
+      {
+        tabs.map((tab) => (
+          <a href={tab.href} aria-current={tab.id === page ? "page" : undefined}>
+            {tab.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- the desk objects: a strip of tape, hole punches, the sticky note -->
+    <span class="tape" aria-hidden="true"></span>
+    <span class="holes" aria-hidden="true"></span>
+
+    <a class="sticky" href={sticky.href} data-sticky>
+      <span class="sticky-head" data-s="head">every wednesday</span>
+      <small data-s="what" hidden></small>
+      <small data-s="when">{MEETING.time}</small>
+      <small data-s="where">{MEETING.campus} {MEETING.room}</small>
+      <small class="sticky-note" data-s="note" hidden></small>
+      <span class="sticky-link">{sticky.label}</span>
+    </a>
+
+    {scrawl && <p class="date-scrawl">{scrawl}</p>}
+
+    <slot />
+
+    <footer>
+      {
+        turn && (
+          <p class="page-turn">
+            turn the page:{" "}
+            <a class="pen-blue" href={turn.href}>
+              {turn.label} &rarr;
+            </a>
+          </p>
+        )
+      }
+      <!-- the one curated mess: a coffee ring -->
+      <svg class="coffee-ring" viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#b89b6e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"><path d="M30 38 Q22 49 24 62 Q27 78 44 86 Q60 92 78 86 Q95 79 99 64 Q101 51 92 41 Q82 31 65 28"/><path d="M58 27 Q47 26 38 31"/><path d="M40 49 Q34 58 37 67"/></svg>
+    </footer>
+
+    <script type="application/json" id="qb-live" set:html={JSON.stringify(live).replace(/</g, "\\u003c")} />
+
+    <!-- runs inline as the page loads: works out "now" in Kalamazoo time and
+         marks up the sticky note, every schedule row, and the reel arrows. -->
+    <script is:inline>
+      (() => {
+        const live = JSON.parse(document.getElementById("qb-live").textContent);
+        const weeks = live.weeks;
+        const now = Date.now();
+        const today = new Intl.DateTimeFormat("en-CA", {
+          timeZone: "America/Detroit",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(now);
+
+        const over = (w) => (w.k === "off" ? w.d < today : w.e <= now);
+        const next = weeks.find((w) => w.k !== "off" && w.e > now);
+        const state = !next ? "done" : next.s <= now ? "now" : next.d === today ? "tonight" : "next";
+
+        // schedule rows, wherever they are on the page
+        for (const row of document.querySelectorAll("[data-week]")) {
+          const w = weeks.find((x) => x.d === row.dataset.week);
+          if (!w) continue;
+          row.classList.toggle("is-over", over(w));
+          row.classList.toggle("is-next", w === next);
+          row.classList.toggle("is-today", w.k === "off" && w.d === today);
+          if (w === next) row.dataset.when = state;
+        }
+
+        // "coming up" lists show the first few weeks that aren't over yet
+        for (const list of document.querySelectorAll("[data-window]")) {
+          let room = Number(list.dataset.window);
+          for (const row of list.querySelectorAll("[data-week]")) {
+            const show = room > 0 && !row.classList.contains("is-over");
+            row.hidden = !show;
+            if (show) room--;
+          }
+          const empty = list.querySelector(".wk-empty");
+          if (empty) empty.hidden = room !== Number(list.dataset.window);
+        }
+
+        // photo reel arrows: only worth showing when the strip overflows
+        for (const reel of document.querySelectorAll("[data-reel]")) {
+          const nav = document.querySelector(`[data-reel-nav="${reel.id}"]`);
+          if (!nav) continue;
+          const step = (dir) => {
+            const first = reel.querySelector("li");
+            const gap = first ? parseFloat(getComputedStyle(first.parentElement).columnGap) || 0 : 0;
+            const by = first ? first.getBoundingClientRect().width + gap : reel.clientWidth * 0.8;
+            const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+            reel.scrollBy({ left: dir * by, behavior: smooth ? "smooth" : "auto" });
+          };
+          nav.querySelector("[data-dir='-1']").addEventListener("click", () => step(-1));
+          nav.querySelector("[data-dir='1']").addEventListener("click", () => step(1));
+          const sync = () => {
+            nav.hidden = reel.scrollWidth <= reel.clientWidth + 2;
+            nav.querySelector("[data-dir='-1']").disabled = reel.scrollLeft < 4;
+            nav.querySelector("[data-dir='1']").disabled =
+              reel.scrollLeft + reel.clientWidth >= reel.scrollWidth - 4;
+          };
+          reel.addEventListener("scroll", sync, { passive: true });
+          addEventListener("resize", sync);
+          addEventListener("load", sync);
+          sync();
+        }
+
+        // the sticky note
+        const note = document.querySelector("[data-sticky]");
+        if (!note) return;
+        const set = (key, text) => {
+          const el = note.querySelector(`[data-s="${key}"]`);
+          el.textContent = text || "";
+          el.hidden = !text;
+        };
+        note.dataset.state = state;
+        if (state === "done") {
+          set("head", "that's a wrap");
+          set("what", "see you next fall");
+          set("when", "");
+          set("where", "");
+          set("note", "");
+          return;
+        }
+        const skipped = weeks.find((w) => w.k === "off" && w.d >= today && w.d < next.d);
+        set("head", { now: "happening now", tonight: "tonight!", next: "next meeting" }[state]);
+        set("what", next.t + (next.p ? " (proposed)" : ""));
+        set(
+          "when",
+          state === "now" ? `till ${live.until}` : state === "tonight" ? live.time : `wed ${next.l} · ${live.from}`,
+        );
+        set("where", `${live.campus} ${next.r}`);
+        set(
+          "note",
+          skipped
+            ? // keep "(fall break)" together if the line has to wrap
+              `no meeting ${skipped.d === today ? "today" : skipped.l} (${skipped.t.replace(/ /g, " ")})`
+            : next.m
+              ? "spring dates can still move"
+              : "",
+        );
+      })();
+    </script>
+  </main>
+</Base>

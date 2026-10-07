@@ -1,0 +1,35 @@
+---
+import { REEL } from "../data/people";
+
+// A strip of instant photos taped across the sheet. It scrolls sideways on its
+// own (swipe, trackpad, arrow keys once focused, or the pencil arrows) and
+// bleeds off the right edge of the paper so it's obvious there's more.
+---
+
+<div class="reel-head">
+  <h2 class="tilt-b">what wednesdays look like</h2>
+  <div class="reel-nav" data-reel-nav="reel" hidden>
+    <button type="button" data-dir="-1" aria-label="Previous photos">&larr;</button>
+    <button type="button" data-dir="1" aria-label="More photos">&rarr;</button>
+  </div>
+</div>
+
+<div class="reel" id="reel" data-reel tabindex="0" role="region" aria-label="Photos from our meetings">
+  <ul class="reel-track">
+    {
+      REEL.map((photo, i) => (
+        <li class="polaroid" style={`--tilt: ${photo.tilt}deg; --ar: ${photo.width} / ${photo.height}`}>
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            loading={i < 2 ? "eager" : "lazy"}
+            decoding="async"
+          />
+          <span class="polaroid-caption">{photo.caption}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

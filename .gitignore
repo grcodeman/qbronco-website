@@ -23,3 +23,7 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .gstack/
+
+# playwright
+test-results/
+playwright-report/
