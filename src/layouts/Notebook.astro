@@ -187,7 +187,8 @@ const live = {
         set(
           "note",
           skipped
-            ? `no meeting ${skipped.d === today ? "today" : skipped.l} (${skipped.t})`
+            ? // keep "(fall break)" together if the line has to wrap
+              `no meeting ${skipped.d === today ? "today" : skipped.l} (${skipped.t.replace(/ /g, " ")})`
             : next.m
               ? "spring dates can still move"
               : "",
