@@ -1,7 +1,10 @@
 <!doctype html>
 <!--
-  The link-preview card (public/og.jpg, 1200x630): a photo from the Oct 7
-  Bell state lab with a sheet of the notebook taped over the projector screen.
+  The link-preview card (public/og.jpg, 1200x630). On the left, a photo from
+  a lab night: Mack (club president) holds two glowing Qubis while helping a
+  member at the front table, with the other two team tables at work behind
+  her (one at laptops, one at the whiteboard). On the right, a sheet of the
+  notebook lying on a desk, its edge over the empty end of the whiteboard.
   Edit this file (or swap photo.jpg) and run `npm run og` to remake it.
   Opens fine straight in a browser too, if you want to look before rendering.
 -->
@@ -35,38 +38,56 @@
         width: 1200px;
         height: 630px;
         overflow: hidden;
-        background: #2a2723;
+        background: #5e3f29;
       }
 
+      /* the desk: walnut grain from SVG noise, lit a little warmer near the page */
+      .desk {
+        position: absolute;
+        inset: 0;
+      }
+
+      .lamp {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 520px 420px at 78% 46%, rgba(255, 214, 160, 0.16), rgba(255, 214, 160, 0) 70%),
+          linear-gradient(180deg, rgba(20, 12, 6, 0.12), rgba(20, 12, 6, 0) 30%, rgba(20, 12, 6, 0) 70%, rgba(20, 12, 6, 0.22));
+      }
+
+      /* the photo, as a print bleeding off the left; its right end is plain
+         whiteboard, wall and carpet, so that is where the sheet overlaps it */
       .photo {
         position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: 50% 58%;
+        left: 0;
+        top: 0;
+        width: 792px;
+        height: 630px;
+        overflow: hidden;
+        box-shadow: 2px 0 2px rgba(0, 0, 0, 0.35), 10px 0 26px rgba(0, 0, 0, 0.4);
       }
 
-      /* a little warmth toward the card so the paper reads as lit by the room */
-      .shade {
+      .photo img {
         position: absolute;
-        inset: 0;
-        background: linear-gradient(90deg, rgba(20, 16, 10, 0) 40%, rgba(20, 16, 10, 0.28) 100%);
+        left: -16px;
+        top: -24px;
+        width: 880px;
+        height: 660px;
       }
 
       .sheet {
         position: absolute;
-        top: 50px;
-        right: 34px;
-        width: 424px;
-        height: 404px;
+        top: 76px;
+        left: 756px;
+        width: 420px;
+        height: 462px;
         box-sizing: border-box;
-        padding: 28px 22px 0 72px;
+        padding: 36px 14px 0 64px;
         background-color: var(--paper);
         background-image:
           repeating-linear-gradient(to bottom, transparent 0 41px, var(--rule-blue) 41px 42px),
-          linear-gradient(to right, transparent 53px, var(--margin-red) 53px 55px, transparent 55px);
-        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.18), 0 24px 40px -18px rgba(0, 0, 0, 0.55);
+          linear-gradient(to right, transparent 46px, var(--margin-red) 46px 48px, transparent 48px);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.22), 0 26px 44px -16px rgba(0, 0, 0, 0.6);
         transform: rotate(2deg);
         color: var(--graphite);
       }
@@ -74,58 +95,62 @@
       .tape {
         position: absolute;
         top: -18px;
-        left: 150px;
+        left: 140px;
         width: 150px;
         height: 40px;
-        background: rgba(150, 196, 184, 0.6);
+        background: rgba(150, 196, 184, 0.62);
         transform: rotate(-4deg);
       }
 
       .head {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 10px;
+        margin-left: -6px;
       }
 
       .logo {
-        width: 84px;
-        height: 84px;
+        width: 80px;
+        height: 80px;
         transform: rotate(-3deg);
       }
 
       h1 {
         margin: 0;
-        font: 700 78px/1 "Caveat Variable", cursive;
-        -webkit-text-stroke: 0.6px var(--graphite);
+        font: 700 86px/1 "Caveat Variable", cursive;
+        -webkit-text-stroke: 0.7px var(--graphite);
+        white-space: nowrap;
         transform: rotate(-1.5deg);
       }
 
       .underline {
         display: block;
-        width: 214px;
-        margin: -2px 0 0 4px;
+        width: 228px;
+        margin: -4px 0 0 4px;
       }
 
       .aka {
-        margin: 22px 0 0;
-        font: 600 37px/1 "Caveat Variable", cursive;
+        margin: 40px 0 0;
+        font: 600 41px/1 "Caveat Variable", cursive;
         white-space: nowrap;
         color: var(--graphite-soft);
         transform: rotate(-1deg);
       }
 
       .what {
-        margin: 16px 0 0;
-        font: 27px/1.2 "Patrick Hand", cursive;
+        margin: 24px 0 0;
+        font: 30px/1.2 "Patrick Hand", cursive;
+        -webkit-text-stroke: 0.35px var(--graphite);
         white-space: nowrap;
       }
 
       .url {
         position: relative;
         display: inline-block;
-        margin: 30px 0 0 -10px;
-        padding: 8px 22px;
-        font: 700 42px/1 "Caveat Variable", cursive;
+        margin: 50px 0 0 -10px;
+        padding: 10px 24px;
+        font: 700 50px/1 "Caveat Variable", cursive;
+        white-space: nowrap;
         color: var(--red-pen);
         transform: rotate(-1.5deg);
       }
@@ -139,8 +164,16 @@
     </style>
   </head>
   <body>
-    <img class="photo" src="photo.jpg" alt="" />
-    <div class="shade"></div>
+    <svg class="desk" width="1200" height="630" aria-hidden="true">
+      <filter id="grain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.0022 0.075" numOctaves="3" seed="11" />
+        <feColorMatrix type="matrix" values="0.62 0 0 0 0.09  0.40 0 0 0 0.06  0.24 0 0 0 0.04  0 0 0 0 1" />
+      </filter>
+      <rect width="1200" height="630" filter="url(#grain)" />
+    </svg>
+    <div class="lamp"></div>
+
+    <div class="photo"><img src="photo.jpg" alt="" /></div>
 
     <div class="sheet">
       <div class="tape"></div>

@@ -11,9 +11,10 @@ interface Props {
   page: "home" | "schedule" | "project" | "none";
   scrawl?: string; // pencil note on the first rule
   turn?: { label: string; href: string }; // "turn the page" link at the foot
+  noindex?: boolean;
 }
 
-const { title, description, page, scrawl, turn } = Astro.props;
+const { title, description, page, scrawl, turn, noindex } = Astro.props;
 
 const tabs = [
   { id: "home", label: "QBronco", href: "/" },
@@ -47,7 +48,7 @@ const live = {
 };
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} noindex={noindex}>
   <slot name="head" slot="head" />
   <main class="page">
     <!-- divider tabs: the sheet you're on is the one pulled forward -->
@@ -66,8 +67,10 @@ const live = {
     <span class="holes" aria-hidden="true"></span>
 
     <a class="sticky" href={sticky.href} data-sticky>
-      <span class="sticky-head" data-s="head">every wednesday</span>
-      <small data-s="what" hidden></small>
+      <span class="sticky-top">
+        <span class="sticky-head" data-s="head">every wednesday</span>
+        <small data-s="what" hidden></small>
+      </span>
       <small data-s="when">{MEETING.time}</small>
       <small data-s="where">{MEETING.building} {MEETING.room}</small>
       <small class="sticky-note" data-s="note" hidden></small>
@@ -189,7 +192,7 @@ const live = {
           "note",
           skipped
             ? // keep "(fall break)" together if the line has to wrap
-              `no meeting ${skipped.d === today ? "today" : skipped.l} (${skipped.t.replace(/ /g, " ")})`
+              `no meeting ${skipped.d === today ? "today" : skipped.l} (${skipped.t.replace(/ /g, "\u00a0")})`
             : next.m
               ? "spring dates can still move"
               : "",

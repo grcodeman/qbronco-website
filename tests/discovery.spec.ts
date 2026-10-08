@@ -48,7 +48,7 @@ test("link previews get a 1200x630 card with alt text on every page", async ({ p
     expect(await meta(page, "og:image:width")).toBe("1200");
     expect(await meta(page, "og:image:height")).toBe("630");
     expect(await meta(page, "og:image:alt")).toMatch(/Quantum Broncos/);
-    expect(await meta(page, "og:site_name")).toBe("QBronco (Quantum Broncos)");
+    expect(await meta(page, "og:site_name")).toBe("QBronco");
     expect(await meta(page, "og:url")).toBe(`https://qbronco.com${path}`);
     expect(await meta(page, "twitter:card")).toBe("summary_large_image");
     expect(await meta(page, "twitter:image")).toBe("https://qbronco.com/og.jpg");

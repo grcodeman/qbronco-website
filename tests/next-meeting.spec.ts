@@ -94,3 +94,28 @@ test("the note sits on every page and links somewhere useful", async ({ page }) 
   await at(page, "2026-10-15T12:00:00-04:00", "/schedule");
   await expect(page.locator("[data-sticky]")).toHaveAttribute("href", "#calendar");
 });
+
+test("on a phone the note is a short strip across the top, a whole number of rules tall", async ({ page }, info) => {
+  test.skip(info.project.name !== "mobile", "phone layout only");
+  for (const [iso, rules] of [
+    ["2026-10-14T16:00:00-04:00", 4], // tonight: three lines
+    ["2026-10-15T12:00:00-04:00", 5], // plus the fall break heads-up
+  ] as const) {
+    await at(page, iso);
+    await page.evaluate(() => document.fonts.ready);
+    const box = await page.locator("[data-sticky]").evaluate((note) => {
+      const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--rule-gap"));
+      const where = note.querySelector<HTMLElement>('[data-s="where"]')!;
+      return {
+        rules: note.offsetHeight / gap,
+        widthShare: note.offsetWidth / window.innerWidth,
+        whereOneLine: where.offsetHeight <= gap,
+        titleTop: document.querySelector("h1")!.getBoundingClientRect().top,
+      };
+    });
+    expect(box.rules).toBe(rules);
+    expect(box.widthShare).toBeGreaterThan(0.75);
+    expect(box.whereOneLine).toBe(true);
+    expect(box.titleTop).toBeLessThan(320);
+  }
+});

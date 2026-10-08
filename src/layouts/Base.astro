@@ -11,20 +11,24 @@ import { CLUB } from "../data/people";
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean; // keep a page (the 404) out of search results
 }
 
 const {
   title = `${CLUB.name} (${CLUB.alsoKnownAs[0]}) · WMU quantum computing club`,
   description = CLUB.summary,
+  noindex = false,
 } = Astro.props;
 
 const site = Astro.site ?? new URL("https://qbronco.com");
 // written the way the site links to itself: /schedule, not /schedule/
 const canonical = new URL(Astro.url.pathname.replace(/(.)\/$/, "$1"), site);
-// link-preview card: a lab photo with the logo, both names and the address
-// (public/og.jpg, made by `npm run og` from scripts/og-card.html)
+// link-preview card: a lab photo (Mack holding two glowing Qubis while she
+// helps a member, the other two team tables at work behind her) beside a
+// notebook page with the logo, both names and the address
+// (public/og.jpg, made by `npm run og` from scripts/og/card.html + photo.jpg)
 const card = new URL("/og.jpg", site);
-const cardAlt = `${CLUB.name}, a.k.a. ${CLUB.alsoKnownAs[0]}: WMU's quantum computing club working through a lab together. qbronco.com`;
+const cardAlt = `${CLUB.name}, a.k.a. ${CLUB.alsoKnownAs[0]}, WMU's quantum computing club (qbronco.com): president Mack holds two glowing Qubis while helping a member at a laptop, with the other two team tables at work behind her.`;
 
 // who we are, for search engines and AI assistants. WebSite.alternateName is
 // how Google learns that "Quantum Broncos" is this site too.
@@ -36,7 +40,9 @@ const identity = {
       "@id": new URL("/#website", site),
       url: new URL("/", site),
       name: CLUB.name,
-      alternateName: CLUB.alsoKnownAs,
+      // site names should be names, not descriptions: the generic
+      // "WMU Quantum Computing Club" stays on the Organization only
+      alternateName: CLUB.alsoKnownAs.filter((n) => n !== "WMU Quantum Computing Club"),
       publisher: { "@id": new URL("/#club", site) },
       inLanguage: "en-US",
     },
@@ -71,12 +77,13 @@ const identity = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
 
     <link rel="preload" href={patrickLatin} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={caveatLatin} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={`${CLUB.name} (${CLUB.alsoKnownAs[0]})`} />
+    <meta property="og:site_name" content={CLUB.name} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -98,9 +105,9 @@ const identity = {
     <link rel="icon" type="image/png" sizes="180x180" href="/logo_white.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="text/calendar" title="QBronco meetings" href="/qbronco.ics" />
-    <link rel="alternate" type="text/markdown" title="QBronco for AI assistants (llms.txt)" href="/llms.txt" />
+    <link rel="alternate" type="text/plain" title="QBronco for AI assistants (llms.txt)" href="/llms.txt" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(identity)} />
+    <script type="application/ld+json" set:html={JSON.stringify(identity).replace(/</g, "\\u003c")} />
     <slot name="head" />
   </head>
   <body>

@@ -9,6 +9,7 @@ import {
   UPDATED,
   WEEKS,
   kalamazooISO,
+  properCase,
   sentenceCase,
   shortDate,
 } from "../data/schedule";
@@ -39,7 +40,7 @@ const events = {
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
     isAccessibleForFree: true,
     description: [
-      w.about && sentenceCase(w.about),
+      w.about && properCase(w.about),
       w.proposed && "Proposed date; it can still move.",
       !w.proposed && w.tentative && "Spring dates can still move.",
       "No experience needed; just show up.",
@@ -60,7 +61,7 @@ const events = {
       geo: { "@type": "GeoCoordinates", ...PLACE.geo },
     },
     organizer: { "@type": "Organization", "@id": new URL("/#club", site), name: CLUB.name, url: new URL("/", site) },
-    image: [new URL("/og.jpg", site)],
+    image: [new URL("/reel/bell-lab-room-640.webp", site), new URL("/og.jpg", site)],
     url: new URL("/schedule", site),
   })),
 };
@@ -73,7 +74,7 @@ const events = {
   scrawl={`~ updated ${shortDate(UPDATED)}`}
   turn={{ label: "the project", href: "/project" }}
 >
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify(events)} />
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(events).replace(/</g, "\\u003c")} />
 
   <header class="page-head">
     <div class="title-head">

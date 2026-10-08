@@ -4,13 +4,10 @@
 // and people can't drift from what the site says.
 
 import { CLUB, OFFICERS } from "./people";
-import { MEETING, PLACE, TERMS, UPDATED, WEEKS, sentenceCase } from "./schedule";
+import { MEETING, PLACE, TERMS, UPDATED, WEEKS, properCase, properNouns, sentenceCase } from "./schedule";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-// the page writes in lowercase pencil; plain text reads better in normal case
-const nouns = (s: string) => s.replace(/\bpython\b/g, "Python").replace(/\bthanksgiving\b/g, "Thanksgiving");
-const proper = (s: string) => nouns(s).replace(/(^|[.!?] )([a-z])/g, (_, lead, c) => lead + c.toUpperCase());
 const weekday = (date: string) => DAYS[new Date(`${date}T12:00:00Z`).getUTCDay()];
 
 const where = `${PLACE.building} room ${MEETING.room}, ${PLACE.university} ${PLACE.campus}, ${PLACE.street}, ${PLACE.city}, ${PLACE.region} ${PLACE.postalCode}`;
@@ -41,7 +38,7 @@ const links = (origin: string) => [
   "",
   "## Contact",
   "",
-  ...CLUB.links.map((l) => `- ${l.name}: [${l.text}](${l.href})`),
+  ...CLUB.links.map((l) => `- [${l.name}: ${l.text}](${l.href})`),
 ];
 
 export function llmsSummary(origin: string): string {
@@ -64,8 +61,8 @@ export function llmsFull(origin: string): string {
     ...WEEKS.filter((w) => w.term === term.id).map((w) => {
       const what =
         w.kind === "off"
-          ? `No meeting (${nouns(w.title)})`
-          : `${proper(w.title)}${w.proposed ? " (proposed date)" : ""}${w.room ? `, in ${PLACE.building} ${w.room}` : ""}`;
+          ? `No meeting (${properNouns(w.title)})`
+          : `${properCase(w.title)}${w.proposed ? " (proposed date)" : ""}${w.room ? `, in ${PLACE.building} ${w.room}` : ""}`;
       return `- ${w.date} (${weekday(w.date)}): ${what}`;
     }),
     "",
@@ -83,7 +80,7 @@ export function llmsFull(origin: string): string {
     ...schedule,
     "Checkpoints:",
     "",
-    ...WEEKS.filter((w) => w.about).map((w) => `- ${proper(w.title)}, ${w.date}: ${proper(w.about!)}`),
+    ...WEEKS.filter((w) => w.about).map((w) => `- ${properCase(w.title)}, ${w.date}: ${properCase(w.about!)}`),
     "",
     "## What the club does",
     "",

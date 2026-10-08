@@ -444,6 +444,9 @@ li .pen-blue:hover { text-decoration-color: currentColor; }
 
 .sticky-head { display: block; }
 
+/* the first line on phones ("next meeting  study session"); stacked on desktop */
+.sticky-top { display: contents; }
+
 /* tonight, or already going: the red pen comes out */
 .sticky[data-state="tonight"] .sticky-head,
 .sticky[data-state="now"] .sticky-head { color: var(--color-red-pen); }
@@ -984,27 +987,93 @@ footer {
     margin-left: -2px;
   }
 
-  /* the page loses its viewport margin here, and the note carries four to six
-     lines, so pinning it would bury the "QBronco" ink no matter how tight the
-     padding. un-pin it instead: it flows at the top of the sheet, still nudged
-     to the right edge like a real stuck note. every line on it is one rule
-     tall and the padding adds up to one more, so however many lines the
-     script writes, the note is a whole number of rules and nothing below it
-     slips off the lines. */
+  /* on a phone the square corner note would either bury the "QBronco" ink or
+     leave a tall empty column beside it. it becomes a wide note taped across
+     the top of the sheet instead, read left to right in three short lines:
+
+       next meeting  study session
+       wed oct 14 · 6:30 pm
+       floyd hall D-212          full schedule →
+
+     every line on it is exactly one rule tall and the padding adds up to one
+     more, so whatever the script writes (and however it wraps), the note is a
+     whole number of rules and the writing below it stays on the lines. */
   .sticky {
-    position: static;
-    width: 186px;
-    padding: 13px 16px;
-    margin: 0 4px var(--rule-gap) auto;
-    font-size: 20px;
+    position: relative; /* in the flow, and the box its tape hangs from */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    column-gap: 12px;
+    width: auto;
+    min-height: calc(var(--rule-gap) * 4);
+    margin: 0 0 var(--rule-gap) 12px;
+    padding: calc(var(--rule-gap) / 2) 16px calc(var(--rule-gap) / 2) 18px;
+    text-align: left;
     line-height: var(--rule-gap);
+    transform: rotate(-1.2deg);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06), 0 10px 16px -10px rgba(0, 0, 0, 0.35);
   }
 
-  .sticky small,
-  .sticky-link { line-height: var(--rule-gap); }
+  /* the strip of tape holding it on (the sheet's own tape is hidden here) */
+  .sticky::before {
+    content: "";
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    width: 84px;
+    height: 22px;
+    margin-left: -42px;
+    background: rgba(150, 196, 184, 0.5);
+    transform: rotate(2deg);
+  }
 
-  .sticky small.sticky-note,
-  .sticky-link { margin-top: 0; }
+  /* one fact per line: what's on, when, any heads-up, then where with the
+     link beside it (the link drops to its own line if they don't both fit) */
+  .sticky-top,
+  .sticky small[data-s="when"],
+  .sticky small.sticky-note { flex-basis: 100%; }
+
+  .sticky small.sticky-note { order: 1; } /* the heads-up reads before the room */
+  .sticky small[data-s="where"],
+  .sticky-link { order: 2; }
+
+  .sticky-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 9px;
+  }
+
+  .sticky-head { font-size: 25px; }
+
+  .sticky small,
+  .sticky-link,
+  .sticky-head { line-height: var(--rule-gap); }
+
+  .sticky small {
+    font-family: var(--font-title);
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  .sticky small[data-s="what"] {
+    font-weight: 600;
+    font-size: 22px;
+  }
+
+  .sticky small.sticky-note {
+    margin: 0;
+    font-size: 19px;
+  }
+
+  .sticky small[data-s="where"] { white-space: nowrap; }
+
+  .sticky-link {
+    margin: 0 0 0 auto;
+    font-size: 21px;
+    white-space: nowrap;
+  }
 
   .tape { display: none; }
 

@@ -189,6 +189,13 @@ export function kalamazooDate(at: number): string {
 /** "lab 1: kickoff" -> "Lab 1: kickoff" (calendar apps and search results) */
 export const sentenceCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+// the page writes in lowercase pencil; plain text for calendars, search and
+// AI assistants reads better with proper nouns and sentence starts capitalized
+export const properNouns = (s: string) =>
+  s.replace(/\bpython\b/g, "Python").replace(/\bthanksgiving\b/g, "Thanksgiving");
+export const properCase = (s: string) =>
+  properNouns(s).replace(/(^|[.!?] )([a-z])/g, (_, lead, c) => lead + c.toUpperCase());
+
 /** a meeting is over once it ends; a no-meeting week is over once its day has passed */
 export function isOver(week: Dated, now: number): boolean {
   return week.kind === "off" ? week.date < kalamazooDate(now) : week.end <= now;
