@@ -114,3 +114,60 @@ test("fonts come from this site, preloaded, with no third-party font request", a
   expect(await page.evaluate(() => document.fonts.check('16px "Patrick Hand"'))).toBe(true);
   expect(await page.evaluate(() => document.fonts.check('700 40px "Caveat Variable"'))).toBe(true);
 });
+
+// width and height from a PNG's header
+const pngSize = (png: Buffer) => [png.readUInt32BE(16), png.readUInt32BE(20)];
+
+test("every page names its tab icon, a fallback, and the manifest", async ({ page }) => {
+  for (const path of ["/", "/schedule", "/project"]) {
+    await page.goto(path);
+    await expect(page.locator('link[rel="icon"][type="image/svg+xml"]')).toHaveAttribute("href", "/favicon.svg");
+    await expect(page.locator('link[rel="icon"][type="image/png"]')).toHaveAttribute("href", "/favicon-32.png");
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute("href", "/apple-touch-icon.png");
+    await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "/site.webmanifest");
+  }
+});
+
+test("the SVG favicon is the logo's sphere, in light ink on dark tab bars", async ({ page, request }) => {
+  const svg = await request.get("/favicon.svg");
+  expect(svg.ok()).toBe(true);
+  expect(svg.headers()["content-type"]).toMatch(/image\/svg\+xml/);
+
+  const ink = async (scheme: "light" | "dark") => {
+    await page.emulateMedia({ colorScheme: scheme });
+    await page.goto("/favicon.svg");
+    return page.locator("circle.ink").evaluate((c) => getComputedStyle(c).stroke);
+  };
+  expect(await ink("light")).toBe("rgb(74, 27, 3)"); // the logo's brown
+  expect(await ink("dark")).toBe("rgb(246, 231, 200)"); // cream
+});
+
+test("favicon.ico is there for anything that asks for it", async ({ request }) => {
+  const ico = await request.get("/favicon.ico");
+  expect(ico.ok()).toBe(true);
+  const body = await ico.body();
+  expect([...body.subarray(0, 4)]).toEqual([0, 0, 1, 0]); // icon file signature
+  expect(body.readUInt16LE(4)).toBe(3); // 16, 32 and 48 px
+});
+
+test("the web app manifest names the club and its home-screen icons", async ({ request }) => {
+  const res = await request.get("/site.webmanifest");
+  expect(res.ok()).toBe(true);
+  expect(res.headers()["content-type"]).toMatch(/application\/manifest\+json/);
+  const manifest = await res.json();
+  expect(manifest.name).toBe("QBronco (Quantum Broncos)");
+  expect(manifest.short_name).toBe("QBronco");
+  expect(manifest.start_url).toBe("/");
+  expect(manifest.display).toBe("standalone");
+  expect(manifest.theme_color).toBe("#fcfbf4");
+  expect(manifest.shortcuts.map((s: { url: string }) => s.url)).toEqual(["/schedule", "/project"]);
+
+  const sizes = manifest.icons.map((i: { sizes: string; purpose: string }) => `${i.sizes} ${i.purpose}`);
+  expect(sizes).toEqual(["192x192 any", "192x192 maskable", "512x512 any", "512x512 maskable"]);
+  for (const icon of manifest.icons) {
+    const file = await request.get(icon.src);
+    expect(file.ok()).toBe(true);
+    expect(file.headers()["content-type"]).toBe(icon.type);
+    expect(pngSize(await file.body()).join("x")).toBe(icon.sizes);
+  }
+});

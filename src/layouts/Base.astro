@@ -101,9 +101,15 @@ const identity = {
     <meta name="twitter:image:alt" content={cardAlt} />
 
     <meta name="theme-color" content="#fcfbf4" />
+    <!-- tab icon: the logo's Bloch sphere as an SVG that switches to light ink
+         in dark mode, with a PNG for browsers that don't do SVG icons (and
+         /favicon.ico for anything that asks for it). Home-screen icons and
+         the app name come from the manifest. All made by `npm run icons`. -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="180x180" href="/logo_white.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content={CLUB.name} />
     <link rel="alternate" type="text/calendar" title="QBronco meetings" href="/qbronco.ics" />
     <link rel="alternate" type="text/plain" title="QBronco for AI assistants (llms.txt)" href="/llms.txt" />
 

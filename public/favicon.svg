@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- QBronco's Bloch sphere, the middle of the club logo without the
+       lettering (too small to read in a tab). Brown ink on light tab bars,
+       cream ink on dark ones; the gold stays gold. -->
+  <style>
+    .ink { stroke: #4a1b03; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .dot { fill: #fab406; stroke: #4a1b03; }
+    .core { fill: #4a1b03; }
+    @media (prefers-color-scheme: dark) {
+      .ink, .dot { stroke: #f6e7c8; }
+      .core { fill: #f6e7c8; }
+    }
+  </style>
+  <!-- sphere and its dashed equator -->
+  <circle class="ink" cx="32" cy="32" r="24" stroke-width="3.6" />
+  <ellipse class="ink" cx="32" cy="33" rx="23.6" ry="7.4" stroke-width="2.4" stroke-dasharray="7 4.4" />
+  <!-- axes: z up to |0>, y toward the viewer, x off to the right -->
+  <path class="ink" d="M32 32V8M32 32 20.5 43.2M32 32l21.5 1.6" stroke-width="2.6" />
+  <path fill="#fab406" d="M52.4 28.8 60.6 34l-8.8 4.2z" />
+  <!-- the state vector, out to its gold tip -->
+  <path class="ink" d="M32 32 40.8 17.4" stroke-width="2.6" />
+  <circle class="dot" cx="41.6" cy="16" r="4" stroke-width="2" />
+  <!-- |0> and |1> at the poles, and the centre -->
+  <circle class="dot" cx="32" cy="8" r="4.8" stroke-width="2.2" />
+  <circle class="dot" cx="32" cy="56" r="4.8" stroke-width="2.2" />
+  <circle class="core" cx="32" cy="32" r="3" />
+</svg>
