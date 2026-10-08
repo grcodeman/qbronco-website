@@ -39,6 +39,7 @@ npm run dev        # http://localhost:4321, reloads as you edit
 | `npm run og` | Rebuilds the link-preview image, `public/og.jpg` |
 | `npm run icons` | Rebuilds the favicons and home-screen icons |
 | `npm run screenshots` | Retakes the picture at the top of this README |
+| `npm run officer-photo` | Crops a new officer's headshot (see [Adding an officer](docs/adding-an-officer.md)) |
 
 ## Updating the site
 
@@ -83,7 +84,7 @@ From that one file, the site builds:
 ### Officers, photos and links: `src/data/people.ts`
 
 - **Club links and the sign-up form** are in `CLUB`. The other names the club goes by (`alsoKnownAs`) are what make a search for "Quantum Broncos" find the site.
-- **Officers** are in `OFFICERS`, in display order:
+- **Officers** are in `OFFICERS`, in display order. Step-by-step guide: [docs/adding-an-officer.md](docs/adding-an-officer.md).
   - Each needs a square headshot saved twice: `public/officers/<photo>-160.webp` and `-320.webp`.
   - `tilt` is the small angle each photo is pinned at, set by hand so the row doesn't look stamped out.
 - **The photo reel** is `REEL`, newest first:
@@ -117,6 +118,7 @@ done
 | `favicon-32.png`, `favicon.ico` | `public/favicon.svg` | `npm run icons` |
 | `icon-192.png`, `icon-512.png` (home-screen icons) | `public/logo_transparent.png` | `npm run icons` |
 | `docs/screenshots/home.webp`, the picture at the top of this README | the built site, framed by `scripts/readme/devices.html` | `npm run screenshots` |
+| `public/officers/<slug>-160.webp`, `-320.webp` (officer headshots) | any photo of them | `npm run officer-photo` |
 
 ## How it's built
 
@@ -146,6 +148,7 @@ src/
 public/                     photos, icons, og.jpg, robots.txt
 scripts/                    the image generators (see the table above)
 tests/                      Playwright specs
+docs/                       step-by-step guides (start at docs/README.md)
 ```
 
 A few design rules hold the look together:
@@ -159,7 +162,7 @@ A few design rules hold the look together:
 So that people can find the club under either name, and so that links and assistants get the facts right, each page includes:
 
 - **Both names** ("QBronco" and "Quantum Broncos") in titles, descriptions and the a.k.a. under the wordmark, plus `WebSite` and `Organization` structured data with `alternateName`.
-- **Open Graph and Twitter cards** with a 1200×630 photo card (`og.jpg`), so shared links get a proper preview.
+- **Open Graph and Twitter cards** with a 1200×630 photo card (`og.jpg`), so shared links get a proper preview. Its URL ends in a fingerprint of the file (`og.jpg?v=…`, from `src/data/card.ts`), so after `npm run og` makes a new card, apps fetch it instead of reusing a copy of the old one.
 - **schema.org `Event`** data for every meeting on `/schedule`.
 - **[`/llms.txt`](https://qbronco.com/llms.txt)** and **[`/llms-full.txt`](https://qbronco.com/llms-full.txt)**: the whole site in plain text for AI assistants, built from the same data as the pages.
 - **[`/qbronco.ics`](https://qbronco.com/qbronco.ics)**, a calendar feed. Subscribers see date changes on their own.

@@ -2,6 +2,7 @@
 import Notebook from "../layouts/Notebook.astro";
 import WeekRow from "../components/WeekRow.astro";
 import { CLUB } from "../data/people";
+import { CARD } from "../data/card";
 import {
   MEETING,
   PLACE,
@@ -61,7 +62,7 @@ const events = {
       geo: { "@type": "GeoCoordinates", ...PLACE.geo },
     },
     organizer: { "@type": "Organization", "@id": new URL("/#club", site), name: CLUB.name, url: new URL("/", site) },
-    image: [new URL("/reel/bell-lab-room-640.webp", site), new URL("/og.jpg", site)],
+    image: [new URL("/reel/bell-lab-room-640.webp", site), new URL(CARD, site)],
     url: new URL("/schedule", site),
   })),
 };
