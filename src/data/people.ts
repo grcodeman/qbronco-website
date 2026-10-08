@@ -28,6 +28,7 @@ export const CLUB = {
       text: "linkedin.com/company/qbronco",
       href: "https://www.linkedin.com/company/qbronco",
     },
+    { label: "github", name: "GitHub", text: "github.com/qbronco", href: "https://github.com/qbronco" },
   ],
 };
 

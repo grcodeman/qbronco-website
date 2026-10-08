@@ -200,4 +200,6 @@ The site is hosted on [Vercel](https://vercel.com), which builds it with `npm ru
   <a href="https://experiencewmu.wmich.edu/organization/qbroncos">experienceWMU</a>
   ·
   <a href="https://www.linkedin.com/company/qbronco">LinkedIn</a>
+  ·
+  <a href="https://github.com/qbronco">GitHub</a>
 </p>

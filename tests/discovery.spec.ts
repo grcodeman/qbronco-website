@@ -65,6 +65,30 @@ test("link previews get a 1200x630 card with alt text on every page", async ({ p
   expect((await card.body()).length).toBeLessThan(300 * 1024); // WhatsApp's preview limit
 });
 
+test("every club profile, GitHub included, is on the home page, in structured data and in llms.txt", async ({
+  page,
+  request,
+}) => {
+  const profiles = [
+    ["Instagram", "@qbroncowmu", "https://www.instagram.com/qbroncowmu/"],
+    ["experienceWMU", "our org page", "https://experiencewmu.wmich.edu/organization/qbroncos"],
+    ["LinkedIn", "linkedin.com/company/qbronco", "https://www.linkedin.com/company/qbronco"],
+    ["GitHub", "github.com/qbronco", "https://github.com/qbronco"],
+  ];
+  await page.goto("/");
+  const club = (await jsonLd(page)).find((n) => n["@type"] === "Organization");
+  expect(club.sameAs).toEqual(profiles.map(([, , href]) => href));
+  for (const [, text, href] of profiles) {
+    const link = page.locator(`.contacts a[href="${href}"]`);
+    await expect(link).toHaveText(text);
+    await expect(link).toHaveAttribute("rel", /noopener/);
+  }
+  for (const file of ["/llms.txt", "/llms-full.txt"]) {
+    const body = await (await request.get(file)).text();
+    for (const [name, text, href] of profiles) expect(body).toContain(`- [${name}: ${text}](${href})`);
+  }
+});
+
 test("the schedule page lists every meeting as a schema.org Event", async ({ page }) => {
   await page.goto("/schedule");
   const events = (await jsonLd(page)).filter((n) => n["@type"] === "Event");
