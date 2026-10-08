@@ -159,7 +159,7 @@ A few design rules hold the look together:
 So that people can find the club under either name, and so that links and assistants get the facts right, each page includes:
 
 - **Both names** ("QBronco" and "Quantum Broncos") in titles, descriptions and the a.k.a. under the wordmark, plus `WebSite` and `Organization` structured data with `alternateName`.
-- **Open Graph and Twitter cards** with a 1200×630 photo card (`og.jpg`), so shared links get a proper preview.
+- **Open Graph and Twitter cards** with a 1200×630 photo card (`og.jpg`), so shared links get a proper preview. Its URL ends in a fingerprint of the file (`og.jpg?v=…`, from `src/data/card.ts`), so after `npm run og` makes a new card, apps fetch it instead of reusing a copy of the old one.
 - **schema.org `Event`** data for every meeting on `/schedule`.
 - **[`/llms.txt`](https://qbronco.com/llms.txt)** and **[`/llms-full.txt`](https://qbronco.com/llms-full.txt)**: the whole site in plain text for AI assistants, built from the same data as the pages.
 - **[`/qbronco.ics`](https://qbronco.com/qbronco.ics)**, a calendar feed. Subscribers see date changes on their own.

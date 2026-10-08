@@ -1,4 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 
 // How the site looks to Google, link previews, and AI assistants: both names,
 // structured data, Open Graph, llms.txt, robots.txt and the sitemap.
@@ -41,19 +43,23 @@ test.describe("both names", () => {
   });
 });
 
+// the card's URL carries a fingerprint of the file, so a new card is a new URL
+// and apps that cached the old image can't keep showing it
+const cardUrl = `https://qbronco.com/og.jpg?v=${createHash("sha256").update(readFileSync("public/og.jpg")).digest("hex").slice(0, 8)}`;
+
 test("link previews get a 1200x630 card with alt text on every page", async ({ page, request }) => {
   for (const path of ["/", "/schedule", "/project"]) {
     await page.goto(path);
-    expect(await meta(page, "og:image")).toBe("https://qbronco.com/og.jpg");
+    expect(await meta(page, "og:image")).toBe(cardUrl);
     expect(await meta(page, "og:image:width")).toBe("1200");
     expect(await meta(page, "og:image:height")).toBe("630");
     expect(await meta(page, "og:image:alt")).toMatch(/Quantum Broncos/);
     expect(await meta(page, "og:site_name")).toBe("QBronco");
     expect(await meta(page, "og:url")).toBe(`https://qbronco.com${path}`);
     expect(await meta(page, "twitter:card")).toBe("summary_large_image");
-    expect(await meta(page, "twitter:image")).toBe("https://qbronco.com/og.jpg");
+    expect(await meta(page, "twitter:image")).toBe(cardUrl);
   }
-  const card = await request.get("/og.jpg");
+  const card = await request.get(new URL(cardUrl).pathname + new URL(cardUrl).search);
   expect(card.ok()).toBe(true);
   expect(card.headers()["content-type"]).toMatch(/image\/jpeg/);
   expect((await card.body()).length).toBeLessThan(300 * 1024); // WhatsApp's preview limit

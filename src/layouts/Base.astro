@@ -7,6 +7,7 @@ import caveatLatin from "@fontsource-variable/caveat/files/caveat-latin-wght-nor
 import patrickLatin from "@fontsource/patrick-hand/files/patrick-hand-latin-400-normal.woff2?url";
 import "../styles/global.css";
 import { CLUB } from "../data/people";
+import { CARD } from "../data/card";
 
 interface Props {
   title?: string;
@@ -26,8 +27,9 @@ const canonical = new URL(Astro.url.pathname.replace(/(.)\/$/, "$1"), site);
 // link-preview card: a lab photo (Mack holding two glowing Qubis while she
 // helps a member, the other two team tables at work behind her) beside a
 // notebook page with the logo, both names and the address
-// (public/og.jpg, made by `npm run og` from scripts/og/card.html + photo.jpg)
-const card = new URL("/og.jpg", site);
+// (public/og.jpg, made by `npm run og` from scripts/og/card.html + photo.jpg;
+// its URL changes whenever the image does, see src/data/card.ts)
+const card = new URL(CARD, site);
 const cardAlt = `${CLUB.name}, a.k.a. ${CLUB.alsoKnownAs[0]}, WMU's quantum computing club (qbronco.com): president Mack holds two glowing Qubis while helping a member at a laptop, with the other two team tables at work behind her.`;
 
 // who we are, for search engines and AI assistants. WebSite.alternateName is
