@@ -10,7 +10,7 @@ const OFFICERS = [
   ["Kaiden Rudolph", "tech officer", "https://www.linkedin.com/in/kaiden-rudolph-6b3553246/", "kaiden-rudolph"],
 ];
 
-test("all seven officers, each with a role, a profile link and a circular photo", async ({ page }) => {
+test("every officer is there in order, each with a role, a profile link and a circular photo", async ({ page }) => {
   await page.goto("/");
   const cards = page.locator(".officer");
   await expect(cards).toHaveCount(OFFICERS.length);
