@@ -869,14 +869,20 @@ footer {
 
 /* ---------- officers: cut-out headshots, circled once in pencil ---------- */
 /* each card is 6 rules of photo + a name line + a role line = 8 rules */
+/* three to a row (two on phones); a short last row is centred, not left
+   hanging at the start of the line */
 .officers {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  --per-row: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: var(--rule-gap);
   margin: 0 0 var(--rule-gap);
 }
 
 .officer {
+  flex: 0 0 calc((100% - (var(--per-row) - 1) * var(--rule-gap)) / var(--per-row));
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1088,7 +1094,7 @@ footer {
 
   .polaroid-caption { font-size: 20px; }
 
-  .officers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .officers { --per-row: 2; }
 
   .subteam {
     grid-template-columns: minmax(0, 1fr);
