@@ -12,7 +12,8 @@
     "astro": "astro",
     "test": "playwright test",
     "og": "node scripts/og-image.mjs",
-    "icons": "node scripts/icons.mjs"
+    "icons": "node scripts/icons.mjs",
+    "screenshots": "astro build && node scripts/screenshots.mjs"
   },
   "dependencies": {
     "@fontsource-variable/caveat": "^5.3.0",
