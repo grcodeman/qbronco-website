@@ -1,7 +1,17 @@
 ---
 import Notebook from "../layouts/Notebook.astro";
 import WeekRow from "../components/WeekRow.astro";
-import { MEETING, TERMS, UPDATED, WEEKS, shortDate } from "../data/schedule";
+import { CLUB } from "../data/people";
+import {
+  MEETING,
+  PLACE,
+  TERMS,
+  UPDATED,
+  WEEKS,
+  kalamazooISO,
+  sentenceCase,
+  shortDate,
+} from "../data/schedule";
 
 // The whole year on one sheet. Every meeting is the same night, time and room,
 // so that's said once up top and each line only carries what changes: the
@@ -13,15 +23,58 @@ const webcal = `webcal://${feed.host}${feed.pathname}`;
 const google = `https://calendar.google.com/calendar/render?cid=${webcal}`;
 
 const checkpoints = WEEKS.filter((w) => w.about);
+
+// every meeting as a schema.org Event, so search engines and AI assistants can
+// read the schedule without parsing the page
+const site = Astro.site ?? new URL("https://qbronco.com");
+const events = {
+  "@context": "https://schema.org",
+  "@graph": WEEKS.filter((w) => w.kind !== "off").map((w) => ({
+    "@type": "Event",
+    "@id": new URL(`/schedule#${w.date}`, site),
+    name: `QBronco: ${sentenceCase(w.title)}${w.proposed ? " (proposed)" : ""}`,
+    startDate: kalamazooISO(w.start),
+    endDate: kalamazooISO(w.end),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    isAccessibleForFree: true,
+    description: [
+      w.about && sentenceCase(w.about),
+      w.proposed && "Proposed date; it can still move.",
+      !w.proposed && w.tentative && "Spring dates can still move.",
+      "No experience needed; just show up.",
+    ]
+      .filter(Boolean)
+      .join(" "),
+    location: {
+      "@type": "Place",
+      name: `${PLACE.building} ${w.room ?? MEETING.room}, ${PLACE.university} ${PLACE.campus}`,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: PLACE.street,
+        addressLocality: PLACE.city,
+        addressRegion: PLACE.region,
+        postalCode: PLACE.postalCode,
+        addressCountry: PLACE.country,
+      },
+      geo: { "@type": "GeoCoordinates", ...PLACE.geo },
+    },
+    organizer: { "@type": "Organization", "@id": new URL("/#club", site), name: CLUB.name, url: new URL("/", site) },
+    image: [new URL("/og.jpg", site)],
+    url: new URL("/schedule", site),
+  })),
+};
 ---
 
 <Notebook
   page="schedule"
-  title="schedule · QBronco"
-  description="Every QBronco meeting for 2026–27: Wednesdays 6:30–8:30 pm in room D-212 on WMU's Parkview campus. Subscribe to the calendar and changes show up on their own."
+  title="Schedule · QBronco (Quantum Broncos)"
+  description={`Every QBronco (Quantum Broncos) meeting for 2026–27: Wednesdays ${MEETING.time} in ${PLACE.building} ${MEETING.room} at WMU. Subscribe and date changes show up on their own.`}
   scrawl={`~ updated ${shortDate(UPDATED)}`}
   turn={{ label: "the project", href: "/project" }}
 >
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(events)} />
+
   <header class="page-head">
     <div class="title-head">
       <h1 class="page-title">the schedule</h1>
@@ -31,7 +84,7 @@ const checkpoints = WEEKS.filter((w) => w.about);
 
   <section>
     <p>
-      every wednesday, {MEETING.time}, room {MEETING.room} on {MEETING.campus} campus
+      every wednesday, {MEETING.time}, {MEETING.building} {MEETING.room} on {MEETING.campus} campus
       (<a class="pen-blue" href={MEETING.map} target="_blank" rel="noopener noreferrer">map</a>).
       labs are project nights, study sessions are for learning the basics, and
       you're welcome at both. no meetings over breaks or finals.
@@ -78,8 +131,8 @@ const checkpoints = WEEKS.filter((w) => w.about);
       moves, your calendar moves with it.
     </p>
     <ul class="contacts">
-      <li>google calendar: <a class="pen-blue" href={google} target="_blank" rel="noopener noreferrer">subscribe</a></li>
-      <li>apple, outlook: <a class="pen-blue" href={webcal}>subscribe</a></li>
+      <li><a class="pen-blue" href={google} target="_blank" rel="noopener noreferrer">subscribe in google calendar</a></li>
+      <li><a class="pen-blue" href={webcal}>subscribe in apple or outlook calendar</a></li>
       <li>anything else: <a class="pen-blue" href="/qbronco.ics" download>download the .ics file</a></li>
     </ul>
   </section>

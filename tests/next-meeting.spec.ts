@@ -10,8 +10,8 @@ test("on a meeting day before 6:30 it says tonight", async ({ page }) => {
   await expect(note).toHaveAttribute("data-state", "tonight");
   await expect(note).toContainText("tonight!");
   await expect(note).toContainText("lab 1: kickoff");
-  await expect(note).toContainText("6:30–8:30 pm");
-  await expect(note).toContainText("parkview D-212");
+  await expect(note).toContainText("6:30–8 pm");
+  await expect(note).toContainText("floyd hall D-212");
 });
 
 test("during the meeting it says happening now", async ({ page }) => {
@@ -19,11 +19,11 @@ test("during the meeting it says happening now", async ({ page }) => {
   const note = page.locator("[data-sticky]");
   await expect(note).toHaveAttribute("data-state", "now");
   await expect(note).toContainText("happening now");
-  await expect(note).toContainText("till 8:30 pm");
+  await expect(note).toContainText("till 8 pm");
 });
 
-test("once the meeting ends it moves on to next week", async ({ page }) => {
-  await at(page, "2026-10-07T20:31:00-04:00");
+test("once the meeting ends at 8 it moves on to next week", async ({ page }) => {
+  await at(page, "2026-10-07T20:01:00-04:00");
   const note = page.locator("[data-sticky]");
   await expect(note).toHaveAttribute("data-state", "next");
   await expect(note).toContainText("study session");
@@ -67,8 +67,8 @@ test.describe("for a visitor in another time zone", () => {
   test.use({ timezoneId: "America/Los_Angeles" });
 
   test("it still goes by Kalamazoo time", async ({ page }) => {
-    // 5 pm in LA is 8 pm in Kalamazoo: mid-meeting
-    await at(page, "2026-10-07T17:00:00-07:00");
+    // 4:30 pm in LA is 7:30 pm in Kalamazoo: mid-meeting
+    await at(page, "2026-10-07T16:30:00-07:00");
     await expect(page.locator("[data-sticky]")).toContainText("happening now");
     // 10 pm in LA is already Thursday in Kalamazoo
     await at(page, "2026-10-07T22:00:00-07:00");
@@ -83,8 +83,8 @@ test.describe("without javascript", () => {
     await page.goto("/");
     const note = page.locator("[data-sticky]");
     await expect(note).toContainText("every wednesday");
-    await expect(note).toContainText("6:30–8:30 pm");
-    await expect(note).toContainText("parkview D-212");
+    await expect(note).toContainText("6:30–8 pm");
+    await expect(note).toContainText("floyd hall D-212");
   });
 });
 

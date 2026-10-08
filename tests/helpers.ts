@@ -18,7 +18,8 @@ export function offRule(page: Page) {
     const near = (v: number) => v < 0.6 || gap - v < 0.6;
     const out: string[] = [];
     for (const el of document.querySelectorAll<HTMLElement>(selector)) {
-      if (el.closest(".sticky, .polaroid") || el.offsetParent === null) continue;
+      // the wordmark row and the prints are fixed-size blocks, centred on purpose
+      if (el.closest(".sticky, .polaroid, .title-row") || el.offsetParent === null) continue;
       let y = 0;
       for (let n: HTMLElement | null = el; n && n !== sheet; n = n.offsetParent as HTMLElement | null) {
         y += n.offsetTop;

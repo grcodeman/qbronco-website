@@ -14,14 +14,14 @@
   --color-paper:          #fcfbf4; /* cream page (never pure white) */
   --color-graphite:       #3a3a42; /* pencil ink (never pure black) */
   --color-graphite-soft:  #5a5860; /* secondary notes */
-  --color-graphite-faint: #8a8790; /* pressed-lightly: dates, footer */
+  --color-graphite-faint: #737079; /* pressed-lightly: dates, footer (4.7:1 on the paper) */
   --color-rule-blue:      #bcd2e6; /* faded horizontal rules */
   --color-margin-red:     #e6a6a0; /* dusty-rose margin line */
   --color-red-pen:        #c2362f; /* underlines, circles, the arrow */
   --color-blue-pen:       #2f5fa8; /* the contact links */
   --color-highlighter:    #fdf08a; /* used exactly once */
 
-  --font-title: "Caveat", "Comic Sans MS", cursive;
+  --font-title: "Caveat Variable", "Caveat", "Comic Sans MS", cursive;
   --font-body:  "Patrick Hand", "Comic Sans MS", cursive;
 }
 
@@ -176,6 +176,19 @@ h1 {
    .title-row now has a fixed rule-multiple height, nothing below it cares. */
 .title-head {
   min-width: 0;
+}
+
+/* the club's other name, penciled under the wordmark. it fits inside the
+   title row's fixed height, so it can't push anything off the rules. */
+.aka {
+  margin: 1px 0 0 6px;
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1;
+  color: var(--color-graphite-soft);
+  transform: rotate(-1.4deg);
+  text-shadow: none;
 }
 
 /* the club badge, pinned to the left of the title like a sticker */
@@ -361,6 +374,19 @@ ul {
   text-decoration: underline;
   text-decoration-thickness: 1px;
 }
+
+/* a link in the middle of a sentence also gets a faint pen line under it, so
+   it doesn't rely on blue alone to stand out from the pencil around it */
+p .pen-blue,
+li .pen-blue {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(47, 95, 168, 0.4);
+  text-underline-offset: 3px;
+}
+
+p .pen-blue:hover,
+li .pen-blue:hover { text-decoration-color: currentColor; }
 
 .pen-red { color: var(--color-red-pen); }
 
@@ -792,7 +818,7 @@ footer {
   display: block;
   width: auto;
   height: calc(var(--rule-gap) * 7);
-  aspect-ratio: var(--ar);
+  aspect-ratio: 4 / 3; /* every print the same size */
   object-fit: cover;
   background: #e9e4d4;
 }
@@ -806,6 +832,34 @@ footer {
   font-weight: 600;
   font-size: 22px;
 }
+
+/* ---------- subteams: a lab photo taped beside each one ---------- */
+/* the print is 7 rules (5 of photo, 2 of border and caption) and the text
+   beside it runs on the rules, so a row is a whole number of rules either way */
+.subteams {
+  margin: 0 0 var(--rule-gap);
+}
+
+.subteam {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--rule-gap);
+  align-items: start;
+  max-width: none;
+}
+
+.subteam p {
+  margin: 0;
+}
+
+.polaroid-sm {
+  height: calc(var(--rule-gap) * 7);
+  padding: 8px 8px 0;
+}
+
+.polaroid-sm img { height: calc(var(--rule-gap) * 5); }
+
+.polaroid-sm .polaroid-caption { font-size: 19px; }
 
 /* ---------- officers: cut-out headshots, circled once in pencil ---------- */
 /* each card is 6 rules of photo + a name line + a role line = 8 rules */
@@ -920,8 +974,10 @@ footer {
 
   .title-row {
     gap: 12px;
-    height: calc(var(--rule-gap) * 3); /* 78px — clears the 68px logo */
+    height: calc(var(--rule-gap) * 4); /* 104px: logo, wordmark and the a.k.a. line */
   }
+
+  .aka { font-size: 19px; }
 
   .title-logo {
     width: 68px;
@@ -961,6 +1017,12 @@ footer {
   .polaroid-caption { font-size: 20px; }
 
   .officers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .subteam {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--rule-gap);
+    justify-items: start;
+  }
 
   .officer-photo {
     width: calc(var(--rule-gap) * 5);

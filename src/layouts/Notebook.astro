@@ -29,7 +29,7 @@ const sticky =
     : { href: "/schedule", label: "full schedule →" };
 
 const live = {
-  campus: MEETING.campus,
+  building: MEETING.building,
   time: MEETING.time,
   from: MEETING.from,
   until: MEETING.until,
@@ -48,6 +48,7 @@ const live = {
 ---
 
 <Base title={title} description={description}>
+  <slot name="head" slot="head" />
   <main class="page">
     <!-- divider tabs: the sheet you're on is the one pulled forward -->
     <nav class="tabs" aria-label="Pages">
@@ -68,7 +69,7 @@ const live = {
       <span class="sticky-head" data-s="head">every wednesday</span>
       <small data-s="what" hidden></small>
       <small data-s="when">{MEETING.time}</small>
-      <small data-s="where">{MEETING.campus} {MEETING.room}</small>
+      <small data-s="where">{MEETING.building} {MEETING.room}</small>
       <small class="sticky-note" data-s="note" hidden></small>
       <span class="sticky-link">{sticky.label}</span>
     </a>
@@ -156,7 +157,7 @@ const live = {
           reel.addEventListener("scroll", sync, { passive: true });
           addEventListener("resize", sync);
           addEventListener("load", sync);
-          sync();
+          requestAnimationFrame(sync); // measure after first layout, not during parse
         }
 
         // the sticky note
@@ -183,7 +184,7 @@ const live = {
           "when",
           state === "now" ? `till ${live.until}` : state === "tonight" ? live.time : `wed ${next.l} · ${live.from}`,
         );
-        set("where", `${live.campus} ${next.r}`);
+        set("where", `${live.building} ${next.r}`);
         set(
           "note",
           skipped

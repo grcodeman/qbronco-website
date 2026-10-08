@@ -1,0 +1,162 @@
+<!doctype html>
+<!--
+  The link-preview card (public/og.jpg, 1200x630): a photo from the Oct 7
+  Bell state lab with a sheet of the notebook taped over the projector screen.
+  Edit this file (or swap photo.jpg) and run `npm run og` to remake it.
+  Opens fine straight in a browser too, if you want to look before rendering.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>QBronco link preview</title>
+    <style>
+      @font-face {
+        font-family: "Caveat Variable";
+        src: url("../../node_modules/@fontsource-variable/caveat/files/caveat-latin-wght-normal.woff2") format("woff2");
+        font-weight: 400 700;
+      }
+      @font-face {
+        font-family: "Patrick Hand";
+        src: url("../../node_modules/@fontsource/patrick-hand/files/patrick-hand-latin-400-normal.woff2") format("woff2");
+      }
+
+      :root {
+        --paper: #fcfbf4;
+        --graphite: #3a3a42;
+        --graphite-soft: #5a5860;
+        --rule-blue: #bcd2e6;
+        --margin-red: #e6a6a0;
+        --red-pen: #c2362f;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #2a2723;
+      }
+
+      .photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 58%;
+      }
+
+      /* a little warmth toward the card so the paper reads as lit by the room */
+      .shade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(20, 16, 10, 0) 40%, rgba(20, 16, 10, 0.28) 100%);
+      }
+
+      .sheet {
+        position: absolute;
+        top: 50px;
+        right: 34px;
+        width: 424px;
+        height: 404px;
+        box-sizing: border-box;
+        padding: 28px 22px 0 72px;
+        background-color: var(--paper);
+        background-image:
+          repeating-linear-gradient(to bottom, transparent 0 41px, var(--rule-blue) 41px 42px),
+          linear-gradient(to right, transparent 53px, var(--margin-red) 53px 55px, transparent 55px);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.18), 0 24px 40px -18px rgba(0, 0, 0, 0.55);
+        transform: rotate(2deg);
+        color: var(--graphite);
+      }
+
+      .tape {
+        position: absolute;
+        top: -18px;
+        left: 150px;
+        width: 150px;
+        height: 40px;
+        background: rgba(150, 196, 184, 0.6);
+        transform: rotate(-4deg);
+      }
+
+      .head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .logo {
+        width: 84px;
+        height: 84px;
+        transform: rotate(-3deg);
+      }
+
+      h1 {
+        margin: 0;
+        font: 700 78px/1 "Caveat Variable", cursive;
+        -webkit-text-stroke: 0.6px var(--graphite);
+        transform: rotate(-1.5deg);
+      }
+
+      .underline {
+        display: block;
+        width: 214px;
+        margin: -2px 0 0 4px;
+      }
+
+      .aka {
+        margin: 22px 0 0;
+        font: 600 37px/1 "Caveat Variable", cursive;
+        white-space: nowrap;
+        color: var(--graphite-soft);
+        transform: rotate(-1deg);
+      }
+
+      .what {
+        margin: 16px 0 0;
+        font: 27px/1.2 "Patrick Hand", cursive;
+        white-space: nowrap;
+      }
+
+      .url {
+        position: relative;
+        display: inline-block;
+        margin: 30px 0 0 -10px;
+        padding: 8px 22px;
+        font: 700 42px/1 "Caveat Variable", cursive;
+        color: var(--red-pen);
+        transform: rotate(-1.5deg);
+      }
+
+      .url svg {
+        position: absolute;
+        inset: -4px -6px;
+        width: calc(100% + 12px);
+        height: calc(100% + 8px);
+      }
+    </style>
+  </head>
+  <body>
+    <img class="photo" src="photo.jpg" alt="" />
+    <div class="shade"></div>
+
+    <div class="sheet">
+      <div class="tape"></div>
+      <div class="head">
+        <img class="logo" src="../../public/logo_transparent.png" alt="" />
+        <div>
+          <h1>QBronco</h1>
+          <svg class="underline" viewBox="0 0 320 26" fill="none" stroke="#c2362f" stroke-width="3" stroke-linecap="round"><path d="M6 9 Q80 3 160 7 Q240 11 314 5" /><path d="M10 18 Q84 13 158 16 Q236 19 308 14" /></svg>
+        </div>
+      </div>
+      <p class="aka">a.k.a. Quantum Broncos</p>
+      <p class="what">wmu's quantum computing club</p>
+      <div class="url">
+        qbronco.com
+        <svg viewBox="0 0 168 56" preserveAspectRatio="none" fill="none" stroke="#c2362f" stroke-width="2.6" stroke-linecap="round"><path vector-effect="non-scaling-stroke" d="M8 10 Q52 5 106 7 Q140 8 160 11 Q162 27 159 46 Q118 51 66 49 Q32 48 9 50 Q5 30 8 10 Q9 7 14 8" /></svg>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+# QBronco (Quantum Broncos), WMU's quantum computing club.
+# Search engines and AI assistants are welcome to read everything here.
+# A plain-text summary for AI assistants lives at /llms.txt.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://qbronco.com/sitemap.xml
