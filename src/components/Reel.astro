@@ -1,9 +1,11 @@
 ---
-import { REEL } from "../data/people";
+import { REEL, REEL_WIDTHS, reelSrcset } from "../data/people";
 
 // A strip of instant photos taped across the sheet. It scrolls sideways on its
 // own (swipe, trackpad, arrow keys once focused, or the pencil arrows) and
-// bleeds off the right edge of the paper so it's obvious there's more.
+// bleeds off the right edge of the paper so it's obvious there's more. Every
+// print is the same 4:3 size: 7 rules tall, 4/3 of that wide.
+const largest = REEL_WIDTHS[REEL_WIDTHS.length - 1];
 ---
 
 <div class="reel-head">
@@ -18,12 +20,14 @@ import { REEL } from "../data/people";
   <ul class="reel-track">
     {
       REEL.map((photo, i) => (
-        <li class="polaroid" style={`--tilt: ${photo.tilt}deg; --ar: ${photo.width} / ${photo.height}`}>
+        <li class="polaroid" style={`--tilt: ${photo.tilt}deg`}>
           <img
-            src={photo.src}
+            src={`/reel/${photo.photo}-${largest}.webp`}
+            srcset={reelSrcset(photo.photo)}
+            sizes="(max-width: 640px) 243px, 262px"
             alt={photo.alt}
-            width={photo.width}
-            height={photo.height}
+            width={largest}
+            height={(largest * 3) / 4}
             loading={i < 2 ? "eager" : "lazy"}
             decoding="async"
           />

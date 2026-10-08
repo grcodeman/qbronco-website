@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { MEETING, TZ, UPDATED, WEEKS, kalamazooTime } from "../data/schedule";
+import { MEETING, PLACE, TZ, UPDATED, WEEKS, kalamazooTime, sentenceCase as cap } from "../data/schedule";
 
 // The calendar feed. People subscribe to /qbronco.ics (webcal:// or Google's
 // "add by URL") and their calendar re-reads it on its own, so when a date in
@@ -33,8 +33,6 @@ function fold(line: string): string {
   return out.join("\r\n ");
 }
 
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-
 export const GET: APIRoute = ({ site }) => {
   const origin = (site ?? new URL("https://qbronco.com")).origin;
   const host = new URL(origin).host;
@@ -48,7 +46,7 @@ export const GET: APIRoute = ({ site }) => {
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "X-WR-CALNAME:QBronco",
-    `X-WR-CALDESC:${text(`WMU's quantum computing club. ${hours}, room ${MEETING.room} on Parkview campus.`)}`,
+    `X-WR-CALDESC:${text(`QBronco (Quantum Broncos), WMU's quantum computing club. ${hours} in ${PLACE.building} ${MEETING.room}.`)}`,
     `X-WR-TIMEZONE:${TZ}`,
     "REFRESH-INTERVAL;VALUE=DURATION:PT12H",
     "X-PUBLISHED-TTL:PT12H",
@@ -71,7 +69,7 @@ export const GET: APIRoute = ({ site }) => {
       `DTSTART:${utc(week.start)}`,
       `DTEND:${utc(week.end)}`,
       `SUMMARY:${text(`QBronco: ${cap(week.title)}${week.proposed ? " (proposed)" : ""}`)}`,
-      `LOCATION:${text(`Room ${week.room ?? MEETING.room}, Parkview Campus, Western Michigan University, Kalamazoo, MI`)}`,
+      `LOCATION:${text(`${PLACE.building} ${week.room ?? MEETING.room}, ${PLACE.street}, ${PLACE.city}, ${PLACE.region} ${PLACE.postalCode} (WMU ${PLACE.campus})`)}`,
       `DESCRIPTION:${text(notes.join("\n"))}`,
       `URL:${origin}/schedule`,
       `STATUS:${week.proposed ? "TENTATIVE" : "CONFIRMED"}`,

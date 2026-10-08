@@ -25,7 +25,8 @@ test("all six officers, each with a role, a profile link and a circular photo", 
     await expect(link).toHaveAttribute("rel", /noopener/);
 
     const img = card.locator("img");
-    await expect(img).toHaveAttribute("src", `/officers/${photo}.webp`);
+    await expect(img).toHaveAttribute("src", `/officers/${photo}-320.webp`);
+    await expect(img).toHaveAttribute("srcset", new RegExp(`/officers/${photo}-160.webp 160w`));
     await img.scrollIntoViewIfNeeded();
     await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth)).toBeGreaterThan(0);
     expect(await img.evaluate((el) => getComputedStyle(el).borderRadius)).toBe("50%");
@@ -47,11 +48,13 @@ test("the photo reel scrolls inside the page, not the page itself", async ({ pag
   await page.goto("/");
   const reel = page.locator("[data-reel]");
   const photos = reel.locator("img");
-  await expect(photos).toHaveCount(4);
+  await expect(photos).toHaveCount(8);
   for (const img of await photos.all()) {
     expect((await img.getAttribute("alt"))!.length).toBeGreaterThan(20);
   }
-  await expect(reel.locator(".polaroid-caption").first()).toHaveText("info night, sept 16");
+  // newest first: the Oct 7 Bell state lab leads, info night closes
+  await expect(reel.locator(".polaroid-caption").first()).toHaveText("Bell state lab, Qubis in hand");
+  await expect(reel.locator(".polaroid-caption").last()).toHaveText("info night, sept 16");
   const { scrollWidth, clientWidth } = await reel.evaluate((el) => ({
     scrollWidth: el.scrollWidth,
     clientWidth: el.clientWidth,
@@ -60,6 +63,31 @@ test("the photo reel scrolls inside the page, not the page itself", async ({ pag
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
     await page.evaluate(() => window.innerWidth),
   );
+});
+
+test("every print is the same 4:3 size", async ({ page }) => {
+  await page.goto("/");
+  // layout size, before each print's hand-placed tilt
+  const sizes = await page.locator(".reel .polaroid img").evaluateAll((imgs) =>
+    imgs.map((img) => [(img as HTMLElement).offsetWidth, (img as HTMLElement).offsetHeight]),
+  );
+  expect(new Set(sizes.map((s) => s.join("x"))).size).toBe(1);
+  const [w, h] = sizes[0];
+  expect(Math.abs(w / h - 4 / 3)).toBeLessThan(0.02);
+});
+
+test("each subteam on the project page has a lab photo beside it", async ({ page }) => {
+  await page.goto("/project");
+  const teams = page.locator(".subteam");
+  await expect(teams).toHaveCount(3);
+  for (const [i, name] of ["systems", "programmer", "theory"].entries()) {
+    const team = teams.nth(i);
+    await expect(team.locator("strong")).toHaveText(`${name}.`);
+    const img = team.locator("img");
+    expect((await img.getAttribute("alt"))!.length).toBeGreaterThan(20);
+    await img.scrollIntoViewIfNeeded();
+    await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth)).toBeGreaterThan(0);
+  }
 });
 
 test("pencil arrows page through the reel with a mouse; touch screens just swipe", async ({ page }, info) => {

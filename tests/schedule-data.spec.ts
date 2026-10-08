@@ -22,12 +22,13 @@ test("matches the project plan: 14 fall weeks, 16 spring weeks, 25 meetings", ()
   expect(WEEKS.filter((w) => w.about).map((w) => w.date)).toEqual(["2026-12-09", "2027-04-21"]);
 });
 
-test("meetings run 6:30 to 8:30 pm Kalamazoo time on both sides of daylight saving", () => {
+test("meetings run 6:30 to 8 pm Kalamazoo time on both sides of daylight saving", () => {
   const start = (date: string) => new Date(WEEKS.find((w) => w.date === date)!.start).toISOString();
   expect(start("2026-10-28")).toBe("2026-10-28T22:30:00.000Z"); // EDT
   expect(start("2026-11-04")).toBe("2026-11-04T23:30:00.000Z"); // EST from Nov 1
   expect(start("2027-03-03")).toBe("2027-03-03T23:30:00.000Z"); // still EST
   expect(start("2027-03-17")).toBe("2027-03-17T22:30:00.000Z"); // EDT from Mar 14
-  for (const week of WEEKS) expect(week.end - week.start).toBe(2 * 60 * 60 * 1000);
+  for (const week of WEEKS) expect(week.end - week.start).toBe(90 * 60 * 1000);
   expect(MEETING.room).toBe("D-212");
+  expect(MEETING.building).toBe("floyd hall");
 });

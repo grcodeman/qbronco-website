@@ -4,6 +4,7 @@ import WeekRow from "../components/WeekRow.astro";
 import Reel from "../components/Reel.astro";
 import Officers from "../components/Officers.astro";
 import { MEETING, WEEKS, isOver } from "../data/schedule";
+import { CLUB } from "../data/people";
 
 // The front page: what the club is, proof it meets, how to join, when, and
 // who runs it. Dates come from src/data/schedule.ts, people and photos from
@@ -24,7 +25,9 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
       <!-- club badge, pinned to the left of the wordmark -->
       <img
         class="title-logo"
-        src="/logo_transparent.png"
+        src="/logo-192.webp"
+        srcset="/logo-96.webp 96w, /logo-144.webp 144w, /logo-192.webp 192w"
+        sizes="(max-width: 640px) 68px, 96px"
         alt="QBronco, WMU Quantum Computing Club logo"
         width="96"
         height="96"
@@ -35,10 +38,13 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
 
         <!-- red double-underline -->
         <svg class="title-underline" viewBox="0 0 320 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9 Q80 3 160 7 Q240 11 314 5"/><path d="M10 18 Q84 13 158 16 Q236 19 308 14"/></svg>
+
+        <!-- the club's other name, penciled in under the wordmark -->
+        <p class="aka">a.k.a. {CLUB.alsoKnownAs[0]}</p>
       </div>
     </div>
 
-    <p class="subtitle">wmu's brand-new quantum computing club, taking members + officers</p>
+    <p class="subtitle">wmu's brand-new quantum computing club, taking new members</p>
     <p class="subtitle-2">western michigan university · kalamazoo · est. fall '26</p>
   </header>
 
@@ -72,25 +78,31 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
 
     <!-- "join us!" in red pen, with the arrow sweeping down-LEFT so the head
          aims across the blank paper at the sign-up link + contacts below -->
-    <svg class="join-arrow" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><text x="104" y="36" text-anchor="middle" transform="rotate(-4 104 36)" font-family="Caveat" font-weight="700" font-size="38" fill="#c2362f" stroke="none">join us!</text><g><path d="M150 60 C152 84 130 98 106 108 C82 118 50 125 24 130"/><path d="M24 130 Q32 123.5 40 116"/><path d="M24 130 Q34 132 44 137"/></g></svg>
+    <svg class="join-arrow" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><text x="104" y="36" text-anchor="middle" transform="rotate(-4 104 36)" font-family="'Caveat Variable', Caveat, cursive" font-weight="700" font-size="38" fill="#c2362f" stroke="none">join us!</text><g><path d="M150 60 C152 84 130 98 106 108 C82 118 50 125 24 130"/><path d="M24 130 Q32 123.5 40 116"/><path d="M24 130 Q34 132 44 137"/></g></svg>
 
     <p>
       first one's the hardest. after that it's just part of your week. easiest
-      way in, as a member <em>or</em> officer, is the form below. takes a
-      minute, tells us you're in.
+      way in is the form below. takes a minute, tells us you're in.
     </p>
 
     <!-- the one CTA on the page: a link boxed in red pen, the way you'd ring
          the important thing in your own notes. no button chrome. -->
-    <a class="boxed-cta" href="https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform" target="_blank" rel="noopener noreferrer">
+    <a class="boxed-cta" href={CLUB.signup} target="_blank" rel="noopener noreferrer">
       sign me up &rarr;
       <svg class="box-mark" viewBox="0 0 168 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"><path vector-effect="non-scaling-stroke" d="M8 10 Q52 5 106 7 Q140 8 160 11 Q162 27 159 46 Q118 51 66 49 Q32 48 9 50 Q5 30 8 10 Q9 7 14 8"/></svg>
     </a>
 
     <ul class="contacts">
-      <li>instagram: <a class="pen-blue" href="https://www.instagram.com/qbroncowmu/" target="_blank" rel="noopener noreferrer">@qbroncowmu</a></li>
-      <li>experienceWMU: <a class="pen-blue" href="https://experiencewmu.wmich.edu/organization/qbroncos" target="_blank" rel="noopener noreferrer">our org page</a></li>
-      <li>linkedin: <a class="pen-blue" href="https://www.linkedin.com/company/qbronco" target="_blank" rel="noopener noreferrer">linkedin.com/company/qbronco</a></li>
+      {
+        CLUB.links.map((link) => (
+          <li>
+            {link.label}:{" "}
+            <a class="pen-blue" href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.text}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </section>
 
@@ -99,7 +111,7 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
     <h2 class="tilt-d">when we meet</h2>
     <p>
       every <span class="circled">wednesday<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>,
-      {MEETING.time}, in room {MEETING.room} on {MEETING.campus} campus
+      {MEETING.time}, in {MEETING.building} <span class="nobreak">{MEETING.room}</span> on {MEETING.campus} campus
       (<a class="pen-blue" href={MEETING.map} target="_blank" rel="noopener noreferrer">map</a>).
       no meetings over breaks or finals. just show up.
     </p>

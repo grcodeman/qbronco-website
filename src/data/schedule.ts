@@ -9,15 +9,31 @@ export const TZ = "America/Detroit";
 export const UPDATED = "2026-10-07";
 
 // the standing meeting. every row below happens here unless it says otherwise.
+// (the room is booked until 8:30, but meetings wrap at 8.)
 export const MEETING = {
   start: [18, 30] as const,
-  end: [20, 30] as const,
-  time: "6:30–8:30 pm",
+  end: [20, 0] as const,
+  time: "6:30–8 pm",
   from: "6:30 pm",
-  until: "8:30 pm",
+  until: "8 pm",
+  building: "floyd hall",
   room: "D-212",
   campus: "parkview",
-  map: "https://www.google.com/maps/search/?api=1&query=Western+Michigan+University+Parkview+Campus",
+  map: "https://www.google.com/maps/search/?api=1&query=Floyd+Hall%2C+4601+Campus+Dr%2C+Kalamazoo%2C+MI+49008",
+};
+
+// the same place, written out properly for calendars, search engines and AI
+// assistants (the page itself says it in pencil: "floyd hall D-212").
+export const PLACE = {
+  building: "Floyd Hall",
+  campus: "Parkview Campus",
+  university: "Western Michigan University",
+  street: "4601 Campus Drive",
+  city: "Kalamazoo",
+  region: "MI",
+  postalCode: "49008",
+  country: "US",
+  geo: { latitude: 42.254254, longitude: -85.6407 },
 };
 
 export type Kind = "lab" | "study" | "event" | "off";
@@ -131,6 +147,16 @@ function zoneOffset(at: number, tz: string): number {
   return Math.round((asUtc - at) / 60000);
 }
 
+/** epoch ms -> "2026-10-28T18:30:00-04:00", Kalamazoo wall-clock time with its offset */
+export function kalamazooISO(at: number): string {
+  const offset = zoneOffset(at, TZ);
+  const local = new Date(at + offset * 60000).toISOString().slice(0, 19);
+  const sign = offset < 0 ? "-" : "+";
+  const hh = String(Math.floor(Math.abs(offset) / 60)).padStart(2, "0");
+  const mm = String(Math.abs(offset) % 60).padStart(2, "0");
+  return `${local}${sign}${hh}:${mm}`;
+}
+
 /** wall-clock time in Kalamazoo -> epoch ms. meetings are evenings, so the
  *  2am daylight-saving gap never comes into it. */
 export function kalamazooTime(date: string, [h, min]: readonly [number, number]): number {
@@ -159,6 +185,16 @@ export function kalamazooDate(at: number): string {
     day: "2-digit",
   }).format(at);
 }
+
+/** "lab 1: kickoff" -> "Lab 1: kickoff" (calendar apps and search results) */
+export const sentenceCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+// the page writes in lowercase pencil; plain text for calendars, search and
+// AI assistants reads better with proper nouns and sentence starts capitalized
+export const properNouns = (s: string) =>
+  s.replace(/\bpython\b/g, "Python").replace(/\bthanksgiving\b/g, "Thanksgiving");
+export const properCase = (s: string) =>
+  properNouns(s).replace(/(^|[.!?] )([a-z])/g, (_, lead, c) => lead + c.toUpperCase());
 
 /** a meeting is over once it ends; a no-meeting week is over once its day has passed */
 export function isOver(week: Dated, now: number): boolean {

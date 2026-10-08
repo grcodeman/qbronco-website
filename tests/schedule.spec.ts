@@ -58,10 +58,12 @@ test("the calendar feed has every meeting and nothing else", async ({ request })
   expect(ics.match(/STATUS:TENTATIVE/g)).toHaveLength(2);
   expect(ics).toContain("UID:2026-10-28@qbronco.com");
   expect(ics).toContain("DTSTART:20261028T223000Z");
+  expect(ics).toContain("DTEND:20261029T000000Z"); // 8 pm EDT
   expect(ics).toContain("DTSTART:20261104T233000Z");
+  expect(ics).toContain("DTEND:20261105T010000Z"); // 8 pm EST
   expect(ics).toContain("SUMMARY:QBronco: Qubi workshop 1 (proposed)");
-  expect(ics).toContain("LOCATION:Room D-212\\, Parkview Campus");
-  expect(ics).toContain("LOCATION:Room D-202\\, Parkview Campus"); // info night was down the hall
+  expect(ics).toContain("LOCATION:Floyd Hall D-212\\, 4601 Campus Drive\\, Kalamazoo");
+  expect(ics).toContain("LOCATION:Floyd Hall D-202\\, 4601 Campus Drive"); // info night was down the hall
   expect(ics).not.toContain("20261021"); // fall break is not an event
 });
 

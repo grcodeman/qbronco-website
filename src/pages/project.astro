@@ -1,5 +1,6 @@
 ---
 import Notebook from "../layouts/Notebook.astro";
+import { REEL, reelSrcset } from "../data/people";
 import { WEEKS } from "../data/schedule";
 
 // What the labs are building this year. Source: the qBronco Project Plan,
@@ -7,12 +8,41 @@ import { WEEKS } from "../data/schedule";
 // they can't drift apart.
 
 const checkpoints = WEEKS.filter((w) => w.about);
+
+// one print from the Oct 7 Bell state lab beside each subteam. the photos and
+// their alt text live with the reel in src/data/people.ts.
+const SUBTEAMS = [
+  {
+    name: "systems",
+    does: "runs our instructions on the Qubis this fall and learns Verilog, then builds the FPGA emulator in spring.",
+    first: "run a Bell state by hand on the Qubi pair 20 times and tally how often the two Qubis agree.",
+    photo: "bell-lab-qubis",
+    caption: "the Qubi pair, by hand",
+    tilt: -1.6,
+  },
+  {
+    name: "programmer",
+    does: "writes the compiler, the python version of our machine, and the code that compares answers.",
+    first: "join the GitHub repo and write a script that prints the instruction list for a Bell state.",
+    photo: "bell-lab-qiskit",
+    caption: "the circuit in Qiskit",
+    tilt: 1.2,
+  },
+  {
+    name: "theory",
+    does: "picks the gates and test circuits, works out the right answers, and writes the paper.",
+    first: "work the Bell state on paper and check it against Qiskit.",
+    photo: "bell-lab-math",
+    caption: "the math, on the board",
+    tilt: -0.9,
+  },
+].map((team) => ({ ...team, alt: REEL.find((p) => p.photo === team.photo)!.alt }));
 ---
 
 <Notebook
   page="project"
-  title="the project · QBronco"
-  description="This year QBronco builds a compiler for quantum circuits and runs it on four targets, from a Python model to an FPGA emulator. Three subteams, no experience needed."
+  title="The project · QBronco (Quantum Broncos)"
+  description="This year QBronco (the Quantum Broncos) builds a compiler for quantum circuits and runs it on four targets, from a Python model to an FPGA emulator. Three subteams, no experience needed."
   scrawl="~ 2026–27"
   turn={{ label: "back to the front", href: "/" }}
 >
@@ -63,25 +93,30 @@ const checkpoints = WEEKS.filter((w) => w.about);
 
   <section>
     <h2 class="tilt-d">three subteams</h2>
-    <ul class="todo">
-      <li>
-        <strong>systems.</strong> runs our instructions on the Qubis this fall
-        and learns Verilog, then builds the FPGA emulator in spring.
-        <span class="soft">first task: run a Bell state by hand on the Qubi
-        pair 20 times and tally how often the two Qubis agree.</span>
-      </li>
-      <li>
-        <strong>programmer.</strong> writes the compiler, the python version of
-        our machine, and the code that compares answers.
-        <span class="soft">first task: join the GitHub repo and write a script
-        that prints the instruction list for a Bell state.</span>
-      </li>
-      <li>
-        <strong>theory.</strong> picks the gates and test circuits, works out
-        the right answers, and writes the paper.
-        <span class="soft">first task: work the Bell state on paper and check
-        it against Qiskit.</span>
-      </li>
+    <ul class="subteams">
+      {
+        SUBTEAMS.map((team) => (
+          <li class="subteam">
+            <figure class="polaroid polaroid-sm" style={`--tilt: ${team.tilt}deg`}>
+              <img
+                src={`/reel/${team.photo}-480.webp`}
+                srcset={reelSrcset(team.photo)}
+                sizes="(max-width: 640px) 173px, 187px"
+                alt={team.alt}
+                width="640"
+                height="480"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="polaroid-caption">{team.caption}</figcaption>
+            </figure>
+            <p>
+              <strong>{team.name}.</strong> {team.does}{" "}
+              <span class="soft">first task: {team.first}</span>
+            </p>
+          </li>
+        ))
+      }
     </ul>
     <p>
       each subteam picks its own lead, and you can join any of them with zero

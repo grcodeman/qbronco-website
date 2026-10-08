@@ -1,0 +1,195 @@
+<!doctype html>
+<!--
+  The link-preview card (public/og.jpg, 1200x630). On the left, a photo from
+  a lab night: Mack (club president) holds two glowing Qubis while helping a
+  member at the front table, with the other two team tables at work behind
+  her (one at laptops, one at the whiteboard). On the right, a sheet of the
+  notebook lying on a desk, its edge over the empty end of the whiteboard.
+  Edit this file (or swap photo.jpg) and run `npm run og` to remake it.
+  Opens fine straight in a browser too, if you want to look before rendering.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>QBronco link preview</title>
+    <style>
+      @font-face {
+        font-family: "Caveat Variable";
+        src: url("../../node_modules/@fontsource-variable/caveat/files/caveat-latin-wght-normal.woff2") format("woff2");
+        font-weight: 400 700;
+      }
+      @font-face {
+        font-family: "Patrick Hand";
+        src: url("../../node_modules/@fontsource/patrick-hand/files/patrick-hand-latin-400-normal.woff2") format("woff2");
+      }
+
+      :root {
+        --paper: #fcfbf4;
+        --graphite: #3a3a42;
+        --graphite-soft: #5a5860;
+        --rule-blue: #bcd2e6;
+        --margin-red: #e6a6a0;
+        --red-pen: #c2362f;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #5e3f29;
+      }
+
+      /* the desk: walnut grain from SVG noise, lit a little warmer near the page */
+      .desk {
+        position: absolute;
+        inset: 0;
+      }
+
+      .lamp {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse 520px 420px at 78% 46%, rgba(255, 214, 160, 0.16), rgba(255, 214, 160, 0) 70%),
+          linear-gradient(180deg, rgba(20, 12, 6, 0.12), rgba(20, 12, 6, 0) 30%, rgba(20, 12, 6, 0) 70%, rgba(20, 12, 6, 0.22));
+      }
+
+      /* the photo, as a print bleeding off the left; its right end is plain
+         whiteboard, wall and carpet, so that is where the sheet overlaps it */
+      .photo {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 792px;
+        height: 630px;
+        overflow: hidden;
+        box-shadow: 2px 0 2px rgba(0, 0, 0, 0.35), 10px 0 26px rgba(0, 0, 0, 0.4);
+      }
+
+      .photo img {
+        position: absolute;
+        left: -16px;
+        top: -24px;
+        width: 880px;
+        height: 660px;
+      }
+
+      .sheet {
+        position: absolute;
+        top: 76px;
+        left: 756px;
+        width: 420px;
+        height: 462px;
+        box-sizing: border-box;
+        padding: 36px 14px 0 64px;
+        background-color: var(--paper);
+        background-image:
+          repeating-linear-gradient(to bottom, transparent 0 41px, var(--rule-blue) 41px 42px),
+          linear-gradient(to right, transparent 46px, var(--margin-red) 46px 48px, transparent 48px);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.22), 0 26px 44px -16px rgba(0, 0, 0, 0.6);
+        transform: rotate(2deg);
+        color: var(--graphite);
+      }
+
+      .tape {
+        position: absolute;
+        top: -18px;
+        left: 140px;
+        width: 150px;
+        height: 40px;
+        background: rgba(150, 196, 184, 0.62);
+        transform: rotate(-4deg);
+      }
+
+      .head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: -6px;
+      }
+
+      .logo {
+        width: 80px;
+        height: 80px;
+        transform: rotate(-3deg);
+      }
+
+      h1 {
+        margin: 0;
+        font: 700 86px/1 "Caveat Variable", cursive;
+        -webkit-text-stroke: 0.7px var(--graphite);
+        white-space: nowrap;
+        transform: rotate(-1.5deg);
+      }
+
+      .underline {
+        display: block;
+        width: 228px;
+        margin: -4px 0 0 4px;
+      }
+
+      .aka {
+        margin: 40px 0 0;
+        font: 600 41px/1 "Caveat Variable", cursive;
+        white-space: nowrap;
+        color: var(--graphite-soft);
+        transform: rotate(-1deg);
+      }
+
+      .what {
+        margin: 24px 0 0;
+        font: 30px/1.2 "Patrick Hand", cursive;
+        -webkit-text-stroke: 0.35px var(--graphite);
+        white-space: nowrap;
+      }
+
+      .url {
+        position: relative;
+        display: inline-block;
+        margin: 50px 0 0 -10px;
+        padding: 10px 24px;
+        font: 700 50px/1 "Caveat Variable", cursive;
+        white-space: nowrap;
+        color: var(--red-pen);
+        transform: rotate(-1.5deg);
+      }
+
+      .url svg {
+        position: absolute;
+        inset: -4px -6px;
+        width: calc(100% + 12px);
+        height: calc(100% + 8px);
+      }
+    </style>
+  </head>
+  <body>
+    <svg class="desk" width="1200" height="630" aria-hidden="true">
+      <filter id="grain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.0022 0.075" numOctaves="3" seed="11" />
+        <feColorMatrix type="matrix" values="0.62 0 0 0 0.09  0.40 0 0 0 0.06  0.24 0 0 0 0.04  0 0 0 0 1" />
+      </filter>
+      <rect width="1200" height="630" filter="url(#grain)" />
+    </svg>
+    <div class="lamp"></div>
+
+    <div class="photo"><img src="photo.jpg" alt="" /></div>
+
+    <div class="sheet">
+      <div class="tape"></div>
+      <div class="head">
+        <img class="logo" src="../../public/logo_transparent.png" alt="" />
+        <div>
+          <h1>QBronco</h1>
+          <svg class="underline" viewBox="0 0 320 26" fill="none" stroke="#c2362f" stroke-width="3" stroke-linecap="round"><path d="M6 9 Q80 3 160 7 Q240 11 314 5" /><path d="M10 18 Q84 13 158 16 Q236 19 308 14" /></svg>
+        </div>
+      </div>
+      <p class="aka">a.k.a. Quantum Broncos</p>
+      <p class="what">wmu's quantum computing club</p>
+      <div class="url">
+        qbronco.com
+        <svg viewBox="0 0 168 56" preserveAspectRatio="none" fill="none" stroke="#c2362f" stroke-width="2.6" stroke-linecap="round"><path vector-effect="non-scaling-stroke" d="M8 10 Q52 5 106 7 Q140 8 160 11 Q162 27 159 46 Q118 51 66 49 Q32 48 9 50 Q5 30 8 10 Q9 7 14 8" /></svg>
+      </div>
+    </div>
+  </body>
+</html>
