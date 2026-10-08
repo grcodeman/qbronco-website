@@ -26,7 +26,7 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
       <img
         class="title-logo"
         src="/logo-192.webp"
-        srcset="/logo-96.webp 96w, /logo-192.webp 192w"
+        srcset="/logo-96.webp 96w, /logo-144.webp 144w, /logo-192.webp 192w"
         sizes="(max-width: 640px) 68px, 96px"
         alt="QBronco, WMU Quantum Computing Club logo"
         width="96"
@@ -112,7 +112,7 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
     <h2 class="tilt-d">when we meet</h2>
     <p>
       every <span class="circled">wednesday<svg class="circle-mark" viewBox="0 0 120 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#c2362f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M60 4 Q18 3 8 25 Q6 44 56 46 Q108 47 113 26 Q114 6 64 4 Q60 4 58 5"/></svg></span>,
-      {MEETING.time}, in {MEETING.building} {MEETING.room} on {MEETING.campus} campus
+      {MEETING.time}, in {MEETING.building} <span class="nobreak">{MEETING.room}</span> on {MEETING.campus} campus
       (<a class="pen-blue" href={MEETING.map} target="_blank" rel="noopener noreferrer">map</a>).
       no meetings over breaks or finals. just show up.
     </p>

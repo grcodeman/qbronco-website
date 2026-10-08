@@ -390,6 +390,9 @@ li .pen-blue:hover { text-decoration-color: currentColor; }
 
 .pen-red { color: var(--color-red-pen); }
 
+/* a room number like D-212 never splits at its hyphen */
+.nobreak { white-space: nowrap; }
+
 /* ---------- doodles ---------- */
 .margin-doodle {
   float: right;
@@ -1100,6 +1103,17 @@ footer {
 
   .officer-name { font-size: 22px; }
   .officer-role { font-size: 16px; }
+}
+
+/* narrower phones: the note's writing gets a size smaller so the room and the
+   link ("add to calendar ↓" is the longest) still share a line */
+@media (max-width: 380px) {
+  .sticky { margin-left: 6px; padding-right: 12px; padding-left: 14px; }
+  .sticky-head { font-size: 23px; }
+  .sticky small { font-size: 18.5px; }
+  .sticky small[data-s="what"] { font-size: 20px; }
+  .sticky small.sticky-note { font-size: 17.5px; }
+  .sticky-link { font-size: 19px; }
 }
 
 /* the smallest phones: tabs tuck in so all three still fit */

@@ -10,7 +10,7 @@
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
     },
     {
-      "source": "/(logo-96.webp|logo-192.webp|favicon-32.png|apple-touch-icon.png|og.jpg)",
+      "source": "/(logo-96.webp|logo-144.webp|logo-192.webp|favicon-32.png|apple-touch-icon.png|og.jpg)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
     },
     {
