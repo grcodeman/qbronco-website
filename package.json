@@ -14,7 +14,8 @@
     "og": "node scripts/og-image.mjs",
     "icons": "node scripts/icons.mjs",
     "screenshots": "astro build && node scripts/screenshots.mjs",
-    "officer-photo": "node scripts/officer-photo.mjs"
+    "officer-photo": "node scripts/officer-photo.mjs",
+    "officers-screenshot": "astro build && node scripts/officers-screenshot.mjs"
   },
   "dependencies": {
     "@fontsource-variable/caveat": "^5.3.0",

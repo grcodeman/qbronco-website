@@ -28,6 +28,7 @@ export const CLUB = {
       text: "linkedin.com/company/qbronco",
       href: "https://www.linkedin.com/company/qbronco",
     },
+    { label: "github", name: "GitHub", text: "github.com/qbronco", href: "https://github.com/qbronco" },
   ],
 };
 
@@ -88,6 +89,13 @@ export const OFFICERS: Officer[] = [
     href: "https://www.linkedin.com/in/kaiden-rudolph-6b3553246/",
     photo: "kaiden-rudolph",
     tilt: -1.2,
+  },
+  {
+    name: "Peyton Nitz-Lentz",
+    role: "tech officer",
+    href: "https://www.linkedin.com/in/peyton-nitz-lentz-86903935b/",
+    photo: "peyton-nitz-lentz",
+    tilt: 1.4,
   },
 ];
 

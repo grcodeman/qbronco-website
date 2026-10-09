@@ -21,6 +21,7 @@ When a new kind of task comes up more than once, write a guide in `docs/`, then 
 npm run dev            # localhost:4321
 npm test               # builds, serves on :4322, runs Playwright at desktop + Pixel 7 sizes
 npm run officer-photo -- <photo> <first-last> [--crop left,top,size]
+npm run officers-screenshot   # the officers section, desktop + phone, in one image
 npm run og             # public/og.jpg
 npm run icons          # favicons + manifest icons
 npm run screenshots    # docs/screenshots/home.webp
