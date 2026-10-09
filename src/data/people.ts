@@ -90,6 +90,13 @@ export const OFFICERS: Officer[] = [
     photo: "kaiden-rudolph",
     tilt: -1.2,
   },
+  {
+    name: "Peyton Nitz-Lentz",
+    role: "tech officer",
+    href: "https://www.linkedin.com/in/peyton-nitz-lentz-86903935b/",
+    photo: "peyton-nitz-lentz",
+    tilt: 1.4,
+  },
 ];
 
 // every reel photo is cropped to the same 4:3 print. to add one: save it as

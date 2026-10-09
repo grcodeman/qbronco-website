@@ -8,6 +8,7 @@ const OFFICERS = [
   ["Hana Tourner", "marketing officer", "https://www.linkedin.com/in/hanatourner/", "hana-tourner"],
   ["Lola MacAlpine", "tech officer", "https://www.linkedin.com/in/lola-macalpine-251632366/", "lola-macalpine"],
   ["Kaiden Rudolph", "tech officer", "https://www.linkedin.com/in/kaiden-rudolph-6b3553246/", "kaiden-rudolph"],
+  ["Peyton Nitz-Lentz", "tech officer", "https://www.linkedin.com/in/peyton-nitz-lentz-86903935b/", "peyton-nitz-lentz"],
 ];
 
 test("every officer is there in order, each with a role, a profile link and a circular photo", async ({ page }) => {
