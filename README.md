@@ -41,6 +41,7 @@ npm run dev        # http://localhost:4321, reloads as you edit
 | `npm run screenshots` | Retakes the picture at the top of this README |
 | `npm run officer-photo` | Crops a new officer's headshot (see [Adding an officer](docs/adding-an-officer.md)) |
 | `npm run officers-screenshot` | Screenshots the officers section at desktop and phone widths, to check a change |
+| `npm run compare -- <path> [<part>]` | Before/after screenshots of part of a page: `main` vs your working copy, desktop and phone |
 
 ## Updating the site
 
@@ -176,7 +177,7 @@ npx playwright install chromium   # once, to download the test browser
 npm test
 ```
 
-`npm test` builds the site, serves it on port 4322, and runs every spec twice: at desktop width and on a Pixel 7. Tests that depend on the date freeze the browser clock, so they pass on any day of the year.
+`npm test` builds the site, serves it on port 4322, and runs every spec twice: at desktop width and on a Pixel 7. Tests that depend on the date freeze the browser clock, so they pass on any day of the year. GitHub Actions runs the same suite on every pull request (`.github/workflows/test.yml`). When you change code, update the tests that cover it in the same commit; `CLAUDE.md` has a table of which specs check what.
 
 | Spec | Covers |
 | :-- | :-- |
@@ -186,6 +187,7 @@ npm test
 | `people.spec.ts` | The officers, the photo reel and its arrows, the subteam photos |
 | `layout.spec.ts` | Text on the ruled lines, no sideways scrolling, the tabs, keyboard focus, the `/calendar` redirect |
 | `discovery.spec.ts` | Titles, structured data, link previews, llms.txt, sitemap, fonts, icons, the manifest |
+| `contact.spec.ts` | Sign-up, email and profiles in every page's footer, the work-with-us section, the first-meeting note, the email in JSON-LD and llms.txt |
 
 ## Hosting
 
