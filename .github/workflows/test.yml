@@ -1,0 +1,43 @@
+# Runs the Playwright suite on every pull request and on main, so a change
+# that breaks the site (or a test that wasn't updated with it) shows up red
+# on the PR before it's merged. `npm test` builds the site, serves it, and
+# tests it at desktop and Pixel 7 sizes; see playwright.config.ts.
+name: test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# a newer push to the same PR cancels the older run
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # the Chromium build that matches the pinned @playwright/test
+      - run: npx playwright install --with-deps chromium
+
+      - run: npm test
+
+      - name: Keep failure details
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 7

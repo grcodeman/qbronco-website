@@ -1,6 +1,6 @@
 ---
 import Notebook from "../layouts/Notebook.astro";
-import { REEL, reelSrcset } from "../data/people";
+import { CLUB, REEL, reelSrcset } from "../data/people";
 import { WEEKS } from "../data/schedule";
 
 // What the labs are building this year. Source: the qBronco Project Plan,
@@ -8,6 +8,8 @@ import { WEEKS } from "../data/schedule";
 // they can't drift apart.
 
 const checkpoints = WEEKS.filter((w) => w.about);
+
+const github = CLUB.links.find((l) => l.name === "GitHub")!;
 
 // one print from the Oct 7 Bell state lab beside each subteam. the photos and
 // their alt text live with the reel in src/data/people.ts.
@@ -24,6 +26,7 @@ const SUBTEAMS = [
     name: "programmer",
     does: "writes the compiler, the python version of our machine, and the code that compares answers.",
     first: "join the GitHub repo and write a script that prints the instruction list for a Bell state.",
+    link: { text: "the GitHub repo", href: github.href },
     photo: "bell-lab-qiskit",
     caption: "the circuit in Qiskit",
     tilt: 1.2,
@@ -112,7 +115,20 @@ const SUBTEAMS = [
             </figure>
             <p>
               <strong>{team.name}.</strong> {team.does}{" "}
-              <span class="soft">first task: {team.first}</span>
+              <span class="soft">
+                first task:{" "}
+                {team.link ? (
+                  <>
+                    {team.first.split(team.link.text)[0]}
+                    <a class="pen-blue" href={team.link.href} target="_blank" rel="noopener noreferrer">
+                      {team.link.text}
+                    </a>
+                    {team.first.split(team.link.text)[1]}
+                  </>
+                ) : (
+                  team.first
+                )}
+              </span>
             </p>
           </li>
         ))
@@ -120,7 +136,8 @@ const SUBTEAMS = [
     </ul>
     <p>
       each subteam picks its own lead, and you can join any of them with zero
-      experience.
+      experience, even partway through the year: we'll give you the material
+      to get caught up.
     </p>
   </section>
 

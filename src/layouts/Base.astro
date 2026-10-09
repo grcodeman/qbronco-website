@@ -56,6 +56,13 @@ const identity = {
       description: CLUB.summary,
       url: new URL("/", site),
       logo: new URL("/logo_transparent.png", site),
+      email: CLUB.email.address,
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "general inquiries",
+        email: CLUB.email.address,
+        availableLanguage: "English",
+      },
       image: card,
       foundingDate: "2026",
       parentOrganization: {
