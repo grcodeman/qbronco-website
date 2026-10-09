@@ -26,19 +26,26 @@ The slug is their name in lowercase with dashes, like `kaiden-rudolph`. The site
 npm run officer-photo -- path/to/photo.jpg kaiden-rudolph
 ```
 
-This writes both files and prints three things:
+Headshots are always square (1:1), whatever shape the photo is:
+
+- **A square photo** (a LinkedIn profile picture, say) is used whole.
+- **Any other shape** is cropped to the biggest square that fits, centred side to side and starting at the top.
+
+The script writes both files and prints three things:
 
 - the photo's size
-- the square it cut out
+- whether it was already square, or the square it was cropped to
 - the path to a preview image showing the new headshot, ringed in red, next to everyone else's
 
-The first run takes the biggest square that fits. Look at the preview; the new photo should match the others:
+If the square comes out under 320px, the script warns that the headshot will look soft. Ask for a bigger photo if you can.
+
+Look at the preview; the new photo should match the others:
 
 - **The head fills about the top half to 55%** of the square, with a little space above the hair.
 - **The eyes are about a third of the way down.**
 - **The face is centred** side to side, with the shoulders showing at the bottom.
 
-If it doesn't match, run it again with `--crop left,top,size`. That's a square in the photo's own pixels: its left edge, its top edge, and its side length.
+If it doesn't match, even if the photo was already square, run it again with `--crop left,top,size`. That's a square in the photo's own pixels: its left edge, its top edge, and its side length.
 
 ```sh
 # Kaiden's photo is 1916x2000; this square frames his head like the others

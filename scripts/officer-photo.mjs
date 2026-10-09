@@ -4,9 +4,11 @@
 //
 //   npm run officer-photo -- <photo> <slug> [--crop left,top,size]
 //
-// --crop is a square in the photo's own pixels. Leave it off the first time:
-// the script takes the biggest square that fits, centred side to side, and
-// prints the photo's size so you can pick a better square and run it again.
+// Headshots are always 1:1. A photo that's already square is used whole; any
+// other shape is cut down to the biggest square that fits, centred side to
+// side and starting at the top. --crop picks the square instead, in the
+// photo's own pixels. The script prints the photo's size and the square it
+// used, so you can pick a better one and run it again.
 // See docs/adding-an-officer.md for what a good crop looks like.
 import { chromium } from "@playwright/test";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -78,7 +80,17 @@ try {
   if (result.error) throw new Error(result.error);
 
   for (const size of SIZES) writeFileSync(join(officers, `${slug}-${size}.webp`), Buffer.from(result.out[size], "base64"));
-  console.log(`photo is ${result.w}x${result.h}; used --crop ${result.crop.join(",")}`);
+  const [, , side] = result.crop;
+  if (result.w === result.h && side === result.w) {
+    console.log(`photo is ${result.w}x${result.h}, already square: used it whole`);
+  } else {
+    console.log(`photo is ${result.w}x${result.h}; cropped to 1:1 with --crop ${result.crop.join(",")}`);
+  }
+  if (side < Math.max(...SIZES)) {
+    console.warn(
+      `warning: the square is only ${side}px but headshots show at up to ${Math.max(...SIZES)}px, so this one will look soft. A bigger photo will be sharper.`,
+    );
+  }
   console.log(`wrote public/officers/${slug}-160.webp and ${slug}-320.webp`);
 
   // everyone's headshot in a row, circled the way the site shows them
