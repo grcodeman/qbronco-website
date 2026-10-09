@@ -1,6 +1,7 @@
 ---
 import Base from "./Base.astro";
 import { MEETING, WEEKS } from "../data/schedule";
+import { CLUB } from "../data/people";
 
 // One sheet of the notebook: divider tabs on top, the desk objects, the
 // "next meeting" sticky note, and the foot of the page. Every page uses it.
@@ -82,6 +83,30 @@ const live = {
     <slot />
 
     <footer>
+      <!-- every page ends with the way in: the form, an email, the profiles -->
+      <div class="foot-join">
+        <p>
+          <span class="foot-label">want in?</span>{" "}
+          <a class="pen-blue" href={CLUB.signup} target="_blank" rel="noopener noreferrer">sign me up &rarr;</a>{" "}
+          <span class="soft">or just show up on a wednesday.</span>
+        </p>
+        <p>
+          questions, talks, sponsors:{" "}
+          <a class="pen-blue nobreak" href={`mailto:${CLUB.email.address}`}>{CLUB.email.address}</a>
+        </p>
+        <p class="foot-links">
+          {
+            CLUB.links.map((link, i) => (
+              <>
+                {i > 0 && <span class="soft"> · </span>}
+                <a class="pen-blue" href={link.href} target="_blank" rel="noopener noreferrer">
+                  {link.label}
+                </a>
+              </>
+            ))
+          }
+        </p>
+      </div>
       {
         turn && (
           <p class="page-turn">

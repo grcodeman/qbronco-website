@@ -4,7 +4,7 @@ import WeekRow from "../components/WeekRow.astro";
 import Reel from "../components/Reel.astro";
 import Officers from "../components/Officers.astro";
 import { MEETING, WEEKS, isOver } from "../data/schedule";
-import { CLUB } from "../data/people";
+import { CLUB, FIRST_MEETING, OFFICERS } from "../data/people";
 
 // The front page: what the club is, proof it meets, how to join, when, and
 // who runs it. Dates come from src/data/schedule.ts, people and photos from
@@ -16,6 +16,8 @@ const COMING_UP = 4;
 const builtAt = Date.now();
 const firstOpen = WEEKS.findIndex((w) => !isOver(w, builtAt));
 const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + COMING_UP));
+
+const advisor = OFFICERS.find((o) => o.role === "faculty advisor")!;
 ---
 
 <Notebook page="home" scrawl="~ fall '26" turn={{ label: "the schedule", href: "/schedule" }}>
@@ -93,6 +95,10 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
     </a>
 
     <ul class="contacts">
+      <li>
+        email: <a class="pen-blue nobreak" href={`mailto:${CLUB.email.address}`}>{CLUB.email.address}</a>
+        <span class="soft">({CLUB.email.short}, our {CLUB.email.role})</span>
+      </li>
       {
         CLUB.links.map((link) => (
           <li>
@@ -114,6 +120,10 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
       {MEETING.time}, in {MEETING.building} <span class="nobreak">{MEETING.room}</span> on {MEETING.campus} campus
       (<a class="pen-blue" href={MEETING.map} target="_blank" rel="noopener noreferrer">map</a>).
       no meetings over breaks or finals. just show up.
+    </p>
+    <p>
+      <strong>first time?</strong> bring {FIRST_MEETING.bring}. starting partway
+      through the semester? {FIRST_MEETING.catchUp}.
     </p>
 
     <ul class="weeks" data-window={COMING_UP} aria-label="The next few Wednesdays">
@@ -161,6 +171,27 @@ const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + CO
         socials, and whatever else we cook up through the year.
       </li>
     </ul>
+  </section>
+
+  <!-- ---------- work with us: the way in for companies and faculty ---------- -->
+  <section>
+    <h2 class="tilt-b">work with us</h2>
+    <p>
+      companies, researchers and WMU faculty: if you work in quantum, or want
+      to meet students who are learning it, we'd love your help.
+    </p>
+    <ul class="dash">
+      <li>give a talk at one of our speaker nights</li>
+      <li>help with the IBM Qiskit hackathon we're hosting on campus: mentors, judges, prizes</li>
+      <li>or tell us what you have in mind</li>
+    </ul>
+    <p>
+      email {CLUB.email.name}, our {CLUB.email.role}, at
+      <a class="pen-blue nobreak" href={`mailto:${CLUB.email.address}`}>{CLUB.email.address}</a>.
+      we're a WMU student organization advised by
+      <a class="pen-blue" href={advisor.href} target="_blank" rel="noopener noreferrer">{advisor.name}</a>
+      (electrical &amp; computer engineering).
+    </p>
   </section>
 
   <!-- ---------- people ---------- -->

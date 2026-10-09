@@ -513,11 +513,30 @@ li .pen-blue:hover { text-decoration-color: currentColor; }
 footer {
   clear: both;
   min-height: calc(var(--rule-gap) * 5);
+  /* blank ruled lines under the writing, where the coffee ring sits */
+  padding-bottom: calc(var(--rule-gap) * 4);
 }
 
 .page-turn {
   margin: var(--rule-gap) 0 0;
   color: var(--color-graphite-soft);
+}
+
+/* the way in, at the foot of every page: three ruled lines, no box */
+.foot-join p {
+  margin: 0;
+  max-width: none;
+}
+
+/* "want in?" in the same red pen as "join us!", sized to sit on its rule
+   without stretching the line */
+.foot-label {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1.3em;
+  line-height: 1;
+  color: var(--color-red-pen);
+  margin-right: 0.2em; /* the swashy "?" swallows a plain space */
 }
 
 /* ---------- divider tabs: the site's three pages ---------- */

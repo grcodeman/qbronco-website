@@ -13,6 +13,9 @@ export const CLUB = {
   summary: `QBronco (the Quantum Broncos) is WMU's quantum computing club. We meet Wednesdays ${MEETING.time} in ${PLACE.building} ${MEETING.room} on Parkview campus. No experience needed.`,
   signup:
     "https://docs.google.com/forms/d/e/1FAIpQLSe83Y5m_jP0qmOiVQPctybcPf4Zsvg5W58nT5T5oSlPOoQucA/viewform",
+  // the club's inbox for questions, talks and sponsors: the president's WMU
+  // email. when the president changes, change it here and everything follows.
+  email: { address: "mukaddas.usmanova@wmich.edu", name: "Mack Usmanova", short: "Mack", role: "president" },
   links: [
     // label: how the page writes it (in pencil); name: how it's spelled everywhere else
     { label: "instagram", name: "Instagram", text: "@qbroncowmu", href: "https://www.instagram.com/qbroncowmu/" },
@@ -30,6 +33,12 @@ export const CLUB = {
     },
     { label: "github", name: "GitHub", text: "github.com/qbronco", href: "https://github.com/qbronco" },
   ],
+};
+
+// what a new member needs to know before their first meeting
+export const FIRST_MEETING = {
+  bring: "a laptop and a notebook",
+  catchUp: "join a subteam and we'll give you the material to get caught up",
 };
 
 export interface Officer {

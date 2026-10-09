@@ -3,7 +3,7 @@
 // (everything). Built from the same data as the pages, so the dates, room
 // and people can't drift from what the site says.
 
-import { CLUB, OFFICERS } from "./people";
+import { CLUB, FIRST_MEETING, OFFICERS } from "./people";
 import { MEETING, PLACE, TERMS, UPDATED, WEEKS, properCase, properNouns, sentenceCase } from "./schedule";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -25,6 +25,8 @@ function header(origin: string) {
     `- Location: ${where}.`,
     "- Who can come: anyone curious. No experience needed and no RSVP; just show up.",
     `- Sign up: ${CLUB.signup}`,
+    `- Contact: email ${CLUB.email.name} (${CLUB.email.role}) at ${CLUB.email.address}. Companies, researchers and faculty who want to give a talk or help with events use the same address.`,
+    `- First meeting: bring ${FIRST_MEETING.bring}. Joining partway through the semester is fine; new members join a subteam and get material to catch up.`,
     `- Calendar feed (iCalendar, every meeting): ${origin}/qbronco.ics`,
   ];
 }
@@ -32,12 +34,13 @@ function header(origin: string) {
 const links = (origin: string) => [
   "## Pages",
   "",
-  `- [Home](${origin}/): what the club does, photos from meetings, how to join, the next few meetings, the officers`,
+  `- [Home](${origin}/): what the club does, photos from meetings, how to join, the next few meetings, how companies and faculty can work with the club, the officers`,
   `- [Schedule](${origin}/schedule): every meeting date for fall 2026 and spring 2027`,
   `- [The project](${origin}/project): the year-long quantum compiler project and its three subteams`,
   "",
   "## Contact",
   "",
+  `- [Email: ${CLUB.email.address}](mailto:${CLUB.email.address}): ${CLUB.email.name}, ${CLUB.email.role}`,
   ...CLUB.links.map((l) => `- [${l.name}: ${l.text}](${l.href})`),
 ];
 
@@ -89,6 +92,10 @@ export function llmsFull(origin: string): string {
     "- Hackathons and competitions: hosting an IBM Qiskit hackathon on campus, and traveling to or joining others online.",
     "- Speaker nights and events: talks from people who work in quantum computing, Qiskit Fall Fest, and socials.",
     "",
+    "## Working with the club",
+    "",
+    `Companies, researchers and WMU faculty can work with the club by giving a talk at a speaker night, helping with the IBM Qiskit hackathon the club hosts on campus (mentors, judges, prizes), or proposing something else. Email ${CLUB.email.name}, the club's ${CLUB.email.role}, at ${CLUB.email.address}. The club is a WMU student organization advised by ${OFFICERS.find((o) => o.role === "faculty advisor")!.name} (Electrical and Computer Engineering).`,
+    "",
     "## The project, 2026–27",
     "",
     "You write a quantum circuit in Qiskit. The club's compiler turns it into a list of simple instructions. The instructions run on a target, and the answer is checked against Qiskit. The project runs all year, fall and spring.",
@@ -108,6 +115,8 @@ export function llmsFull(origin: string): string {
     "- Programmer: writes the compiler, the Python version of the machine, and the code that compares answers.",
     "- Theory: picks the gates and test circuits, works out the right answers, and writes the paper.",
     "",
+    `Code: ${CLUB.links.find((l) => l.name === "GitHub")!.href}`,
+    "",
     "## Officers",
     "",
     ...OFFICERS.map((o) => `- ${o.name}, ${o.role}: ${o.href}`),
@@ -117,6 +126,10 @@ export function llmsFull(origin: string): string {
     `- Is ${CLUB.name} the same as the ${CLUB.alsoKnownAs[0]}? Yes, two names for one club.`,
     "- Do I need experience? No. The club learns it together from the basics.",
     "- Do I need to sign up first? No, just show up. The sign-up form lets the officers know you're interested.",
+    `- What should I bring to my first meeting? ${FIRST_MEETING.bring.charAt(0).toUpperCase() + FIRST_MEETING.bring.slice(1)}.`,
+    "- Can I join partway through the semester? Yes. Join a subteam and the club will give you the material to get caught up.",
+    `- How do I contact the club? Email ${CLUB.email.name} (${CLUB.email.role}) at ${CLUB.email.address}, or message @qbroncowmu on Instagram.`,
+    `- How can a company or professor get involved? Give a talk at a speaker night or help with the club's IBM Qiskit hackathon. Email ${CLUB.email.address}.`,
     `- When is the next meeting? The next Wednesday on the schedule above that hasn't passed yet, ${MEETING.time} Eastern. Weeks marked "No meeting" are skipped.`,
     `- Where is ${PLACE.building}? On WMU's ${PLACE.campus}, ${PLACE.street}, ${PLACE.city}, ${PLACE.region} ${PLACE.postalCode}.`,
     "- How do I keep up? Subscribe to the calendar feed, or follow @qbroncowmu on Instagram.",
