@@ -40,6 +40,7 @@ npm run dev        # http://localhost:4321, reloads as you edit
 | `npm run icons` | Rebuilds the favicons and home-screen icons |
 | `npm run screenshots` | Retakes the picture at the top of this README |
 | `npm run officer-photo` | Crops a new officer's headshot (see [Adding an officer](docs/adding-an-officer.md)) |
+| `npm run officers-screenshot` | Screenshots the officers section at desktop and phone widths, to check a change |
 
 ## Updating the site
 

@@ -88,9 +88,11 @@ In `src/data/people.ts`, add an entry to `OFFICERS`:
 ## 4. Check it
 
 ```sh
-npm test       # every officer has a name, role, link and a loaded, circular photo
-npm run dev    # then look at "who's running this" on the home page, wide and narrow
+npm test                     # every officer has a name, role, link and a loaded, circular photo
+npm run officers-screenshot  # "who's running this" at desktop and phone widths, side by side
 ```
+
+The screenshot command prints where it saved the image. To click around instead, `npm run dev` and open the home page.
 
 Officers sit three to a row, two on phones. A short last row centres itself, so any number of officers lays out on its own.
 

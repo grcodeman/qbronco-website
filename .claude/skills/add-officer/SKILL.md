@@ -18,7 +18,10 @@ The steps live in one place, `docs/adding-an-officer.md`. Read it and follow it 
    4. Give the user the final preview.
 3. **Edit both lists:** `OFFICERS` in `src/data/people.ts` and `OFFICERS` in `tests/people.spec.ts`.
 4. **Run `npm test`.**
-5. **Show the result.** Screenshot the officers section at desktop and phone widths and send it to the user before committing.
+5. **Show the user a Playwright screenshot in the chat.** Always do this before committing, even when nobody asks.
+   1. Run `npm run officers-screenshot`. It builds the site and screenshots the whole "who's running this" section at desktop and Pixel 7 widths, side by side, then prints where the image is.
+   2. Read the image and check it: every name and role is there, the photos load, and a short last row is centred.
+   3. Send the image to the user in chat (with `SendUserFile` where it's available) so they can see the result without opening the site.
 6. **Commit** both `.webp` files, `people.ts` and `people.spec.ts` together.
 
 The layout handles any number of officers on its own: three to a row, two on phones, with a short last row centred. Never adjust the CSS to fit a new person in.
