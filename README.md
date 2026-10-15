@@ -59,7 +59,7 @@ Each Wednesday gets one row:
 ```
 
 - `date` is the Wednesday, as `YYYY-MM-DD`.
-- `title` is written the way it appears on the page (lowercase pencil, apart from names like Qiskit).
+- `title` is written the way it appears on the page (lowercase pencil, apart from names like Qiskit). The sticky note keeps it short and stops at a colon, so `lab 2: tools and first files` reads `lab 2` there, while the schedule page and the calendar show the whole title.
 - `kind` is one of:
   - `meeting`, a regular Wednesday
   - `lab`, a regular meeting with something due

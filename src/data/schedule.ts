@@ -41,7 +41,7 @@ export type Kind = "meeting" | "lab" | "event" | "off";
 
 export interface Week {
   date: string; // YYYY-MM-DD, local Kalamazoo date (always a Wednesday)
-  title: string; // written the way it appears on the page
+  title: string; // written the way it appears on the page; the sticky note only shows the part before a colon
   kind: Kind; // "lab" = a meeting with something due; "off" = no meeting that week, the title says why
   proposed?: boolean; // the date isn't locked in yet
   about?: string; // a checkpoint: gets a red star and a footnote
@@ -192,6 +192,10 @@ export function kalamazooDate(at: number): string {
     day: "2-digit",
   }).format(at);
 }
+
+/** "lab 2: tools and first files" -> "lab 2". the sticky note is a quick glance,
+ *  so it stops at the colon; the schedule page and the calendar get it all. */
+export const noteTitle = (title: string) => title.split(":")[0];
 
 /** "lab 1: kickoff" -> "Lab 1: kickoff" (calendar apps and search results) */
 export const sentenceCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
