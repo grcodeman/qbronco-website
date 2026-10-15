@@ -3,38 +3,34 @@ import Notebook from "../layouts/Notebook.astro";
 import { CLUB, REEL, reelSrcset } from "../data/people";
 import { WEEKS } from "../data/schedule";
 
-// What the labs are building this year. Source: the qBronco Project Plan,
-// updated Oct 7, 2026. The two checkpoint dates come from the schedule data so
-// they can't drift apart.
+// What the club is building this year. Source: the qBronco Project Plan,
+// updated Oct 7, 2026, with the Oct 14 changes. The three checkpoints come from
+// the schedule data, so they always match the schedule page's footnotes.
 
 const checkpoints = WEEKS.filter((w) => w.about);
 
 const github = CLUB.links.find((l) => l.name === "GitHub")!;
 
-// one print from the Oct 7 Bell state lab beside each subteam. the photos and
+// one print from the Oct 7 Bell state lab beside each team. the photos and
 // their alt text live with the reel in src/data/people.ts.
-const SUBTEAMS = [
+const TEAMS = [
   {
     name: "systems",
-    does: "runs our instructions on the Qubis this fall and learns Verilog, then builds the FPGA emulator in spring.",
-    first: "run a Bell state by hand on the Qubi pair 20 times and tally how often the two Qubis agree.",
+    does: "builds the processor in Verilog, then puts it on the Nexys A7 board.",
     photo: "bell-lab-qubis",
-    caption: "the Qubi pair, by hand",
+    caption: "lab 1, Bell state in hand",
     tilt: -1.6,
   },
   {
-    name: "programmer",
-    does: "writes the compiler, the python version of our machine, and the code that compares answers.",
-    first: "join the GitHub repo and write a script that prints the instruction list for a Bell state.",
-    link: { text: "the GitHub repo", href: github.href },
+    name: "programming",
+    does: "writes the compiler that turns a Qiskit circuit into our instructions, the python model of the processor that defines what the hardware is supposed to do, and the checker that compares results against Qiskit.",
     photo: "bell-lab-qiskit",
     caption: "the circuit in Qiskit",
     tilt: 1.2,
   },
   {
     name: "theory",
-    does: "picks the gates and test circuits, works out the right answers, and writes the paper.",
-    first: "work the Bell state on paper and check it against Qiskit.",
+    does: "picks the gate set and the four programs, works out the expected answers on paper, and writes the paper.",
     photo: "bell-lab-math",
     caption: "the math, on the board",
     tilt: -0.9,
@@ -45,7 +41,7 @@ const SUBTEAMS = [
 <Notebook
   page="project"
   title="The project · QBronco (Quantum Broncos)"
-  description="This year QBronco (the Quantum Broncos) builds a compiler for quantum circuits and runs it on four targets, from a Python model to an FPGA emulator. Three subteams, no experience needed."
+  description="This year QBronco (the Quantum Broncos) builds a 3-qubit processor with its own instruction set, written in Verilog, run on an FPGA and checked against Qiskit. Three teams, no experience needed."
   scrawl="~ 2026–27"
   turn={{ label: "back to the front", href: "/" }}
 >
@@ -61,44 +57,61 @@ const SUBTEAMS = [
     <svg class="margin-doodle circuit" viewBox="0 0 120 56" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" stroke="#5a5860" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 28.5 Q13 27.5 22 28.2"/><path d="M51 28 Q62 28.8 73 28.1"/><path d="M101 28.3 Q108 27.8 117 28.5"/><path d="M23.5 16.5 Q22.8 28 23.8 40.5 Q35.5 41.2 49.5 40 Q50.2 28.5 49 16.8 Q36 15.7 23.5 16.5"/><path d="M30 35 Q30.5 23.5 30 21.5"/><path d="M43 35 Q42.5 24 43 21"/><path d="M30 28.2 Q36.5 28.8 43 28.3"/><path d="M74.5 16 Q73.8 28 74.8 41 Q87 41.5 100 40.3 Q100.8 28.5 99.8 16.3 Q87 15.4 74.5 16"/><path d="M80.5 34.5 Q87 23.5 95 34"/><path d="M87.2 33.5 L93.5 23.5"/><circle cx="87.2" cy="33.8" r="1.3" fill="#5a5860" stroke="none"/></svg>
 
     <p>
-      one build, all year, fall and spring. study sessions teach an idea, and
-      lab nights put it into the build. here's the whole thing:
+      one build, all year, fall and spring. every wednesday, teams sit together
+      and build, and if a team needs an idea, someone teaches it at the
+      whiteboard. this year the build is our own 3-qubit processor. here's the
+      whole thing:
     </p>
 
     <ul class="todo flow">
-      <li>you write a quantum circuit in Qiskit.</li>
-      <li>our compiler turns it into a list of simple instructions.</li>
-      <li>the instructions run on a target.</li>
-      <li>we check the answer against Qiskit.</li>
+      <li>
+        <strong>what we're building.</strong> a 3-qubit processor with its own
+        16-bit instruction set, written in Verilog and run on an FPGA board (a
+        Digilent Nexys A7). the design is modeled on eQASM, a published quantum
+        instruction set from TU Delft, the way a CPU class models its chip on
+        MIPS.
+      </li>
+      <li>
+        <strong>what runs on it.</strong> four programs: a Bell state, quantum
+        teleportation, a quantum Fourier transform, and Grover's search over 8
+        items.
+      </li>
+      <li>
+        <strong>how we know it works.</strong> a python model of the processor
+        says what the hardware is supposed to do, and Qiskit is the answer key.
+        every program has to match it.
+      </li>
+      <li>
+        <strong>the headline.</strong> guess at random and you find 1 of 8
+        items 12.5% of the time. our processor runs Grover's search and finds
+        it with probability 121/128, about 94.5%.
+      </li>
     </ul>
   </section>
 
   <section>
-    <h2 class="tilt-a">four targets, in this order</h2>
+    <h2 class="tilt-a">one target, three forms</h2>
     <ol class="steps">
-      <li><strong>a python version of our machine.</strong> <span class="soft">fall.</span></li>
-      <li>
-        <strong>the Qubis, run by hand.</strong> <span class="soft">fall.</span>
-        Qubis are handheld qubits: you tap, flick and bump them to run gates,
-        then shake them to measure.
-      </li>
-      <li>
-        <strong>the Qubis, run from a laptop.</strong>
-        <span class="soft">spring, and only if Qubi releases the software for it.</span>
-      </li>
-      <li><strong>an FPGA emulator written in Verilog.</strong> <span class="soft">spring.</span></li>
+      <li><strong>a python model of the processor.</strong> <span class="soft">fall.</span></li>
+      <li><strong>the Verilog design, running in simulation.</strong> <span class="soft">fall into spring.</span></li>
+      <li><strong>the design on the board.</strong> <span class="soft">spring.</span></li>
     </ol>
     <p class="soft">
       none of these is a real quantum computer. the FPGA is normal hardware
       doing the quantum math.
     </p>
+    <p class="soft">
+      you'll still see the Qubis around, the handheld model qubits you tap,
+      bump and shake. they come out at some meetings, at recruiting events and
+      at the Qubi workshops, but they're a teaching toy, not part of the build.
+    </p>
   </section>
 
   <section>
-    <h2 class="tilt-d">three subteams</h2>
+    <h2 class="tilt-d">three teams</h2>
     <ul class="subteams">
       {
-        SUBTEAMS.map((team) => (
+        TEAMS.map((team) => (
           <li class="subteam">
             <figure class="polaroid polaroid-sm" style={`--tilt: ${team.tilt}deg`}>
               <img
@@ -114,35 +127,23 @@ const SUBTEAMS = [
               <figcaption class="polaroid-caption">{team.caption}</figcaption>
             </figure>
             <p>
-              <strong>{team.name}.</strong> {team.does}{" "}
-              <span class="soft">
-                first task:{" "}
-                {team.link ? (
-                  <>
-                    {team.first.split(team.link.text)[0]}
-                    <a class="pen-blue" href={team.link.href} target="_blank" rel="noopener noreferrer">
-                      {team.link.text}
-                    </a>
-                    {team.first.split(team.link.text)[1]}
-                  </>
-                ) : (
-                  team.first
-                )}
-              </span>
+              <strong>{team.name}.</strong> {team.does}
             </p>
           </li>
         ))
       }
     </ul>
     <p>
-      each subteam picks its own lead, and you can join any of them with zero
+      each team picks its own lead, and you can join any of them with zero
       experience, even partway through the year: we'll give you the material
-      to get caught up.
+      to get caught up. the fall slide decks live on
+      <a class="pen-blue" href={github.href} target="_blank" rel="noopener noreferrer">the GitHub repo</a>
+      too, so you can read at your own pace.
     </p>
   </section>
 
   <section>
-    <h2 class="tilt-b">two checkpoints</h2>
+    <h2 class="tilt-b">three checkpoints</h2>
     <ul class="todo">
       {
         checkpoints.map((week) => (
@@ -155,10 +156,7 @@ const SUBTEAMS = [
         ))
       }
     </ul>
-    <p class="soft">
-      spring dates can still move. we decide how far to take the FPGA emulator
-      at spring kickoff.
-    </p>
+    <p class="soft">spring dates can still move.</p>
     <p><a class="pen-blue" href="/schedule">every date is on the schedule &rarr;</a></p>
   </section>
 </Notebook>

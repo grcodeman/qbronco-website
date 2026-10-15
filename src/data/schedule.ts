@@ -1,12 +1,13 @@
 // The whole year, one row per Wednesday. Source: the qBronco Project Plan,
-// updated Oct 7, 2026.
+// updated Oct 7, 2026, with the Oct 14 changes (one meeting format, the
+// processor project, three checkpoints).
 //
 // Every date on the site reads from this file: the sticky note, the
 // schedule page, the "coming up" list on the home page, and the calendar
 // feed at /qbronco.ics. Change a row here and all of them follow.
 
 export const TZ = "America/Detroit";
-export const UPDATED = "2026-10-07";
+export const UPDATED = "2026-10-15";
 
 // the standing meeting. every row below happens here unless it says otherwise.
 // (the room is booked until 8:30, but meetings wrap at 8.)
@@ -36,12 +37,12 @@ export const PLACE = {
   geo: { latitude: 42.254254, longitude: -85.6407 },
 };
 
-export type Kind = "lab" | "study" | "event" | "off";
+export type Kind = "meeting" | "lab" | "event" | "off";
 
 export interface Week {
   date: string; // YYYY-MM-DD, local Kalamazoo date (always a Wednesday)
   title: string; // written the way it appears on the page
-  kind: Kind; // "off" = no meeting that week; the title says why
+  kind: Kind; // "lab" = a meeting with something due; "off" = no meeting that week, the title says why
   proposed?: boolean; // the date isn't locked in yet
   about?: string; // a checkpoint: gets a red star and a footnote
   room?: string; // only when it isn't the usual room
@@ -61,23 +62,23 @@ export const TERMS: Term[] = [
     label: "fall '26",
     weeks: [
       { date: "2026-09-16", title: "info night", kind: "event", room: "D-202" },
-      { date: "2026-09-23", title: "study session", kind: "study" },
+      { date: "2026-09-23", title: "study session", kind: "meeting" },
       { date: "2026-09-30", title: "Qiskit day", kind: "event" },
       { date: "2026-10-07", title: "lab 1: kickoff", kind: "lab" },
-      { date: "2026-10-14", title: "study session", kind: "study" },
+      { date: "2026-10-14", title: "ISA design night", kind: "meeting" },
       { date: "2026-10-21", title: "fall break", kind: "off" },
-      { date: "2026-10-28", title: "lab 2", kind: "lab" },
-      { date: "2026-11-04", title: "study session", kind: "study" },
-      { date: "2026-11-11", title: "lab 3", kind: "lab" },
+      { date: "2026-10-28", title: "lab 2: tools and first files", kind: "lab" },
+      { date: "2026-11-04", title: "meeting", kind: "meeting" },
+      { date: "2026-11-11", title: "lab 3: instruction set frozen", kind: "lab" },
       { date: "2026-11-18", title: "Qubi workshop 1", kind: "event", proposed: true },
       { date: "2026-11-25", title: "thanksgiving", kind: "off" },
-      { date: "2026-12-02", title: "lab 4", kind: "lab" },
+      { date: "2026-12-02", title: "lab 4: compiler and python model pass all four programs", kind: "lab" },
       {
         date: "2026-12-09",
         title: "fall demo",
         kind: "event",
         about:
-          "a circuit goes through our compiler, runs on the python version of our machine and matches Qiskit. we run the same instructions by hand on the Qubis.",
+          "the compiler and the python model run all four programs and match Qiskit, and the Bell state runs on the Verilog design in simulation.",
       },
       { date: "2026-12-16", title: "finals week", kind: "off" },
     ],
@@ -90,23 +91,29 @@ export const TERMS: Term[] = [
     weeks: [
       { date: "2027-01-13", title: "spring kickoff", kind: "event" },
       { date: "2027-01-20", title: "lab 5", kind: "lab" },
-      { date: "2027-01-27", title: "study session", kind: "study" },
+      { date: "2027-01-27", title: "meeting", kind: "meeting" },
       { date: "2027-02-03", title: "lab 6", kind: "lab" },
       { date: "2027-02-10", title: "Qubi workshop 2", kind: "event", proposed: true },
       { date: "2027-02-17", title: "lab 7", kind: "lab" },
-      { date: "2027-02-24", title: "study session", kind: "study" },
+      { date: "2027-02-24", title: "meeting", kind: "meeting" },
       { date: "2027-03-03", title: "lab 8", kind: "lab" },
       { date: "2027-03-10", title: "spring break", kind: "off" },
-      { date: "2027-03-17", title: "study session", kind: "study" },
+      { date: "2027-03-17", title: "meeting", kind: "meeting" },
       { date: "2027-03-24", title: "lab 9", kind: "lab" },
-      { date: "2027-03-31", title: "study session", kind: "study" },
+      { date: "2027-03-31", title: "meeting", kind: "meeting" },
       { date: "2027-04-07", title: "lab 10", kind: "lab" },
-      { date: "2027-04-14", title: "final test day", kind: "event" },
+      {
+        date: "2027-04-14",
+        title: "final test day",
+        kind: "event",
+        about: "all four programs run on the board and match Qiskit, and the paper is done.",
+      },
       {
         date: "2027-04-21",
         title: "final showcase",
         kind: "event",
-        about: "every target we finished, the test results, and the paper.",
+        about:
+          "you pick one of 8 boxes with the board's switches, the board finds it (121/128), and the laptop next to it shows Qiskit agreeing. plus the paper.",
       },
       { date: "2027-04-28", title: "finals week", kind: "off" },
     ],

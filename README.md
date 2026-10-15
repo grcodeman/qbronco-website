@@ -19,7 +19,7 @@ The site is one sheet of college-ruled paper, written in pencil. A sticky note o
 | :-- | :-- |
 | [`/`](https://qbronco.com) | What the club is, photos from meetings, how to join, the next few Wednesdays, the officers |
 | [`/schedule`](https://qbronco.com/schedule) | Every meeting for the year, with past weeks crossed off, plus calendar subscribe links |
-| [`/project`](https://qbronco.com/project) | This year's build, a quantum circuit compiler, and its three subteams |
+| [`/project`](https://qbronco.com/project) | This year's build, a 3-qubit processor with its own instruction set, and its three teams |
 
 ## Quick start
 
@@ -52,7 +52,7 @@ Almost everything the site says comes from two data files in `src/data/`. Change
 Each Wednesday gets one row:
 
 ```ts
-{ date: "2026-10-28", title: "lab 2", kind: "lab" },
+{ date: "2026-10-28", title: "lab 2: tools and first files", kind: "lab" },
 { date: "2026-11-18", title: "Qubi workshop 1", kind: "event", proposed: true },
 { date: "2026-11-25", title: "thanksgiving", kind: "off" },
 { date: "2026-09-16", title: "info night", kind: "event", room: "D-202" },
@@ -61,8 +61,8 @@ Each Wednesday gets one row:
 - `date` is the Wednesday, as `YYYY-MM-DD`.
 - `title` is written the way it appears on the page (lowercase pencil, apart from names like Qiskit).
 - `kind` is one of:
-  - `lab`
-  - `study`
+  - `meeting`, a regular Wednesday
+  - `lab`, a regular meeting with something due
   - `event`
   - `off`, meaning no meeting that week; the title says why
 - Optional fields:
@@ -184,7 +184,7 @@ npm test
 | `next-meeting.spec.ts` | The sticky note: tonight, happening now, next week, skipped weeks, other time zones, no JavaScript |
 | `schedule.spec.ts` | The schedule page, the coming-up list, the calendar feed |
 | `schedule-data.spec.ts` | Every date is a Wednesday, in order, with 6:30–8 pm right on both sides of daylight saving |
-| `people.spec.ts` | The officers, the photo reel and its arrows, the subteam photos |
+| `people.spec.ts` | The officers, the photo reel and its arrows, the team photos |
 | `layout.spec.ts` | Text on the ruled lines, no sideways scrolling, the tabs, keyboard focus, the `/calendar` redirect |
 | `discovery.spec.ts` | Titles, structured data, link previews, llms.txt, sitemap, fonts, icons, the manifest |
 | `contact.spec.ts` | Sign-up, email and profiles in every page's footer, the work-with-us section, the first-meeting note, the email in JSON-LD and llms.txt |

@@ -58,7 +58,7 @@ Every pull request runs `npm test` in GitHub Actions (`.github/workflows/test.ym
 | `src/data/schedule.ts` (dates, titles, room, time, terms) | `schedule-data.spec.ts` (counts: 14 fall weeks, 16 spring, 25 meetings), `schedule.spec.ts` (30 Wednesdays, coming-up list, `.ics`), `next-meeting.spec.ts` (specific dates and titles), `discovery.spec.ts` (Event JSON-LD, llms dates), `layout.spec.ts` |
 | `OFFICERS` in `src/data/people.ts` | `people.spec.ts`; it keeps its own list in order (see `docs/adding-an-officer.md`) |
 | `CLUB` (links, email, sign-up) or `FIRST_MEETING` | `contact.spec.ts`, `discovery.spec.ts` (profiles, `sameAs`, llms) |
-| `REEL` or the subteam photos | `people.spec.ts` |
+| `REEL` or the team photos | `people.spec.ts` |
 | `src/layouts/Notebook.astro` (tabs, sticky note script, footer) | `next-meeting.spec.ts`, `layout.spec.ts`, `contact.spec.ts` |
 | `src/layouts/Base.astro` (titles, meta, JSON-LD, icons) | `discovery.spec.ts` |
 | `src/data/llms.ts` | `discovery.spec.ts`, `contact.spec.ts` |

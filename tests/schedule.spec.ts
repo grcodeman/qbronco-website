@@ -22,9 +22,20 @@ test("no-meeting weeks stay on the list, marked as such", async ({ page }) => {
 
 test("checkpoints get a star and a note", async ({ page }) => {
   await page.goto("/schedule");
-  await expect(page.locator(".terms .wk-star")).toHaveCount(2);
+  await expect(page.locator(".terms .wk-star")).toHaveCount(3);
   await expect(page.locator(".notes")).toContainText("fall demo, dec 9.");
+  await expect(page.locator(".notes")).toContainText("final test day, apr 14.");
   await expect(page.locator(".notes")).toContainText("final showcase, apr 21.");
+});
+
+test("the project page's checkpoints say exactly what the schedule's footnotes say", async ({ page }) => {
+  await page.goto("/schedule");
+  const notes = await page.locator(".notes li:not(.soft)").allInnerTexts();
+  await page.goto("/project");
+  const section = page.locator("section", { has: page.getByRole("heading", { name: "three checkpoints" }) });
+  const checkpoints = await section.locator(".todo li").allInnerTexts();
+  expect(checkpoints).toHaveLength(3);
+  expect(checkpoints).toEqual(notes.map((n) => n.replace(/^\*\s*/, "")));
 });
 
 test("the home page shows the next four wednesdays, skipped weeks included", async ({ page }) => {
@@ -62,6 +73,9 @@ test("the calendar feed has every meeting and nothing else", async ({ request })
   expect(ics).toContain("DTSTART:20261104T233000Z");
   expect(ics).toContain("DTEND:20261105T010000Z"); // 8 pm EST
   expect(ics).toContain("SUMMARY:QBronco: Qubi workshop 1 (proposed)");
+  expect(ics).toContain("SUMMARY:QBronco: ISA design night");
+  expect(ics).toContain("SUMMARY:QBronco: Lab 4: compiler and Python model pass all four programs");
+  expect(ics).toContain("the board finds it (121/128)");
   expect(ics).toContain("LOCATION:Floyd Hall D-212\\, 4601 Campus Drive\\, Kalamazoo");
   expect(ics).toContain("LOCATION:Floyd Hall D-202\\, 4601 Campus Drive"); // info night was down the hall
   expect(ics).not.toContain("20261021"); // fall break is not an event

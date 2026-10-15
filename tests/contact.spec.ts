@@ -32,7 +32,8 @@ test("companies and faculty get a work-with-us section with the email and the ad
   await page.goto("/");
   const section = page.locator("section", { has: page.getByRole("heading", { name: "work with us" }) });
   await expect(section).toContainText("speaker nights");
-  await expect(section).toContainText("IBM Qiskit hackathon");
+  await expect(section).toContainText("tell us what you have in mind");
+  await expect(section).not.toContainText("hackathon");
   await expect(section.getByRole("link", { name: EMAIL })).toHaveAttribute("href", `mailto:${EMAIL}`);
   await expect(section.getByRole("link", { name: "Dr. Sawalha" })).toHaveAttribute(
     "href",
@@ -45,11 +46,11 @@ test("a first-timer is told what to bring and that joining late is fine", async 
     await page.goto(path);
     const note = page.locator("p", { hasText: "first time?" });
     await expect(note).toContainText("bring a laptop and a notebook");
-    await expect(note).toContainText("join a subteam and we'll give you the material to get caught up");
+    await expect(note).toContainText("join a team and we'll give you the material to get caught up");
   }
 });
 
-test("the project page links the GitHub repo the programmer subteam starts in", async ({ page }) => {
+test("the project page links the GitHub repo, where the fall slide decks live", async ({ page }) => {
   await page.goto("/project");
   await expect(page.getByRole("link", { name: "the GitHub repo" })).toHaveAttribute("href", "https://github.com/qbronco");
 });
@@ -70,5 +71,17 @@ test("search engines and AI assistants get the email too", async ({ page, reques
   }
   const full = await (await request.get("/llms-full.txt")).text();
   expect(full).toContain("## Working with the club");
-  expect(full).toContain("Code: https://github.com/qbronco");
+  expect(full).toContain("Code and the fall slide decks: https://github.com/qbronco");
+});
+
+test("nothing says the club is hosting a hackathon or Qiskit Fall Fest", async ({ page, request }) => {
+  for (const path of ["/", "/schedule", "/project"]) {
+    await page.goto(path);
+    const text = await page.locator("main").innerText();
+    expect(text).not.toMatch(/fall fest|hosting our very own|mentors, judges/i);
+  }
+  for (const file of ["/llms.txt", "/llms-full.txt"]) {
+    const body = await (await request.get(file)).text();
+    expect(body).not.toMatch(/fall fest|hosting an IBM|hackathon the club hosts|mentors, judges/i);
+  }
 });

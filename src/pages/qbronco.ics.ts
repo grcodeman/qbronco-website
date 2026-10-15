@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { MEETING, PLACE, TZ, UPDATED, WEEKS, kalamazooTime, sentenceCase as cap } from "../data/schedule";
+import { MEETING, PLACE, TZ, UPDATED, WEEKS, kalamazooTime, properCase, properNouns, sentenceCase as cap } from "../data/schedule";
 
 // The calendar feed. People subscribe to /qbronco.ics (webcal:// or Google's
 // "add by URL") and their calendar re-reads it on its own, so when a date in
@@ -55,7 +55,7 @@ export const GET: APIRoute = ({ site }) => {
   for (const week of WEEKS) {
     if (week.kind === "off") continue;
     const notes = [
-      week.about && cap(week.about),
+      week.about && properCase(week.about),
       week.proposed && "Proposed date, it can still move.",
       !week.proposed && week.tentative && "Spring dates can still move.",
       "No experience needed, just show up.",
@@ -68,7 +68,7 @@ export const GET: APIRoute = ({ site }) => {
       `DTSTAMP:${stamp}`,
       `DTSTART:${utc(week.start)}`,
       `DTEND:${utc(week.end)}`,
-      `SUMMARY:${text(`QBronco: ${cap(week.title)}${week.proposed ? " (proposed)" : ""}`)}`,
+      `SUMMARY:${text(`QBronco: ${cap(properNouns(week.title))}${week.proposed ? " (proposed)" : ""}`)}`,
       `LOCATION:${text(`${PLACE.building} ${week.room ?? MEETING.room}, ${PLACE.street}, ${PLACE.city}, ${PLACE.region} ${PLACE.postalCode} (WMU ${PLACE.campus})`)}`,
       `DESCRIPTION:${text(notes.join("\n"))}`,
       `URL:${origin}/schedule`,

@@ -41,6 +41,13 @@ test.describe("both names", () => {
       await expect(page).toHaveTitle(/QBronco \(Quantum Broncos\)/);
     }
   });
+
+  test("the project page's link preview says what the project is", async ({ page }) => {
+    await page.goto("/project");
+    for (const key of ["description", "og:description"]) {
+      expect(await meta(page, key)).toMatch(/3-qubit processor with its own instruction set/);
+    }
+  });
 });
 
 // the card's URL carries a fingerprint of the file, so a new card is a new URL
@@ -94,7 +101,7 @@ test("the schedule page lists every meeting as a schema.org Event", async ({ pag
   const events = (await jsonLd(page)).filter((n) => n["@type"] === "Event");
   expect(events).toHaveLength(25);
   const lab2 = events.find((e) => e.startDate.startsWith("2026-10-28"));
-  expect(lab2.name).toBe("QBronco: Lab 2");
+  expect(lab2.name).toBe("QBronco: Lab 2: tools and first files");
   expect(lab2.startDate).toBe("2026-10-28T18:30:00-04:00");
   expect(lab2.endDate).toBe("2026-10-28T20:00:00-04:00");
   expect(lab2.location.name).toMatch(/^Floyd Hall D-212/);

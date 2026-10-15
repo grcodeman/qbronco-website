@@ -78,11 +78,11 @@ test("every print is the same 4:3 size", async ({ page }) => {
   expect(Math.abs(w / h - 4 / 3)).toBeLessThan(0.02);
 });
 
-test("each subteam on the project page has a lab photo beside it", async ({ page }) => {
+test("each team on the project page has a lab photo beside it", async ({ page }) => {
   await page.goto("/project");
   const teams = page.locator(".subteam");
   await expect(teams).toHaveCount(3);
-  for (const [i, name] of ["systems", "programmer", "theory"].entries()) {
+  for (const [i, name] of ["systems", "programming", "theory"].entries()) {
     const team = teams.nth(i);
     await expect(team.locator("strong")).toHaveText(`${name}.`);
     const img = team.locator("img");

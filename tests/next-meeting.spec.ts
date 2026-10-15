@@ -26,7 +26,7 @@ test("once the meeting ends at 8 it moves on to next week", async ({ page }) => 
   await at(page, "2026-10-07T20:01:00-04:00");
   const note = page.locator("[data-sticky]");
   await expect(note).toHaveAttribute("data-state", "next");
-  await expect(note).toContainText("study session");
+  await expect(note).toContainText("ISA design night");
   await expect(note).toContainText("wed oct 14 · 6:30 pm");
 });
 
@@ -99,7 +99,8 @@ test("on a phone the note is a short strip across the top, a whole number of rul
   test.skip(info.project.name !== "mobile", "phone layout only");
   for (const [iso, rules] of [
     ["2026-10-14T16:00:00-04:00", 4], // tonight: three lines
-    ["2026-10-15T12:00:00-04:00", 5], // plus the fall break heads-up
+    ["2026-10-15T12:00:00-04:00", 6], // "lab 2: tools and first files" gets its own line, plus the fall break heads-up
+    ["2026-11-26T12:00:00-05:00", 6], // lab 4's long label wraps onto a second line
   ] as const) {
     await at(page, iso);
     await page.evaluate(() => document.fonts.ready);

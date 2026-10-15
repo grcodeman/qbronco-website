@@ -18,6 +18,7 @@ const firstOpen = WEEKS.findIndex((w) => !isOver(w, builtAt));
 const shown = new Set(firstOpen < 0 ? [] : WEEKS.slice(firstOpen, firstOpen + COMING_UP));
 
 const advisor = OFFICERS.find((o) => o.role === "faculty advisor")!;
+const github = CLUB.links.find((l) => l.name === "GitHub")!;
 ---
 
 <Notebook page="home" scrawl="~ fall '26" turn={{ label: "the schedule", href: "/schedule" }}>
@@ -147,28 +148,33 @@ const advisor = OFFICERS.find((o) => o.role === "faculty advisor")!;
 
     <ul class="todo">
       <li>
-        <strong>study sessions.</strong> we learn quantum computing
-        from the ground up: qubits, superposition, real Qiskit code on
-        actual IBM machines. the slightly absurd north star: building our
-        <strong>own custom QPU</strong> (a quantum processing unit). yeah.
-        we're going to try.
+        <strong>wednesday meetings.</strong> five minutes of what's new, then
+        teams sit together and build. stuck on an idea? someone teaches it at
+        the whiteboard for ten minutes. at the end, each team writes on the
+        board what got done and what's next. nobody presents, there's no
+        homework, and if you're new you pair up with someone for the night.
+        we learn it all from the ground up, and the fall slide decks live on
+        <a class="pen-blue" href={github.href} target="_blank" rel="noopener noreferrer">our GitHub</a>
+        if you'd rather read up on your own.
       </li>
       <li>
-        <strong>labs: this year's build.</strong> you write a quantum circuit
-        in Qiskit, our compiler turns it into simple instructions, and we run
-        them on four targets, from a python version of our machine this fall
-        to an FPGA emulator in spring. three subteams, no experience needed
-        for any of them. <a class="pen-blue" href="/project">the whole plan &rarr;</a>
+        <strong>this year's build.</strong> our own 3-qubit processor with its
+        own instruction set, written in Verilog and run on an FPGA board. no,
+        it's not a real quantum computer: the board is normal hardware doing
+        the quantum math. the big one is Grover's search over 8 items, where
+        random guessing finds the right one 12.5% of the time and ours finds it
+        with probability 121/128, about 94.5%.
+        <a class="pen-blue" href="/project">the whole plan &rarr;</a>
       </li>
       <li>
-        <strong>hackathons &amp; competitions.</strong> we're hosting our very
-        own IBM Qiskit hackathon right here on campus, and we're always
-        hunting for more to travel to or jump into online.
+        <strong>hackathons &amp; competitions.</strong> we go to regional
+        quantum events and jump into online ones, and we're always hunting for
+        more. hosting our own is a someday goal, not on the calendar.
       </li>
       <li>
         <strong>speaker nights &amp; events.</strong> quantum speaker nights
-        with people who actually do this for a living, plus Qiskit Fall Fest,
-        socials, and whatever else we cook up through the year.
+        with people who actually do this for a living, plus socials and
+        whatever else we cook up through the year.
       </li>
     </ul>
   </section>
@@ -182,7 +188,6 @@ const advisor = OFFICERS.find((o) => o.role === "faculty advisor")!;
     </p>
     <ul class="dash">
       <li>give a talk at one of our speaker nights</li>
-      <li>help with the IBM Qiskit hackathon we're hosting on campus: mentors, judges, prizes</li>
       <li>or tell us what you have in mind</li>
     </ul>
     <p>
