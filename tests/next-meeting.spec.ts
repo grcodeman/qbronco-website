@@ -9,7 +9,7 @@ test("on a meeting day before 6:30 it says tonight", async ({ page }) => {
   const note = page.locator("[data-sticky]");
   await expect(note).toHaveAttribute("data-state", "tonight");
   await expect(note).toContainText("tonight!");
-  await expect(note).toContainText("lab 1: kickoff");
+  await expect(note).toContainText("lab 1");
   await expect(note).toContainText("6:30–8 pm");
   await expect(note).toContainText("floyd hall D-212");
 });
@@ -26,8 +26,17 @@ test("once the meeting ends at 8 it moves on to next week", async ({ page }) => 
   await at(page, "2026-10-07T20:01:00-04:00");
   const note = page.locator("[data-sticky]");
   await expect(note).toHaveAttribute("data-state", "next");
-  await expect(note).toContainText("study session");
+  await expect(note).toContainText("ISA design night");
   await expect(note).toContainText("wed oct 14 · 6:30 pm");
+});
+
+test("the note keeps lab titles short; the schedule spells them out", async ({ page }) => {
+  await at(page, "2026-10-15T12:00:00-04:00", "/schedule");
+  const note = page.locator("[data-sticky] [data-s=what]");
+  await expect(note).toHaveText("lab 2");
+  await expect(page.locator('.terms .wk[data-week="2026-10-28"]')).toContainText("lab 2: tools and first files");
+  await at(page, "2026-11-26T12:00:00-05:00");
+  await expect(note).toHaveText("lab 4");
 });
 
 test("a skipped week is called out so nobody shows up to an empty room", async ({ page }) => {

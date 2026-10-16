@@ -38,7 +38,7 @@ export const CLUB = {
 // what a new member needs to know before their first meeting
 export const FIRST_MEETING = {
   bring: "a laptop and a notebook",
-  catchUp: "join a subteam and we'll give you the material to get caught up",
+  catchUp: "join a team and we'll give you the material to get caught up",
 };
 
 export interface Officer {

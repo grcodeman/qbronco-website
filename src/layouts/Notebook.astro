@@ -1,6 +1,6 @@
 ---
 import Base from "./Base.astro";
-import { MEETING, WEEKS } from "../data/schedule";
+import { MEETING, WEEKS, noteTitle } from "../data/schedule";
 import { CLUB } from "../data/people";
 
 // One sheet of the notebook: divider tabs on top, the desk objects, the
@@ -37,7 +37,7 @@ const live = {
   until: MEETING.until,
   weeks: WEEKS.map((w) => ({
     d: w.date,
-    t: w.title,
+    t: noteTitle(w.title),
     k: w.kind,
     s: w.start,
     e: w.end,

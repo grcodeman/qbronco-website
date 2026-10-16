@@ -19,7 +19,7 @@ test("matches the project plan: 14 fall weeks, 16 spring weeks, 25 meetings", ()
   expect(TERMS.map((t) => t.weeks.length)).toEqual([14, 16]);
   expect(WEEKS.filter((w) => w.kind !== "off")).toHaveLength(25);
   expect(WEEKS.filter((w) => w.proposed).map((w) => w.title)).toEqual(["Qubi workshop 1", "Qubi workshop 2"]);
-  expect(WEEKS.filter((w) => w.about).map((w) => w.date)).toEqual(["2026-12-09", "2027-04-21"]);
+  expect(WEEKS.filter((w) => w.about).map((w) => w.date)).toEqual(["2026-12-09", "2027-04-14", "2027-04-21"]);
 });
 
 test("meetings run 6:30 to 8 pm Kalamazoo time on both sides of daylight saving", () => {

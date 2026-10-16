@@ -11,6 +11,7 @@ import {
   WEEKS,
   kalamazooISO,
   properCase,
+  properNouns,
   sentenceCase,
   shortDate,
 } from "../data/schedule";
@@ -34,7 +35,7 @@ const events = {
   "@graph": WEEKS.filter((w) => w.kind !== "off").map((w) => ({
     "@type": "Event",
     "@id": new URL(`/schedule#${w.date}`, site),
-    name: `QBronco: ${sentenceCase(w.title)}${w.proposed ? " (proposed)" : ""}`,
+    name: `QBronco: ${sentenceCase(properNouns(w.title))}${w.proposed ? " (proposed)" : ""}`,
     startDate: kalamazooISO(w.start),
     endDate: kalamazooISO(w.end),
     eventStatus: "https://schema.org/EventScheduled",
@@ -88,8 +89,10 @@ const events = {
     <p>
       every wednesday, {MEETING.time}, {MEETING.building} <span class="nobreak">{MEETING.room}</span> on {MEETING.campus} campus
       (<a class="pen-blue" href={MEETING.map} target="_blank" rel="noopener noreferrer">map</a>).
-      labs are project nights, study sessions are for learning the basics, and
-      you're welcome at both. no meetings over breaks or finals.
+      every week looks the same: five minutes of what's new, then teams sit
+      together and build, and anyone new pairs up with someone for the night.
+      lab nights are regular meetings with something due. no meetings over
+      breaks or finals.
     </p>
     <p>
       <strong>first time?</strong> bring {FIRST_MEETING.bring}. starting partway
