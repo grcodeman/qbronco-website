@@ -9,6 +9,8 @@ import {
   TERMS,
   UPDATED,
   WEEKS,
+  alsoNote,
+  headline,
   kalamazooISO,
   properCase,
   properNouns,
@@ -35,7 +37,7 @@ const events = {
   "@graph": WEEKS.filter((w) => w.kind !== "off").map((w) => ({
     "@type": "Event",
     "@id": new URL(`/schedule#${w.date}`, site),
-    name: `QBronco: ${sentenceCase(properNouns(w.title))}${w.proposed ? " (proposed)" : ""}`,
+    name: `QBronco: ${sentenceCase(properNouns(headline(w)))}${w.proposed ? " (proposed)" : ""}`,
     startDate: kalamazooISO(w.start),
     endDate: kalamazooISO(w.end),
     eventStatus: "https://schema.org/EventScheduled",
@@ -43,6 +45,7 @@ const events = {
     isAccessibleForFree: true,
     description: [
       w.about && properCase(w.about),
+      w.also && alsoNote(w.also),
       w.proposed && "Proposed date; it can still move.",
       !w.proposed && w.tentative && "Spring dates can still move.",
       "No experience needed; just show up.",
@@ -91,8 +94,7 @@ const events = {
       (<a class="pen-blue" href={MEETING.map} target="_blank" rel="noopener noreferrer">map</a>).
       every week looks the same: five minutes of what's new, then teams sit
       together and build, and anyone new pairs up with someone for the night.
-      lab nights are regular meetings with something due. no meetings over
-      breaks or finals.
+      no meetings over breaks or finals.
     </p>
     <p>
       <strong>first time?</strong> bring {FIRST_MEETING.bring}. starting partway
@@ -129,7 +131,7 @@ const events = {
           </li>
         ))
       }
-      <li class="soft">spring dates and both Qubi workshops can still move.</li>
+      <li class="soft">spring dates can still move.</li>
     </ul>
   </section>
 

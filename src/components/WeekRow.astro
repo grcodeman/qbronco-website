@@ -3,6 +3,8 @@ import type { Dated } from "../data/schedule";
 
 // One Wednesday, one ruled line. The live script in Notebook.astro adds
 // is-over (crossed off), is-next (circled) and is-today for whoever is looking.
+// A second thing that night (`also`) follows the title with its start time
+// and an rsvp link: "fall demo + Qubi workshop at 7 pm · rsvp".
 
 interface Props {
   week: Dated;
@@ -26,5 +28,20 @@ const { week, hidden } = Astro.props;
     }
     {week.proposed && <span class="wk-why">(proposed)</span>}
     {week.about && <span class="wk-star" aria-hidden="true">*</span>}
+    {
+      week.also && (
+        <span class="wk-also">
+          {" "}+ {week.also.title}{" "}
+          <span class="nobreak">
+            at {week.also.at}
+            {week.also.rsvp && (
+              <>
+                {" "}· <a class="pen-blue" href={week.also.rsvp} target="_blank" rel="noopener noreferrer">rsvp</a>
+              </>
+            )}
+          </span>
+        </span>
+      )
+    }
   </span>
 </li>

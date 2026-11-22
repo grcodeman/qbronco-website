@@ -656,6 +656,10 @@ footer {
   color: var(--color-red-pen);
 }
 
+/* the star's glyph hugs its right edge, so "fall demo* + Qubi workshop"
+   needs a little air before the plus */
+.wk-star + .wk-also { margin-left: 0.3em; }
+
 /* over: crossed off in pencil, the way you'd tick through a planner */
 .wk.is-over,
 .wk.is-over .wk-date { color: var(--color-graphite-faint); }

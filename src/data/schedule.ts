@@ -1,13 +1,15 @@
 // The whole year, one row per Wednesday. Source: the qBronco Project Plan,
 // updated Oct 7, 2026, with the Oct 14 changes (one meeting format, the
-// processor project, three checkpoints).
+// processor project, three checkpoints) and the Nov 22 ones (no more labs vs
+// meetings: every regular Wednesday from Oct 28 on is a lab day, and the only
+// Qubi workshop is Dec 9, after the fall demo).
 //
 // Every date on the site reads from this file: the sticky note, the
 // schedule page, the "coming up" list on the home page, and the calendar
 // feed at /qbronco.ics. Change a row here and all of them follow.
 
 export const TZ = "America/Detroit";
-export const UPDATED = "2026-10-15";
+export const UPDATED = "2026-11-22";
 
 // the standing meeting. every row below happens here unless it says otherwise.
 // (the room is booked until 8:30, but meetings wrap at 8.)
@@ -37,15 +39,22 @@ export const PLACE = {
   geo: { latitude: 42.254254, longitude: -85.6407 },
 };
 
-export type Kind = "meeting" | "lab" | "event" | "off";
+export type Kind = "meeting" | "event" | "off";
 
 export interface Week {
   date: string; // YYYY-MM-DD, local Kalamazoo date (always a Wednesday)
   title: string; // written the way it appears on the page; the sticky note only shows the part before a colon
-  kind: Kind; // "lab" = a meeting with something due; "off" = no meeting that week, the title says why
+  kind: Kind; // "meeting" = a regular wednesday; "off" = no meeting that week, the title says why
   proposed?: boolean; // the date isn't locked in yet
   about?: string; // a checkpoint: gets a red star and a footnote
   room?: string; // only when it isn't the usual room
+  also?: Also; // a second thing the same night, starting later
+}
+
+export interface Also {
+  title: string; // "Qubi workshop"
+  at: string; // when it starts, in pencil: "7 pm"
+  rsvp?: string; // sign-up link, if it has one
 }
 
 export interface Term {
@@ -64,21 +73,22 @@ export const TERMS: Term[] = [
       { date: "2026-09-16", title: "info night", kind: "event", room: "D-202" },
       { date: "2026-09-23", title: "study session", kind: "meeting" },
       { date: "2026-09-30", title: "Qiskit day", kind: "event" },
-      { date: "2026-10-07", title: "lab 1: kickoff", kind: "lab" },
+      { date: "2026-10-07", title: "lab 1: kickoff", kind: "meeting" },
       { date: "2026-10-14", title: "ISA design night", kind: "meeting" },
       { date: "2026-10-21", title: "fall break", kind: "off" },
-      { date: "2026-10-28", title: "lab 2: tools and first files", kind: "lab" },
-      { date: "2026-11-04", title: "meeting", kind: "meeting" },
-      { date: "2026-11-11", title: "lab 3: instruction set frozen", kind: "lab" },
-      { date: "2026-11-18", title: "Qubi workshop 1", kind: "event", proposed: true },
+      { date: "2026-10-28", title: "lab day", kind: "meeting" },
+      { date: "2026-11-04", title: "lab day", kind: "meeting" },
+      { date: "2026-11-11", title: "lab day", kind: "meeting" },
+      { date: "2026-11-18", title: "lab day", kind: "meeting" },
       { date: "2026-11-25", title: "thanksgiving", kind: "off" },
-      { date: "2026-12-02", title: "lab 4: compiler and python model pass all four programs", kind: "lab" },
+      { date: "2026-12-02", title: "lab day", kind: "meeting" },
       {
         date: "2026-12-09",
         title: "fall demo",
         kind: "event",
         about:
           "the compiler and the python model run all four programs and match Qiskit, and the Bell state runs on the Verilog design in simulation.",
+        also: { title: "Qubi workshop", at: "7 pm", rsvp: "https://experiencewmu.wmich.edu/event/12996082" },
       },
       { date: "2026-12-16", title: "finals week", kind: "off" },
     ],
@@ -90,18 +100,18 @@ export const TERMS: Term[] = [
     tentative: true,
     weeks: [
       { date: "2027-01-13", title: "spring kickoff", kind: "event" },
-      { date: "2027-01-20", title: "lab 5", kind: "lab" },
-      { date: "2027-01-27", title: "meeting", kind: "meeting" },
-      { date: "2027-02-03", title: "lab 6", kind: "lab" },
-      { date: "2027-02-10", title: "Qubi workshop 2", kind: "event", proposed: true },
-      { date: "2027-02-17", title: "lab 7", kind: "lab" },
-      { date: "2027-02-24", title: "meeting", kind: "meeting" },
-      { date: "2027-03-03", title: "lab 8", kind: "lab" },
+      { date: "2027-01-20", title: "lab day", kind: "meeting" },
+      { date: "2027-01-27", title: "lab day", kind: "meeting" },
+      { date: "2027-02-03", title: "lab day", kind: "meeting" },
+      { date: "2027-02-10", title: "lab day", kind: "meeting" },
+      { date: "2027-02-17", title: "lab day", kind: "meeting" },
+      { date: "2027-02-24", title: "lab day", kind: "meeting" },
+      { date: "2027-03-03", title: "lab day", kind: "meeting" },
       { date: "2027-03-10", title: "spring break", kind: "off" },
-      { date: "2027-03-17", title: "meeting", kind: "meeting" },
-      { date: "2027-03-24", title: "lab 9", kind: "lab" },
-      { date: "2027-03-31", title: "meeting", kind: "meeting" },
-      { date: "2027-04-07", title: "lab 10", kind: "lab" },
+      { date: "2027-03-17", title: "lab day", kind: "meeting" },
+      { date: "2027-03-24", title: "lab day", kind: "meeting" },
+      { date: "2027-03-31", title: "lab day", kind: "meeting" },
+      { date: "2027-04-07", title: "lab day", kind: "meeting" },
       {
         date: "2027-04-14",
         title: "final test day",
@@ -193,12 +203,19 @@ export function kalamazooDate(at: number): string {
   }).format(at);
 }
 
-/** "lab 2: tools and first files" -> "lab 2". the sticky note is a quick glance,
+/** "lab 1: kickoff" -> "lab 1". the sticky note is a quick glance,
  *  so it stops at the colon; the schedule page and the calendar get it all. */
 export const noteTitle = (title: string) => title.split(":")[0];
 
+/** everything on that night, one name: "fall demo + Qubi workshop" */
+export const headline = (week: Week) => (week.also ? `${week.title} + ${week.also.title}` : week.title);
+
 /** "lab 1: kickoff" -> "Lab 1: kickoff" (calendar apps and search results) */
 export const sentenceCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** "Qubi workshop starts at 7 pm. RSVP: https://..." (calendar, search, AI assistants) */
+export const alsoNote = (also: Also) =>
+  `${sentenceCase(also.title)} starts at ${also.at}.${also.rsvp ? ` RSVP: ${also.rsvp}` : ""}`;
 
 // the page writes in lowercase pencil; plain text for calendars, search and
 // AI assistants reads better with proper nouns and sentence starts capitalized

@@ -28,6 +28,19 @@ test("checkpoints get a star and a note", async ({ page }) => {
   await expect(page.locator(".notes")).toContainText("final showcase, apr 21.");
 });
 
+test("dec 9 is the fall demo plus the Qubi workshop at 7, with an rsvp link", async ({ page }) => {
+  await page.goto("/schedule");
+  const row = page.locator('.terms .wk[data-week="2026-12-09"]');
+  await expect(row).toContainText("fall demo");
+  await expect(row).toContainText("+ Qubi workshop at 7 pm");
+  const rsvp = row.getByRole("link", { name: "rsvp" });
+  await expect(rsvp).toHaveAttribute("href", "https://experiencewmu.wmich.edu/event/12996082");
+  await expect(rsvp).toHaveAttribute("rel", /noopener/);
+  // no other wednesday mentions a Qubi workshop
+  await expect(page.locator(".terms .wk", { hasText: "Qubi" })).toHaveCount(1);
+  await expect(page.locator('.terms .wk[data-week="2026-11-18"]')).toHaveText(/lab day/);
+});
+
 test("the project page's checkpoints say exactly what the schedule's footnotes say", async ({ page }) => {
   await page.goto("/schedule");
   const notes = await page.locator(".notes li:not(.soft)").allInnerTexts();
@@ -48,6 +61,13 @@ test("the home page shows the next four wednesdays, skipped weeks included", asy
   await expect(shown.nth(3)).toHaveAttribute("data-week", "2026-11-11");
 });
 
+test("the week before the fall demo, the home page's rsvp link is right there", async ({ page }) => {
+  await at(page, "2026-11-22T12:00:00-05:00");
+  const shown = page.locator("[data-window] .wk:visible");
+  await expect(shown.nth(2)).toHaveAttribute("data-week", "2026-12-09");
+  await expect(shown.nth(2).getByRole("link", { name: "rsvp" })).toHaveAttribute("href", "https://experiencewmu.wmich.edu/event/12996082");
+});
+
 test("once the year is over the home page says so instead of an empty list", async ({ page }) => {
   await at(page, "2027-05-01T12:00:00-04:00");
   await expect(page.locator("[data-window] .wk:visible")).toHaveCount(0);
@@ -66,15 +86,18 @@ test("the calendar feed has every meeting and nothing else", async ({ request })
 
   const ics = body.replace(/\r\n /g, ""); // unfold
   expect(ics.match(/BEGIN:VEVENT/g)).toHaveLength(25);
-  expect(ics.match(/STATUS:TENTATIVE/g)).toHaveLength(2);
+  expect(ics).not.toContain("STATUS:TENTATIVE"); // no proposed dates left
   expect(ics).toContain("UID:2026-10-28@qbronco.com");
   expect(ics).toContain("DTSTART:20261028T223000Z");
   expect(ics).toContain("DTEND:20261029T000000Z"); // 8 pm EDT
   expect(ics).toContain("DTSTART:20261104T233000Z");
   expect(ics).toContain("DTEND:20261105T010000Z"); // 8 pm EST
-  expect(ics).toContain("SUMMARY:QBronco: Qubi workshop 1 (proposed)");
+  expect(ics).toContain("SUMMARY:QBronco: Fall demo + Qubi workshop");
+  expect(ics).toContain("Qubi workshop starts at 7 pm. RSVP: https://experiencewmu.wmich.edu/event/12996082");
+  expect(ics.match(/SUMMARY:.*Qubi/g)).toHaveLength(1);
   expect(ics).toContain("SUMMARY:QBronco: ISA design night");
-  expect(ics).toContain("SUMMARY:QBronco: Lab 4: compiler and Python model pass all four programs");
+  expect(ics).toContain("SUMMARY:QBronco: Lab 1: kickoff");
+  expect(ics.match(/SUMMARY:QBronco: Lab day\r\n/g)).toHaveLength(16);
   expect(ics).toContain("the board finds it (121/128)");
   expect(ics).toContain("LOCATION:Floyd Hall D-212\\, 4601 Campus Drive\\, Kalamazoo");
   expect(ics).toContain("LOCATION:Floyd Hall D-202\\, 4601 Campus Drive"); // info night was down the hall
