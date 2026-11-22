@@ -4,7 +4,7 @@
 // and people can't drift from what the site says.
 
 import { CLUB, FIRST_MEETING, OFFICERS } from "./people";
-import { MEETING, PLACE, TERMS, UPDATED, WEEKS, properCase, properNouns, sentenceCase } from "./schedule";
+import { MEETING, PLACE, TERMS, UPDATED, WEEKS, alsoNote, headline, properCase, properNouns, sentenceCase } from "./schedule";
 
 const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -65,7 +65,7 @@ export function llmsFull(origin: string): string {
       const what =
         w.kind === "off"
           ? `No meeting (${properNouns(w.title)})`
-          : `${properCase(w.title)}${w.proposed ? " (proposed date)" : ""}${w.room ? `, in ${PLACE.building} ${w.room}` : ""}`;
+          : `${properCase(headline(w))}${w.proposed ? " (proposed date)" : ""}${w.room ? `, in ${PLACE.building} ${w.room}` : ""}${w.also ? `. ${alsoNote(w.also)}` : ""}`;
       return `- ${w.date} (${weekday(w.date)}): ${what}`;
     }),
     "",
@@ -78,7 +78,7 @@ export function llmsFull(origin: string): string {
     "",
     "## Schedule, 2026–27",
     "",
-    `Every meeting is a Wednesday, ${MEETING.time}, in ${PLACE.building} ${MEETING.room} unless noted. Every meeting has the same format: five minutes of what's new, then teams sit together and build, and anyone new or without a team pairs with someone for the night. Labs are regular meetings with a deliverable due.`,
+    `Every meeting is a Wednesday, ${MEETING.time}, in ${PLACE.building} ${MEETING.room} unless noted. Every meeting has the same format: five minutes of what's new, then teams sit together and build, and anyone new or without a team pairs with someone for the night. Regular Wednesdays are listed as lab days.`,
     "",
     ...schedule,
     "Checkpoints:",
@@ -110,7 +110,7 @@ export function llmsFull(origin: string): string {
     "",
     "None of these is a real quantum computer; the FPGA is normal hardware doing the quantum math.",
     "",
-    "The Qubis (handheld model qubits you tap, bump and shake) are a teaching toy, not part of the build. They come out at some meetings, at recruiting events and at the proposed Qubi workshops.",
+    "The Qubis (handheld model qubits you tap, bump and shake) are a teaching toy, not part of the build. They come out at some meetings, at recruiting events and at Qubi workshops.",
     "",
     "Teams (each picks its own lead; no experience needed for any of them; members can join partway through the year and get caught up):",
     "",

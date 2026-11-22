@@ -52,23 +52,22 @@ Almost everything the site says comes from two data files in `src/data/`. Change
 Each Wednesday gets one row:
 
 ```ts
-{ date: "2026-10-28", title: "lab 2: tools and first files", kind: "lab" },
-{ date: "2026-11-18", title: "Qubi workshop 1", kind: "event", proposed: true },
+{ date: "2026-10-28", title: "lab day", kind: "meeting" },
 { date: "2026-11-25", title: "thanksgiving", kind: "off" },
 { date: "2026-09-16", title: "info night", kind: "event", room: "D-202" },
 ```
 
 - `date` is the Wednesday, as `YYYY-MM-DD`.
-- `title` is written the way it appears on the page (lowercase pencil, apart from names like Qiskit). The sticky note keeps it short and stops at a colon, so `lab 2: tools and first files` reads `lab 2` there, while the schedule page and the calendar show the whole title.
+- `title` is written the way it appears on the page (lowercase pencil, apart from names like Qiskit). The sticky note keeps it short and stops at a colon, so `lab 1: kickoff` reads `lab 1` there, while the schedule page and the calendar show the whole title.
 - `kind` is one of:
-  - `meeting`, a regular Wednesday
-  - `lab`, a regular meeting with something due
+  - `meeting`, a regular Wednesday (from Oct 28 on, these are all titled `lab day`)
   - `event`
   - `off`, meaning no meeting that week; the title says why
 - Optional fields:
   - `proposed: true` adds "(proposed)" because the date isn't locked in yet
   - `room` is set only when it isn't the usual room
   - `about` adds a red star and a footnote on the schedule page
+  - `also` is a second thing the same night that starts later, with an optional sign-up link. Dec 9 uses it: `also: { title: "Qubi workshop", at: "7 pm", rsvp: "https://..." }` shows as "fall demo + Qubi workshop at 7 pm · rsvp" on the page, and the calendar, JSON-LD and `llms.txt` get the start time and the link. Only put a Qubi workshop on the schedule once the officers have said it's happening.
 
 Set `UPDATED` at the top of the file to the day you edit it, since the schedule page shows it. The usual time and room are in `MEETING`, and the full street address for maps and calendars is in `PLACE`.
 
@@ -191,7 +190,7 @@ npm test
 
 ## Hosting
 
-The site is hosted on [Vercel](https://vercel.com), which builds it with `npm run build` and serves `dist/`. `vercel.json` sets the cache headers and the content types for `llms.txt` and the manifest.
+The site is hosted on [Vercel](https://vercel.com), which builds it with `npm run build` and serves `dist/`. `vercel.json` sets the cache headers, the content types for `llms.txt` and the manifest, and the short link qbronco.com/workshop, which redirects to the Qubi workshop RSVP (keep it pointed at the same link as `also.rsvp` in `schedule.ts`; a test checks that the two match).
 
 ---
 

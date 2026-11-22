@@ -30,19 +30,19 @@ test("once the meeting ends at 8 it moves on to next week", async ({ page }) => 
   await expect(note).toContainText("wed oct 14 · 6:30 pm");
 });
 
-test("the note keeps lab titles short; the schedule spells them out", async ({ page }) => {
-  await at(page, "2026-10-15T12:00:00-04:00", "/schedule");
+test("the note keeps titles short; the schedule spells them out", async ({ page }) => {
+  await at(page, "2026-10-01T12:00:00-04:00", "/schedule");
   const note = page.locator("[data-sticky] [data-s=what]");
-  await expect(note).toHaveText("lab 2");
-  await expect(page.locator('.terms .wk[data-week="2026-10-28"]')).toContainText("lab 2: tools and first files");
+  await expect(note).toHaveText("lab 1");
+  await expect(page.locator('.terms .wk[data-week="2026-10-07"]')).toContainText("lab 1: kickoff");
   await at(page, "2026-11-26T12:00:00-05:00");
-  await expect(note).toHaveText("lab 4");
+  await expect(note).toHaveText("lab day");
 });
 
 test("a skipped week is called out so nobody shows up to an empty room", async ({ page }) => {
   await at(page, "2026-10-15T12:00:00-04:00");
   const note = page.locator("[data-sticky]");
-  await expect(note).toContainText("lab 2");
+  await expect(note).toContainText("lab day");
   await expect(note).toContainText("wed oct 28");
   await expect(note).toContainText("no meeting oct 21 (fall break)");
 });
@@ -52,9 +52,11 @@ test("on a no-meeting wednesday it says no meeting today", async ({ page }) => {
   await expect(page.locator("[data-sticky]")).toContainText("no meeting today (fall break)");
 });
 
-test("proposed dates say so", async ({ page }) => {
-  await at(page, "2026-11-15T12:00:00-05:00");
-  await expect(page.locator("[data-sticky]")).toContainText("Qubi workshop 1 (proposed)");
+test("the week of the fall demo it names both things that night", async ({ page }) => {
+  await at(page, "2026-12-03T12:00:00-05:00");
+  const note = page.locator("[data-sticky]");
+  await expect(note.locator("[data-s=what]")).toHaveText("fall demo + Qubi workshop");
+  await expect(note).toContainText("wed dec 9 · 6:30 pm");
 });
 
 test("over winter break it points at spring kickoff and flags spring as tentative", async ({ page }) => {
@@ -109,6 +111,7 @@ test("on a phone the note is a short strip across the top, a whole number of rul
   for (const [iso, rules] of [
     ["2026-10-14T16:00:00-04:00", 4], // tonight: three lines
     ["2026-10-15T12:00:00-04:00", 5], // plus the fall break heads-up
+    ["2026-12-03T12:00:00-05:00", 5], // "fall demo + Qubi workshop" gets its own line
   ] as const) {
     await at(page, iso);
     await page.evaluate(() => document.fonts.ready);

@@ -1,6 +1,6 @@
 ---
 import Base from "./Base.astro";
-import { MEETING, WEEKS, noteTitle } from "../data/schedule";
+import { MEETING, WEEKS, headline, noteTitle } from "../data/schedule";
 import { CLUB } from "../data/people";
 
 // One sheet of the notebook: divider tabs on top, the desk objects, the
@@ -30,6 +30,14 @@ const sticky =
     ? { href: "#calendar", label: "add to calendar ↓" }
     : { href: "/schedule", label: "full schedule →" };
 
+// "fall demo + Qubi workshop": if the note has to wrap, break at the plus,
+// not inside either name
+const noteWhat = (w: (typeof WEEKS)[number]) =>
+  noteTitle(headline(w))
+    .split(" + ")
+    .map((part) => part.replace(/ /g, "\u00a0"))
+    .join(" + ");
+
 const live = {
   building: MEETING.building,
   time: MEETING.time,
@@ -37,7 +45,7 @@ const live = {
   until: MEETING.until,
   weeks: WEEKS.map((w) => ({
     d: w.date,
-    t: noteTitle(w.title),
+    t: w.also ? noteWhat(w) : noteTitle(w.title),
     k: w.kind,
     s: w.start,
     e: w.end,
